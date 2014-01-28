@@ -1,0 +1,82 @@
+
+body{
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    background-image:url('images/cube.jpg');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+    background-attachment:fixed;
+    margin:0;
+}
+p{
+    font-size:15px;
+    color:#888888;
+}
+p ul{
+    font-size:15px;
+    color:#888888;
+}
+.wrapper{
+    position: absolute;
+    margin-left: -290px;
+    width: 180px;
+}
+.sidebar{
+    background-color:#FCFCFC;
+}
+
+
+.mainbody{
+    min-height:100%;
+    width:100%;
+    position:absolute;
+    margin-top:200px;
+    background-color:white;
+}
+.minbody{
+    width: 800px;
+    margin-right: 100px;
+    margin-left: 325px;
+    margin-bottom:50px;
+    padding-top:30px;
+}
+.mainheader{
+    overflow:hidden;
+    height:200px;
+    width:100%;
+    
+    position:absolute;
+    
+}
+.minheader{
+    position:absolute;
+    height:74px;
+    width:1200px;
+    padding:63px;
+    margin:0 auto;
+    left:0;
+    right:0;
+}
+.minheader .menu{
+    position:fixed;
+    right:50%;
+    margin-right:-637px;
+    
+    box-shadow:0px 0px 10px #777;
+}
+#logo{
+    position:fixed;
+    height:150px;
+    top:25px;
+}
+.tint{
+    background-color:white;
+    opacity:.9;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:200px;
+    
+    box-shadow: inset 1px -2px 5px #bbb;
+}
