@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package ph.edu.dlsu.chimera.gui.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;

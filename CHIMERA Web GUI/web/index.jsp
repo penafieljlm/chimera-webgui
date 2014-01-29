@@ -18,7 +18,7 @@
         <script src="packaged/javascript/semantic.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="javascript.js"></script>
-
+        
         <script>
             $(document).ready(function() {
                 var rules = {
@@ -394,8 +394,8 @@
                         </div>
 
                         <div style="margin-top:20px;">
-                            <a class="ui teal submit button">Start</a>
-                            <a class="ui red button">Stop</a>
+                            <a class="ui teal submit button" name="action" value="start">Start</a>
+                            <a class="ui red submit button" name="action" value="stop">Stop</a>
                             <div class="ui active button" id="dgshowoutputmessages">
                               <i class="browser icon"></i>
                               Show Output Messages

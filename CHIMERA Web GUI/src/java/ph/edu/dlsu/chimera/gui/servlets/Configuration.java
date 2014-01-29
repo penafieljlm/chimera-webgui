@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package ph.edu.dlsu.chimera.gui.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Emerson Chua
  */
-@WebServlet(name = "Training", urlPatterns = {"/Training"})
-public class Training extends HttpServlet {
+@WebServlet(name = "Configuration", urlPatterns = {"/Configuration"})
+public class Configuration extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -37,23 +37,35 @@ public class Training extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Training</title>");            
+            out.println("<title>Servlet Configuration</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Training at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Configuration at " + request.getContextPath() + "</h1>");
 
-            if (request.getParameter("trainingfile") == null) {
-                out.println("Please specify training file.");
+            if (request.getParameter("tcptimeout") == null || request.getParameter("tcptimeout") == "") {
+                out.println("You did not specify TCP state timeout.");
             } else {
-                out.println("Training file is <b>"+request. getParameter("trainingfile")+"</b>!");
+                out.println("TCP state timeout is <b>"+request. getParameter("tcptimeout")+"</b>!");
             }
             
-            if (request.getParameter("outputfile") == null || request.getParameter("outputfile") == "") {
-                out.println("You did not specify output filename.");
+            if (request.getParameter("criteriatimeout") == null || request.getParameter("criteriatimeout") == "") {
+                out.println("You did not specify criteria instance timeout.");
             } else {
-                out.println("Output filename is <b>"+request. getParameter("outputfile")+"</b>!");
+                out.println("Criteria instance timeout is <b>"+request. getParameter("criteriatimeout")+"</b>!");
             }
             
+            if (request.getParameter("controlport") == null || request.getParameter("criteriatimeout") == "") {
+                out.println("You did not specify control message port number.");
+            } else {
+                out.println("Control message port number is <b>"+request. getParameter("controlport")+"</b>!");
+            }
+
+            if (request.getParameter("interface") == null) {
+                out.println("You did not specify interface.");
+            } else {
+                out.println("Interface selected is <b>"+request. getParameter("interface")+"</b>!");
+            }
+
             out.println("</body>");
             out.println("</html>");
         } finally {            
