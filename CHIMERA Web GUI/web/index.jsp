@@ -301,7 +301,7 @@
                     
                     <h4 class="ui header">Data Gathering Settings</h4>
                     
-                    <div class="ui form" id="datagatherform" action="DataGathering" method="post">
+                    <form class="ui form" id="datagatherform" action="DataGathering" method="post">
                         <div class="field">
                         <div class="ui fluid labeled input">
                             <div class="ui corner label">
@@ -322,6 +322,12 @@
                           </div>
                         </div>
                         
+                        <div class="ui divider"></div>
+
+                        <div style="margin-top:20px;display:block;" class="field">
+                            <textarea name="trainingfilter"></textarea>
+                        </div>
+
                         <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
                           <input type="checkbox" name="attackswitch">
                           <label>Mark traffic as attack</label>
@@ -397,7 +403,7 @@
                         </div>
                         
                         <div class="ui error message"></div>
-                    </div>
+                    </form>
                     
                     <div class="ui right overlay very wide floating sidebar" id="dgside">
                         <div class="ui form" style="padding:15px;">

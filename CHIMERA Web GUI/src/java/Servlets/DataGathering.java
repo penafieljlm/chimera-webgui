@@ -6,13 +6,16 @@ package Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.Chimera;
+import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
 
-import Functions.runDataGathering;
 
 /**
  *
@@ -32,16 +35,18 @@ public class DataGathering extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    String outputfile = "";
-    String iface = "";
-    String attack = "";
-    String packetfilter = "";
-    String packetfilterswitch = "";
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+        String _output = null;
+        String _protected = null;
+        String _access = null;
+        boolean _allow = false;
+        String _training = null;
+        boolean _attack = false;
+        
         try {
             /* TODO output your page here. You may use following sample code. */
             
@@ -52,45 +57,40 @@ public class DataGathering extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet DataGathering at " + request.getContextPath() + "</h1>");
             
-            if (request.getParameter("outputfile") == null || request.getParameter("outputfile") == "") {
-                out.println("Please specify output filename.");
-            } else {
-                outputfile = request.getParameter("outputfile");
-                out.println("Output filename is <b>"+request. getParameter("outputfile")+"</b>!");
+            if (request.getParameter("outputfile") != null || request.getParameter("outputfile") != "") {
+                _output = request.getParameter("outputfile");
+            }
+            if (request.getParameter("interface") != null || request.getParameter("interface") != "") {
+                _protected = request.getParameter("interface");
+            }
+            if (request.getParameter("packetfilter") != null || request.getParameter("packetfilter") != "") {
+                _access = request.getParameter("packetfilter");
+            }
+            if (request.getParameter("packetfilterswitch") != null || request.getParameter("packetfilterswitch") != "") {
+                _allow = true;
+            }
+            if (request.getParameter("trainingfilter") != null || request.getParameter("trainingfilter") != "") {
+                _training = request.getParameter("trainingfilter");
+            }
+            if (request.getParameter("attackswitch") != null || request.getParameter("attackswitch") != "") {
+                _attack = true;
             }
             
-            if (request.getParameter("interface") == null || request.getParameter("interface") == "") {
-                out.println("You did not specify interface.");
-            } else {
-                iface = request.getParameter("interface");
-                out.println("Interface selected is <b>"+request. getParameter("interface")+"</b>!");
-            }
-            
-            if (request.getParameter("attackswitch") == null || request.getParameter("attackswitch") == "") {
-                out.println("Attack switch is off.");
-            } else {
-                attack = request.getParameter("attackswitch");
-                out.println("Attack switch is <b>"+request. getParameter("attackswitch")+"</b>!");
-            }
-            
-            if (request.getParameter("packetfilter") == null || request.getParameter("packetfilter") == "") {
-                out.println("You did not specify packet filter.");
-            } else {
-                packetfilter = request.getParameter("packetfilter");
-                out.println("Packet filter is <b>"+request. getParameter("packetfilter")+"</b>!");
-            }
+            PhaseMonitorGathering _monitor = new PhaseMonitorGathering(200) {
 
-            if (request.getParameter("packetfilterswitch") == null || request.getParameter("packetfilterswitch") == "") {
-                out.println("Packet filter switch is off.");
-            } else {
-                packetfilterswitch = request.getParameter("packetfilterswitch");
-                out.println("Packet filter switch is <b>"+request. getParameter("packetfilterswitch")+"</b>!");
-            }
+                @Override
+                protected void update() {
+                    //post number of instances
+                }
+            };
             
-            new runDataGathering(outputfile, iface, attack, packetfilter, packetfilterswitch);
+            Chimera.cgather(null, _output, _protected, _access, _allow, _training, _attack);
 
             out.println("</body>");
             out.println("</html>");
+            
+        } catch (Exception ex) {
+            Logger.getLogger(DataGathering.class.getName()).log(Level.SEVERE, null, ex);
         } finally {            
             out.close();
         }
