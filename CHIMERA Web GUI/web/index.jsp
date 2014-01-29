@@ -323,6 +323,43 @@
                         </div>
                         
                         <div class="ui divider"></div>
+                        
+                        <div class="ui message">
+                          <div class="header">
+                            JNetPcap Packet Filter Expression
+                          </div>
+                            
+                          <ul class="list">
+                                <li>If provided, the following apply:</li>
+                                <ul>
+                                    <li>If the /attack flag is set, the following apply:</li>
+                                    <ul>
+                                        <li>Matching packets are flagged as attacks.</li>
+                                        <li>Non matching packets are flagged as normal.</li>
+                                    </ul>
+                                    <li>If the /attack flag is not set, the following apply:</li>
+                                    <ul>
+                                        <li>Matching packets are flagged as normal.</li>
+                                        <li>Non matching packets are flagged as attacks.</li>
+                                    </ul>
+                                </ul>
+                              
+                                <li>If not provided, the following apply:</li>
+                                <ul>
+                                    <li>If the /attack flag is set, the following apply:</li>
+                                    <ul>
+                                        <li>All packets are flagged as attacks.</li>
+                                    </ul>
+                                </ul>
+                                <ul>
+                                    <li>If the /attack flag is not set, the following apply:</li>
+                                    <ul>
+                                        <li>All packets are flagged as normal.</li>
+                                    </ul>
+                                </ul>
+                              
+                          </ul>
+                        </div>
 
                         <div style="margin-top:20px;display:block;" class="field">
                             <textarea name="trainingfilter"></textarea>
@@ -444,7 +481,7 @@
                     <div class="ui pointing below label">
                         Contains datasets or the tabled attributes of the traffic gathered during the Data Gathering Phase and should be in the .csv format
                     </div>
-                    <div class="ui form" id="trainingform" action="Training" method="post">
+                    <form class="ui form" id="trainingform" action="Training" method="post">
                         <div class="field">
                         <div class="ui fluid labeled action input">
                             <div class="ui corner label">
@@ -457,6 +494,52 @@
                         
                         <div class="field">
                             <input type="text" placeholder="Output file name..." name="outputfile">
+                        </div>
+                        
+                        <div class="ui message">
+                          <div class="header">
+                            Attribute filter regular expression
+                          </div>
+                          May be used to exclude certain attributes from the training set.
+                          <ul class="list">
+                                <li>If provided, the following apply:</li>
+                                <ul>
+                                    <li>If the /exclude flag is set, the following apply:</li>
+                                    <ul>
+                                        <li>Matching attributes are excluded.</li>
+                                        <li>Non matching attributes are included.</li>
+                                    </ul>
+                                    <li>If the /exclude flag is not set, the following apply</li>
+                                    <ul>
+                                        <li>Matching attributes are not included.</li>
+                                        <li>Non matching attrbitues are excluded.</li>
+                                    </ul>
+                                </ul>
+                              
+                                <li>If not provided, the following apply:</li>
+                                <ul>
+                                    <li>If the /exclude flag is set, the following apply:</li>
+                                    <ul>
+                                        <li>All attributes are excluded.</li>
+                                    </ul>
+                                </ul>
+                                <ul>
+                                    <li>If the /exclude flag is not set, the following apply:</li>
+                                    <ul>
+                                        <li>All attributes are included.</li>
+                                    </ul>
+                                </ul>
+                              
+                          </ul>
+                        </div>
+
+                        <div style="margin-top:20px;display:block;" class="field">
+                            <textarea name="filter"></textarea>
+                        </div>
+                         
+                        <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
+                          <input type="checkbox" name="exclude">
+                          <label>Exlude</label>
                         </div>
                         
                         <div class="ui page dimmer" id="tstartdimmer">
@@ -472,8 +555,8 @@
                         </div>
 
                         <div style="margin-top:20px;">
-                            <a class="ui teal submit button">Start</a>
-                            <a class="ui red button">Stop</a>
+                            <a class="ui teal submit button" name="action" value="start">Start</a>
+                            <a class="ui red submit button" name="action" value="stop">Stop</a>
                             <div class="ui active button" id="tshowoutputmessages">
                               <i class="browser icon"></i>
                               Show Output Messages
@@ -481,7 +564,7 @@
                         </div>
                         
                         <div class="ui error message"></div>
-                    </div>
+                    </form>
                     
                     <div class="ui right overlay very wide floating sidebar" id="tside">
                         <div class="ui form" style="padding:15px;">
@@ -537,7 +620,7 @@
                     
                     <h4 class="ui header">Production Settings</h4>
                     
-                    <div class="ui form" id="productionform" action="Production" method="post">
+                    <form class="ui form" id="productionform" action="Production" method="post">
                         <div class="ui pointing below label">
                             The output file of the training phase in the .cmodel format
                         </div>
@@ -574,8 +657,8 @@
                         </div>
 
                         <div style="margin-top:20px;">
-                            <a class="ui teal submit button">Start</a>
-                            <a class="ui red button">Stop</a>
+                            <a class="ui teal submit button" name="action" value="start">Start</a>
+                            <a class="ui red submit button" name="action" value="stop">Stop</a>
                             <div class="ui active button" id="pshowoutputmessages">
                               <i class="browser icon"></i>
                               Show Output Messages
@@ -583,7 +666,7 @@
                         </div>
                         
                         <div class="ui error message"></div>
-                    </div>
+                    </form>
                     
                     <div class="ui right overlay very wide floating sidebar" id="pside">
                         <div class="ui form" style="padding:15px;">
@@ -618,7 +701,7 @@
                     
                     <h4 class="ui header">Parameters</h4>
                     
-                    <div class="ui form" id="configurationform" action="Configuration" method="post">
+                    <form class="ui form" id="configurationform" action="Configuration" method="post">
                         <div class="two fields">
                             <div class="field" style="margin-top:20px;" >
                                 <div class="ui pointing below label">
@@ -666,8 +749,8 @@
                         </div>
 
                         <div style="margin-top:20px;">
-                            <a class="ui teal submit button">Start</a>
-                            <a class="ui red button">Stop</a>
+                            <a class="ui teal submit button" name="action" value="start">Start</a>
+                            <a class="ui red submit button" name="action" value="stop">Stop</a>
                             <div class="ui active button" id="cshowoutputmessages">
                               <i class="browser icon"></i>
                               Show Output Messages
@@ -683,7 +766,7 @@
                             </div>
                         </div>
                         
-                    </div>
+                    </form>
                     
                 </div>
             </div>
@@ -864,7 +947,7 @@
                     </div>
                     
                     <div class="ui right overlay very wide floating sidebar" id="uside">
-                        <div class="ui form" id="adduserform" action="AddUser" method="post" style="margin:20px;">
+                        <form class="ui form" id="adduserform" action="AddUser" method="post" style="margin:20px;">
                                     
                                     <div class="ui error message"></div>
                                     <div class="two fields">
@@ -924,9 +1007,9 @@
                                       </div>
                                     </div>
 
-                                    <div class="ui blue submit button">Submit</div>
+                                    <div class="ui blue submit button" name="action" value="submit">Submit</div>
                             
-                        </div>
+                        </form>
                     </div>
                     
                     <div class="ui divided selection list">

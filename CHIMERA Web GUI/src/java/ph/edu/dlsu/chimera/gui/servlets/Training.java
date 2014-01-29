@@ -34,28 +34,24 @@ public class Training extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Training</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Training at " + request.getContextPath() + "</h1>");
+            String _input = null;
+            String _output = null;
+            String _filter = null;
+            boolean _exclude = false;
 
-            if (request.getParameter("trainingfile") == null) {
-                out.println("Please specify training file.");
-            } else {
-                out.println("Training file is <b>"+request. getParameter("trainingfile")+"</b>!");
+            if (request.getParameter("trainingfile") != null) {
+                _input = request.getParameter("trainingfile");
+            }
+            if (request.getParameter("outputfile") != null) {
+                _output = request.getParameter("outputfile");
+            }
+            if (request.getParameter("filter") != null) {
+                _filter = request.getParameter("filter");
+            }
+            if (request.getParameter("exlude") != null) {
+                _exclude = !request.getParameter("exclude").isEmpty();
             }
             
-            if (request.getParameter("outputfile") == null || request.getParameter("outputfile") == "") {
-                out.println("You did not specify output filename.");
-            } else {
-                out.println("Output filename is <b>"+request. getParameter("outputfile")+"</b>!");
-            }
-            
-            out.println("</body>");
-            out.println("</html>");
         } finally {            
             out.close();
         }

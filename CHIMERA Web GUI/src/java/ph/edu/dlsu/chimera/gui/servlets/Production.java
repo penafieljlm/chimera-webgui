@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
 
 /**
  *
@@ -34,34 +35,22 @@ public class Production extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Production</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Production at " + request.getContextPath() + "</h1>");
+            String _input = null;
+            String _syslog = null;
+            boolean _active = false;
+            PhaseMonitorProduction _monitor = null;
 
-            if (request.getParameter("modelfile") == null) {
-                out.println("Please specify model file.");
-            } else {
-                out.println("Training file is <b>"+request. getParameter("modelfile")+"</b>!");
+            if (request.getParameter("modelfile") != null) {
+                _input = request.getParameter("modelfile");
             }
             
-            if (request.getParameter("syslog") == null || request.getParameter("syslog") == "") {
-                out.println("You did not specify syslog server IP address.");
-            } else {
-                out.println("Syslog server IP address is <b>"+request. getParameter("syslog")+"</b>!");
+            if (request.getParameter("syslog") != null) {
+                _syslog = request.getParameter("syslog");
             }
             
-            if (request.getParameter("firewall") == null) {
-                out.println("Creation of firewall rules is off.");
-            } else {
-                out.println("Creation of firewall rules is <b>"+request. getParameter("firewall")+"</b>!");
+            if (request.getParameter("firewall") != null) {
+                _active = !request.getParameter("firewall").isEmpty();
             }
-
-            out.println("</body>");
-            out.println("</html>");
         } finally {            
             out.close();
         }
