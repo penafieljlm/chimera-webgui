@@ -1,3 +1,23 @@
+
+//Get value from an input field
+function getFieldValue(fieldId) { 
+    // 'get field' is part of Semantics form behavior API
+    return $('.ui.form').form('get field', fieldId).val();
+}
+
+function submitForm() {
+    var formData = {
+        field1: getFieldValue('someId')
+    };
+
+    $.ajax({ type: 'POST', url: '/api/someRestEndpoint', data: formData, success: onFormSubmitted });
+}
+
+// Handle post response
+function onFormSubmitted(response) {
+    // Do something with response ...
+}
+
 $(document).ready(
     function(){
         $('.message .close').on('click', function() {
@@ -20,33 +40,6 @@ $(document).ready(
         $('.ui.dropdown')
           .dropdown()
         ;
-        
-        $('#dgshowoutputmessages').on('click', function() {
-            $('#dgside')
-                .sidebar({
-                    overlay: true
-                  })
-                .sidebar('toggle')
-            ;
-        });
-        
-        $('#tshowoutputmessages').on('click', function() {
-            $('#tside')
-                .sidebar({
-                    overlay: true
-                  })
-                .sidebar('toggle')
-            ;
-        });
-        
-        $('#pshowoutputmessages').on('click', function() {
-            $('#pside')
-                .sidebar({
-                    overlay: true
-                  })
-                .sidebar('toggle')
-            ;
-        });
         
         $('#cshowoutputmessages').on('click', function() {
             $('#cside')

@@ -19,6 +19,51 @@
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="javascript.js"></script>
         
+
+        <script>
+            //Get value from an input field
+            function getFieldValue(fieldId) { 
+              // 'get field' is part of Semantics form behavior API
+              return $('.ui.form').form('get field', fieldId).val();
+            }
+
+            function submitDataGatheringForm() {
+              var formData = {
+                  outputfile: getFieldValue('#dgoutputfile'),
+                  interface: getFieldValue('#dginterface'),
+                  packetfilter: getFieldValue('#dgpacketfilter'),
+                  packetfilterswitch: getFieldValue('#dgpacketfilterswitch'),
+                  trainingfilter: getFieldValue('#dgtrainingfilter'),
+                  attackswitch: getFieldValue('#dgattackswitch'),
+                  action: getFieldValue('#dgaction')
+              };
+
+              $.ajax({ type: 'POST', url: 'DataGathering', data: formData, success: onDataGatheringFormSubmitted });
+            }
+
+            // Handle post response
+            function onDataGatheringFormSubmitted(response) {
+              /*$('#dgstartdimmer').dimmer('toggle');-->*/
+              $("#datagatherform").remove();
+              $("#dgheaderchange").text("Data Gathering is currently ongoing...");
+              $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
+
+              $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                  $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: "+responseText+"</p>");         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+              });
+              var i = 0;
+              setInterval(function() { // this code is executed every 500 milliseconds:
+                  if(i<100) {
+                      $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                          $('#dginstance').text("Number of instances gathered: "+responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+                      });
+                      i++;
+                  }
+              }, 1000);
+              $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+            }
+        </script>
+
         <script>
             $(document).ready(function() {
                 var rules = {
@@ -35,7 +80,7 @@
 
                 var settings = {
                     onSuccess : function() {
-                      $('#dgstartdimmer').dimmer('toggle');
+                      onDataGatheringFormSubmitted();
                     }
                 };
                 
@@ -64,7 +109,14 @@
                 
                 var settings = {
                     onSuccess : function() {
-                      $('#tstartdimmer').dimmer('toggle');
+                      /*$('#tstartdimmer').dimmer('toggle');-->*/
+                      $("#trainingform").remove();
+                      $("#tcolumn").append("<div class='ui active striped progress'><div class='bar' style='width: 100%;'></div></div>");
+                      $("#theaderchange").text("Training is currently ongoing...");
+                      //$.get('Training', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                      //    $('#thidden').text(responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+                      //});
+                      $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='Training' method='post'><div style='margin-top:20px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
                     }
                 };
 
@@ -93,7 +145,11 @@
 
                 var settings = {
                     onSuccess : function() {
-                      $('#pstartdimmer').dimmer('toggle');
+                      /*$('#pstartdimmer').dimmer('toggle');-->*/
+                      $("#productionform").remove();
+                      $("#pheaderchange").text("Production is currently ongoing...");
+                      $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+                      $("#pcolumn").append("<div class='ui form' id='productionformstop' action='Production' method='post'><div style='margin-top:20px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
                     }
                 };
 
@@ -287,7 +343,7 @@
             <div id="dgtab">
             <h2 class="ui dividing header">Data Gathering</h2>
             <div class="ui grid">
-                <div class="column">
+                <div class="column" id="dgcolumn">
                     <h4 class="ui header">About the Data Gathering</h4>
                     <p>The Data Gathering Phase includes packet capture and analysis of attacks which is already a preliminary work before implementing and running the system. It involves capturing the traffic flowing towards the DMZ and vice versa. CHIMERA places sniffed traffic onto a Packet Dump File and forwards packets out the appropriate interface.<br>
                         <br>The cgather command starts the CHIMERA's Data Gathering phase.
@@ -298,21 +354,22 @@
                     
                     
                     <div class="ui section divider"></div>
+
+                    <h4 class="ui header" id="dgheaderchange">Data Gathering Settings</h4>
+                    <div id="dghidden"></div>
                     
-                    <h4 class="ui header">Data Gathering Settings</h4>
-                    
-                    <form class="ui form" id="datagatherform" action="DataGathering" method="post">
+                    <div class="ui form" id="datagatherform" action="DataGathering" method="post">
                         <div class="field">
                         <div class="ui fluid labeled input">
                             <div class="ui corner label">
                                 <i class="icon asterisk"></i>
                             </div>
-                            <input type="text" placeholder="Output file name..." name="outputfile">
+                            <input type="text" placeholder="Output file name..." name="outputfile" id="dgoutputfile">
                         </div>
                         </div>
                          
                         <div style="margin-top:20px;" class="ui selection dropdown">
-                          <input name="interface" type="hidden">
+                          <input name="interface" id="dginterface" type="hidden">
                           <label>Protected Interface:</label>
                           <div class="text">Select</div>
                           <i class="dropdown icon"></i>
@@ -322,8 +379,8 @@
                           </div>
                         </div>
                         
-                        <div class="ui divider"></div>
-                        
+                        <div class="ui section divider"></div>
+
                         <div class="ui message">
                           <div class="header">
                             JNetPcap Packet Filter Expression
@@ -362,15 +419,15 @@
                         </div>
 
                         <div style="margin-top:20px;display:block;" class="field">
-                            <textarea name="trainingfilter"></textarea>
+                            <textarea name="trainingfilter" id="dgtrainingfilter"></textarea>
                         </div>
 
                         <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
-                          <input type="checkbox" name="attackswitch">
+                          <input type="checkbox" name="attackswitch" id="dgattackswitch">
                           <label>Mark traffic as attack</label>
                         </div>
-                        
-                        <div class="ui divider"></div>
+
+                        <div class="ui section divider"></div>
                         
                         <div class="ui message">
                           <div class="header">
@@ -410,11 +467,11 @@
                         </div>
                         
                         <div style="margin-top:20px;display:block;" class="field">
-                            <textarea name="packetfilter"></textarea>
+                            <textarea name="packetfilter" id="dgpacketfilter"></textarea>
                         </div>
                          
                         <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
-                          <input type="checkbox" name="packetfilterswitch">
+                          <input type="checkbox" name="packetfilterswitch" id="dgpacketfilterswitch">
                           <label>Allow</label>
                         </div>
                         
@@ -431,33 +488,11 @@
                         </div>
 
                         <div style="margin-top:20px;">
-                            <a class="ui teal submit button" name="action" value="start">Start</a>
-                            <a class="ui red submit button" name="action" value="stop">Stop</a>
-                            <div class="ui active button" id="dgshowoutputmessages">
-                              <i class="browser icon"></i>
-                              Show Output Messages
-                            </div>
+                            <a class="ui teal submit button" name="action" id="dgaction" value="start">Start</a>
                         </div>
                         
                         <div class="ui error message"></div>
-                    </form>
-                    
-                    <div class="ui right overlay very wide floating sidebar" id="dgside">
-                        <div class="ui form" style="padding:15px;">
-                          <div class="field">
-                            <p>Output messages</p>
-                            <textarea></textarea>
-                          </div>
-                        </div>
                     </div>
-                    
-                    <div class="ui section divider"></div>
-                    
-                    <p>Data gathering status</p>
-                    <div class="ui active progress">
-                        <div class="bar"></div>
-                    </div>
-                    
                 </div>
             </div>
             </div>
@@ -465,7 +500,7 @@
             <div id="ttab">
             <h2 class="ui dividing header">Training</h2>
             <div class="ui grid">
-                <div class="column">
+                <div class="column" id="tcolumn">
                     <h4 class="ui header">About the Training Phase</h4>
                     <p>After capturing the needed information, CHIMERA goes into Training Phase where a decision tree is generated from the data captured during the Data Gathering Phase. The data to be used the normal network baseline is created on a day-to-day basis. The baselines and the simulated attacks act as input datasets to generate the decision tree. The simulated attacks are already trained before the Training Phase of the system.<br>
                         
@@ -475,14 +510,27 @@
                         <br>The model produced is stored on a .cmodel file.
                     </p>
                     <div class="ui section divider"></div>
-                    
-                    <h4 class="ui header">Training Settings</h4>
-                    
-                    <div class="ui pointing below label">
-                        Contains datasets or the tabled attributes of the traffic gathered during the Data Gathering Phase and should be in the .csv format
+
+                    <div class="ui success message">
+                      <i class="close icon"></i>
+                      <div class="header">
+                        Training complete!
+                      </div>
+                      <p>Model file can now be downloaded and used in the Production Phase.</p>
+                        <div class="ui active button">
+                          <i class="download icon"></i>
+                          Download
+                        </div>  
                     </div>
-                    <form class="ui form" id="trainingform" action="Training" method="post">
+                    
+                    <h4 class="ui header" id="theaderchange">Training Settings</h4>
+                    <div id="thidden"></div>
+
+                    <div class="ui form" id="trainingform" action="Training" method="post">
                         <div class="field">
+                        <div class="ui pointing below label">
+                            Contains datasets or the tabled attributes of the traffic gathered during the Data Gathering Phase and should be in the .csv format
+                        </div>
                         <div class="ui fluid labeled action input">
                             <div class="ui corner label">
                                 <i class="icon asterisk"></i>
@@ -556,42 +604,9 @@
 
                         <div style="margin-top:20px;">
                             <a class="ui teal submit button" name="action" value="start">Start</a>
-                            <a class="ui red submit button" name="action" value="stop">Stop</a>
-                            <div class="ui active button" id="tshowoutputmessages">
-                              <i class="browser icon"></i>
-                              Show Output Messages
-                            </div>
                         </div>
                         
                         <div class="ui error message"></div>
-                    </form>
-                    
-                    <div class="ui right overlay very wide floating sidebar" id="tside">
-                        <div class="ui form" style="padding:15px;">
-                          <div class="field">
-                            <p>Output messages</p>
-                            <textarea></textarea>
-                          </div>
-                        </div>
-                    </div>
-                    
-                    <div class="ui section divider"></div>
-                    
-                    <div class="ui success message">
-                      <i class="close icon"></i>
-                      <div class="header">
-                        Training complete!
-                      </div>
-                      <p>Model file can now be downloaded and used in the Production Phase.</p>
-                        <div class="ui active button">
-                          <i class="download icon"></i>
-                          Download
-                        </div>  
-                    </div>
-                    
-                    <p>Training completion percentage</p>
-                    <div class="ui active progress">
-                        <div class="bar"></div>
                     </div>
                 </div>
             </div>
@@ -600,7 +615,7 @@
             <div id="ptab">
             <h2 class="ui dividing header">Production</h2>
             <div class="ui grid">
-                <div class="column">
+                <div class="column" id="pcolumn">
                     <h4 class="ui header">About the Production Phase</h4>
                     <p>The Production Phase involves analyzing the traffic coming into the DMZ and back, while performing state calculations and updates, and evaluation on inbound traffic using layer 7 inspections and analysis of the current network traffic using the decision tree generated during the Training Phase. The decision tree is responsible for differentiating normal from anomalous behavior. Based on the results, certain packets are either allowed to pass or be dropped.<br>
                         
@@ -618,9 +633,10 @@
                       </div>
                     </div>
                     
-                    <h4 class="ui header">Production Settings</h4>
+                    <h4 class="ui header" id="pheaderchange">Production Settings</h4>
+                    <div id="phidden"></div>
                     
-                    <form class="ui form" id="productionform" action="Production" method="post">
+                    <div class="ui form" id="productionform" action="Production" method="post">
                         <div class="ui pointing below label">
                             The output file of the training phase in the .cmodel format
                         </div>
@@ -658,15 +674,10 @@
 
                         <div style="margin-top:20px;">
                             <a class="ui teal submit button" name="action" value="start">Start</a>
-                            <a class="ui red submit button" name="action" value="stop">Stop</a>
-                            <div class="ui active button" id="pshowoutputmessages">
-                              <i class="browser icon"></i>
-                              Show Output Messages
-                            </div>
                         </div>
                         
                         <div class="ui error message"></div>
-                    </form>
+                    </div>
                     
                     <div class="ui right overlay very wide floating sidebar" id="pside">
                         <div class="ui form" style="padding:15px;">
@@ -675,13 +686,6 @@
                             <textarea></textarea>
                           </div>
                         </div>
-                    </div>
-                    
-                    <div class="ui section divider"></div>
-                    
-                    <p>Production status</p>
-                    <div class="ui active progress">
-                        <div class="bar"></div>
                     </div>
                 </div>
             </div>
@@ -741,7 +745,7 @@
                             <div class="center">
                                 <h2 class="ui inverted icon header">
                                   <i class="icon circular inverted emphasized green download disk"></i>
-                                  Configuration successfully saved!
+                                  Configuration successfully saved and applied!
                                   <div class="sub header">Configuration has been save and applied</div>
                                 </h2>
                             </div>
@@ -792,21 +796,21 @@
                         </div>
                         <div class="list">
                           <div class="item">
-                            <i class="Desktop icon"></i>
+                            <i class="desktop icon"></i>
                             <div class="content">
                               <a class="header">Hardware Address</a>
                               <div class="description">01-23-45-67-89-AB-CD-EF</div>
                             </div>
                           </div>
                           <div class="item">
-                            <i class="Fork Code icon"></i>
+                            <i class="fork code icon"></i>
                             <div class="content">
                               <a class="header">Interface Address</a>
                               <div class="description">Is this your address? I'm getting dropped off from the SPCA...</div>
                             </div>
                           </div>
                           <div class="item">
-                            <i class="URL icon"></i>
+                            <i class="url icon"></i>
                             <div class="content">
                               <a class="header">IP Address</a>
                               <div class="description">192.168.6.2</div>
@@ -830,21 +834,21 @@
                         </div>
                         <div class="list">
                           <div class="item">
-                            <i class="Desktop icon"></i>
+                            <i class="desktop icon"></i>
                             <div class="content">
                               <a class="header">Hardware Address</a>
                               <div class="description">01-23-45-67-89-AB-CD-EF</div>
                             </div>
                           </div>
                           <div class="item">
-                            <i class="Fork Code icon"></i>
+                            <i class="fork code icon"></i>
                             <div class="content">
                               <a class="header">Interface Address</a>
                               <div class="description">Is this your address? I'm getting dropped off from the SPCA...</div>
                             </div>
                           </div>
                           <div class="item">
-                            <i class="URL icon"></i>
+                            <i class="url icon"></i>
                             <div class="content">
                               <a class="header">IP Address</a>
                               <div class="description">192.168.7.2</div>

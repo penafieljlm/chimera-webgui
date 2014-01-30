@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.Chimera;
+import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskGather;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
 
@@ -22,18 +24,6 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
  */
 @WebServlet(name = "DataGathering", urlPatterns = {"/DataGathering"})
 public class DataGathering extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    private TaskGather task;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,15 +69,17 @@ public class DataGathering extends HttpServlet {
                 };
 
                 //create task
-                this.task = new TaskGather(_output, _protected, _access, _allow, _training, _attack, _monitor);
+                Task task = new TaskGather(_output, _protected, _access, _allow, _training, _attack, _monitor);
+                Task.setTask(task);
 
                 //run task
-                this.task.start();
+                task.start();
             }
-            if (request.getParameter("action").equals("stop")) {
-                if (this.task != null) {
-                    //stop task
-                    //TODO: create stop
+            else if (request.getParameter("action").equals("stop")) {
+                if (Task.getTask() != null) {
+                    if (Task.getTask() instanceof TaskGather) {
+                        Chimera.cquit();
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -99,8 +91,7 @@ public class DataGathering extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -110,12 +101,15 @@ public class DataGathering extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskGather) ? ("" + ((TaskGather) (Task.getTask())).monitor.getInstancesGathered()) : "N/A" : "N/A";
+
+        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+        response.getWriter().write(text);
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
