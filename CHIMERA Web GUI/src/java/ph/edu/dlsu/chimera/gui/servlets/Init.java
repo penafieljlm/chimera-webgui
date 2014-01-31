@@ -7,8 +7,6 @@ package ph.edu.dlsu.chimera.gui.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,7 @@ import ph.edu.dlsu.chimera.core.nic.NicData;
  *
  * @author User
  */
-public class GetInterfaces extends HttpServlet {
+public class Init extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +35,6 @@ public class GetInterfaces extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-
         } finally {
             out.close();
         }
@@ -58,15 +55,17 @@ public class GetInterfaces extends HttpServlet {
         try {
             NicData[] ifaces = Chimera.cifaces();
             StringBuilder sb = new StringBuilder();
+            int i = 0;
 
             for (NicData n : ifaces) {
                 sb = sb.append(n.name).append(";");
+                request.setAttribute("iface"+i, n.name);
+                i++;
             }
-            sb = sb.deleteCharAt(sb.length() - 1);
 
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-            response.getWriter().write(sb.toString());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
 
         } catch (Exception ex) {
         }

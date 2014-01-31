@@ -18,23 +18,9 @@
         <script src="packaged/javascript/semantic.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="javascript.js"></script>
-        
-        <script>
-            function populateDGDropdown() {
-              $.get('GetInterfaces', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-                  var string = responseText;
-                  var ifaceArray = string.split(';');
-                  for (var i = 0; i < ifaceArray.length; i++) {
-                      $("#dgdropdown").append("<div class='item' id='dgdropdown'"+i+" value='"+ifaceArray[i]+"'>"+ifaceArray[i]+"</div>");        // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-                  }
-              });
-            }
-        </script>
 
         <script>
             $(document).ready(function() {
-              populateDGDropdown();
-
                 var rules = {
                     outputfile: {
                       identifier  : 'outputfile',
@@ -354,7 +340,15 @@
                           <div class="text">Select</div>
                           <i class="dropdown icon"></i>
                           <div class="menu" id="dgdropdown">
-
+                            <%
+                                int i=0;
+                                while((String)request.getAttribute("iface"+i)!=null){ 
+                            %>
+                                    <div class="item" value="<%=(String)request.getAttribute("iface"+i)%>"><%=(String)request.getAttribute("iface"+i)%></div>
+                            <%
+                                    i++;
+                                }
+                            %>
                           </div>
                         </div>
                         
