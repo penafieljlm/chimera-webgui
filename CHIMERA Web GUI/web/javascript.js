@@ -1,22 +1,38 @@
+            function submitDataGatheringForm() {
+              var formData = {
+                  outputfile: $('#dgoutputfile').val(),
+                  interface: $('#dginterface').val(),
+                  packetfilter: $('#dgpacketfilter').val(),
+                  packetfilterswitch: $('#dgpacketfilterswitch').val(),
+                  trainingfilter: $('#dgtrainingfilter').val(),
+                  attackswitch: $('#dgattackswitch').val(),
+                  action: 'start'
+              };
 
-//Get value from an input field
-function getFieldValue(fieldId) { 
-    // 'get field' is part of Semantics form behavior API
-    return $('.ui.form').form('get field', fieldId).val();
-}
+              $.ajax({ type: 'POST', url: 'DataGathering', data: formData, success: onDataGatheringFormSubmitted });
+            }
 
-function submitForm() {
-    var formData = {
-        field1: getFieldValue('someId')
-    };
+            // Handle post response
+            function onDataGatheringFormSubmitted(response) {
+              /*$('#dgstartdimmer').dimmer('toggle');-->*/
+              $("#datagatherform").remove();
+              $("#dgheaderchange").text("Data Gathering is currently ongoing...");
+              $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
 
-    $.ajax({ type: 'POST', url: '/api/someRestEndpoint', data: formData, success: onFormSubmitted });
-}
-
-// Handle post response
-function onFormSubmitted(response) {
-    // Do something with response ...
-}
+              $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                  $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: "+responseText+"</p>");         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+              });
+              var i = 0;
+              setInterval(function() { // this code is executed every 500 milliseconds:
+                  if(i<100) {
+                      $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                          $('#dginstance').text("Number of instances gathered: "+responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+                      });
+                      i++;
+                  }
+              }, 1000);
+              $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+            }
 
 $(document).ready(
     function(){

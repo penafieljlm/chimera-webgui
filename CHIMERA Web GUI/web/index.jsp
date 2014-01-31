@@ -19,47 +19,22 @@
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="javascript.js"></script>
         
-
         <script>
-            function submitDataGatheringForm() {
-              var formData = {
-                  outputfile: $('#dgoutputfile').val(),
-                  interface: $('#dginterface').val(),
-                  packetfilter: $('#dgpacketfilter').val(),
-                  packetfilterswitch: $('#dgpacketfilterswitch').val(),
-                  trainingfilter: $('#dgtrainingfilter').val(),
-                  attackswitch: $('#dgattackswitch').val(),
-                  action: 'start'
-              };
-
-              $.ajax({ type: 'POST', url: 'DataGathering', data: formData, success: onDataGatheringFormSubmitted });
-            }
-
-            // Handle post response
-            function onDataGatheringFormSubmitted(response) {
-              /*$('#dgstartdimmer').dimmer('toggle');-->*/
-              $("#datagatherform").remove();
-              $("#dgheaderchange").text("Data Gathering is currently ongoing...");
-              $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
-
-              $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-                  $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: "+responseText+"</p>");         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-              });
-              var i = 0;
-              setInterval(function() { // this code is executed every 500 milliseconds:
-                  if(i<100) {
-                      $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-                          $('#dginstance').text("Number of instances gathered: "+responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-                      });
-                      i++;
+            function populateDGDropdown() {
+              $.get('GetInterfaces', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                  var string = responseText;
+                  var ifaceArray = string.split(';');
+                  for (var i = 0; i < ifaceArray.length; i++) {
+                      $("#dgdropdown").append("<div class='item' id='dgdropdown'"+i+" value='"+ifaceArray[i]+"'>"+ifaceArray[i]+"</div>");        // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
                   }
-              }, 1000);
-              $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+              });
             }
         </script>
 
         <script>
             $(document).ready(function() {
+              populateDGDropdown();
+
                 var rules = {
                     outputfile: {
                       identifier  : 'outputfile',
@@ -378,9 +353,8 @@
                           <label>Protected Interface:</label>
                           <div class="text">Select</div>
                           <i class="dropdown icon"></i>
-                          <div class="menu">
-                            <div class="item" value="interface 1">Interface 1</div>
-                            <div class="item" value="interface 2">Interface 2</div>
+                          <div class="menu" id="dgdropdown">
+
                           </div>
                         </div>
                         
