@@ -21,21 +21,15 @@
         
 
         <script>
-            //Get value from an input field
-            function getFieldValue(fieldId) { 
-              // 'get field' is part of Semantics form behavior API
-              return $('.ui.form').form('get field', fieldId).val();
-            }
-
             function submitDataGatheringForm() {
               var formData = {
-                  outputfile: getFieldValue('#dgoutputfile'),
-                  interface: getFieldValue('#dginterface'),
-                  packetfilter: getFieldValue('#dgpacketfilter'),
-                  packetfilterswitch: getFieldValue('#dgpacketfilterswitch'),
-                  trainingfilter: getFieldValue('#dgtrainingfilter'),
-                  attackswitch: getFieldValue('#dgattackswitch'),
-                  action: getFieldValue('#dgaction')
+                  outputfile: $('#dgoutputfile').val(),
+                  interface: $('#dginterface').val(),
+                  packetfilter: $('#dgpacketfilter').val(),
+                  packetfilterswitch: $('#dgpacketfilterswitch').val(),
+                  trainingfilter: $('#dgtrainingfilter').val(),
+                  attackswitch: $('#dgattackswitch').val(),
+                  action: 'start'
               };
 
               $.ajax({ type: 'POST', url: 'DataGathering', data: formData, success: onDataGatheringFormSubmitted });
@@ -72,7 +66,16 @@
                       rules: [
                         {
                           type   : 'empty',
-                          prompt : 'Please enter output filename'
+                          prompt : 'Please select an output file'
+                        }
+                      ]
+                    },
+                    interface: {
+                      identifier  : 'interface',
+                      rules: [
+                        {
+                          type   : 'empty',
+                          prompt : 'Please select a protected interface'
                         }
                       ]
                     }
@@ -80,7 +83,7 @@
 
                 var settings = {
                     onSuccess : function() {
-                      onDataGatheringFormSubmitted();
+                      submitDataGatheringForm();
                     }
                 };
                 
@@ -359,6 +362,8 @@
                     <div id="dghidden"></div>
                     
                     <div class="ui form" id="datagatherform" action="DataGathering" method="post">
+                        <div class="ui error message"></div>
+
                         <div class="field">
                         <div class="ui fluid labeled input">
                             <div class="ui corner label">
@@ -374,8 +379,8 @@
                           <div class="text">Select</div>
                           <i class="dropdown icon"></i>
                           <div class="menu">
-                            <div class="item" data-value="interface 1">Interface 1</div>
-                            <div class="item" data-value="interface 2">Interface 2</div>
+                            <div class="item" value="interface 1">Interface 1</div>
+                            <div class="item" value="interface 2">Interface 2</div>
                           </div>
                         </div>
                         
@@ -490,8 +495,6 @@
                         <div style="margin-top:20px;">
                             <a class="ui teal submit button" name="action" id="dgaction" value="start">Start</a>
                         </div>
-                        
-                        <div class="ui error message"></div>
                     </div>
                 </div>
             </div>
@@ -527,6 +530,8 @@
                     <div id="thidden"></div>
 
                     <div class="ui form" id="trainingform" action="Training" method="post">
+                        <div class="ui error message"></div>
+
                         <div class="field">
                         <div class="ui pointing below label">
                             Contains datasets or the tabled attributes of the traffic gathered during the Data Gathering Phase and should be in the .csv format
@@ -605,8 +610,6 @@
                         <div style="margin-top:20px;">
                             <a class="ui teal submit button" name="action" value="start">Start</a>
                         </div>
-                        
-                        <div class="ui error message"></div>
                     </div>
                 </div>
             </div>
@@ -637,6 +640,8 @@
                     <div id="phidden"></div>
                     
                     <div class="ui form" id="productionform" action="Production" method="post">
+                        <div class="ui error message"></div>
+
                         <div class="ui pointing below label">
                             The output file of the training phase in the .cmodel format
                         </div>
@@ -675,8 +680,6 @@
                         <div style="margin-top:20px;">
                             <a class="ui teal submit button" name="action" value="start">Start</a>
                         </div>
-                        
-                        <div class="ui error message"></div>
                     </div>
                     
                     <div class="ui right overlay very wide floating sidebar" id="pside">

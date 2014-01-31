@@ -101,7 +101,7 @@ public class DataGathering extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskGather) ? ("" + ((TaskGather) (Task.getTask())).monitor.getInstancesGathered()) : "N/A" : "N/A";
+        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskGather) ? ("" + ((TaskGather) (Task.getTask())).monitor.getInstancesGathered()) : "Running task is not Data Gathering" : "No task is running";
 
         response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
         response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
