@@ -19,7 +19,7 @@ function submitDataGatheringForm() {
 
 // Handle post response
 function onDataGatheringFormSubmitted(response) {
-    /*$('#dgstartdimmer').dimmer('toggle');-->*/
+    $('#dgstartdimmer').dimmer('toggle');
     $("#datagatherform").remove();
     $("#dgheaderchange").text("Data Gathering is currently ongoing...");
     $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
@@ -58,7 +58,7 @@ function submitTrainingForm() {
 
 // Handle post response
 function onTrainingFormSubmitted(response) {
-    /*$('#dgstartdimmer').dimmer('toggle');-->*/
+    $('#tstartdimmer').dimmer('toggle');
     $("#trainingform").remove();
     $("#tcolumn").append("<div class='ui active striped progress'><div class='bar' style='width: 100%;'></div></div>");
     $("#theaderchange").text("Training is currently ongoing...");
@@ -83,7 +83,7 @@ function submitProductionForm() {
 
 // Handle post response
 function onProductionFormSubmitted(response) {
-    /*$('#pstartdimmer').dimmer('toggle');-->*/
+    $('#pstartdimmer').dimmer('toggle');
     $("#productionform").remove();
     $("#pheaderchange").text("Production is currently ongoing...");
     $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");

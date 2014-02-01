@@ -438,20 +438,19 @@
                                         <label>Allow</label>
                                     </div>
 
-                                    <div class="ui page dimmer" id="dgstartdimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <h2 class="ui inverted icon header">
-                                                    <i class="icon circular inverted emphasized green download disk"></i>
-                                                    Data Gathering successfully started!
-                                                    <div class="sub header">View the progress bar to view its progress</div>
-                                                </h2>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" id="dgaction" value="start">Start</a>
+                                    </div>
+                                </div>
+                                <div class="ui page dimmer" id="dgstartdimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <h2 class="ui inverted icon header">
+                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                Data Gathering successfully started!
+                                                <div class="sub header">View the progress bar to view its progress</div>
+                                            </h2>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -553,20 +552,19 @@
                                         <label>Exlude</label>
                                     </div>
 
-                                    <div class="ui page dimmer" id="tstartdimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <h2 class="ui inverted icon header">
-                                                    <i class="icon circular inverted emphasized green download disk"></i>
-                                                    Training successfully started!
-                                                    <div class="sub header">View the progress bar to view its progress</div>
-                                                </h2>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
+                                    </div>
+                                </div>
+                                <div class="ui page dimmer" id="tstartdimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <h2 class="ui inverted icon header">
+                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                Training successfully started!
+                                                <div class="sub header">View the progress bar to view its progress</div>
+                                            </h2>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -623,20 +621,20 @@
                                         <label>Create firewall rules</label>
                                     </div>
 
-                                    <div class="ui page dimmer" id="pstartdimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <h2 class="ui inverted icon header">
-                                                    <i class="icon circular inverted emphasized green download disk"></i>
-                                                    Production successfully started!
-                                                    <div class="sub header">View the progress bar to view its progress</div>
-                                                </h2>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
+                                    </div>
+                                </div>
+
+                                <div class="ui page dimmer" id="pstartdimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <h2 class="ui inverted icon header">
+                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                Production successfully started!
+                                                <div class="sub header">View the progress bar to view its progress</div>
+                                            </h2>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -749,82 +747,51 @@
                                 <div class="ui section divider"></div>
 
                                 <div class="ui list">
+                                    <%
+                                        int n = 0;
+                                        while ((String) request.getAttribute("iface" + n) != null) {
+                                    %>
                                     <div class="item">
                                         <i class="sitemap image icon"></i>
                                         <div class="content">
-                                            <div class="header">Interface 1</div>
-                                            Description of the first interface
+                                            <div class="header"><%=(String) request.getAttribute("iface" + n)%></div>
+                                            <%=(String) request.getAttribute("ifacedesc" + n)%>
                                         </div>
                                         <div class="list">
                                             <div class="item">
                                                 <i class="desktop icon"></i>
                                                 <div class="content">
                                                     <a class="header">Hardware Address</a>
-                                                    <div class="description">01-23-45-67-89-AB-CD-EF</div>
+                                                    <div class="description"><%=(String) request.getAttribute("ifacehard" + n)%></div>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <i class="fork code icon"></i>
                                                 <div class="content">
                                                     <a class="header">Interface Address</a>
-                                                    <div class="description">Is this your address? I'm getting dropped off from the SPCA...</div>
+                                                    <div class="description">Is this your address?</div>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <i class="url icon"></i>
                                                 <div class="content">
                                                     <a class="header">IP Address</a>
-                                                    <div class="description">192.168.6.2</div>
+                                                    <div class="description"><%=(String) request.getAttribute("ifaceip" + n)%></div>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <i class="code icon"></i>
                                                 <div class="content">
                                                     <a class="header">Subnet Mask</a>
-                                                    <div class="description">255.255.255.0</div>
+                                                    <div class="description"><%=(String) request.getAttribute("ifacesubnet" + n)%></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="item">
-                                        <i class="sitemap image icon"></i>
-                                        <div class="content">
-                                            <div class="header">Interface 2</div>
-                                            Description of the second interface
-                                        </div>
-                                        <div class="list">
-                                            <div class="item">
-                                                <i class="desktop icon"></i>
-                                                <div class="content">
-                                                    <a class="header">Hardware Address</a>
-                                                    <div class="description">01-23-45-67-89-AB-CD-EF</div>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <i class="fork code icon"></i>
-                                                <div class="content">
-                                                    <a class="header">Interface Address</a>
-                                                    <div class="description">Is this your address? I'm getting dropped off from the SPCA...</div>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <i class="url icon"></i>
-                                                <div class="content">
-                                                    <a class="header">IP Address</a>
-                                                    <div class="description">192.168.7.2</div>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <i class="code icon"></i>
-                                                <div class="content">
-                                                    <a class="header">Subnet Mask</a>
-                                                    <div class="description">255.255.255.0</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    <%
+                                            n++;
+                                        }
+                                    %>
                                 </div>
 
                             </div>

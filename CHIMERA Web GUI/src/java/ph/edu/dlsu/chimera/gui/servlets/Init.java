@@ -60,6 +60,10 @@ public class Init extends HttpServlet {
             for (NicData n : ifaces) {
                 sb = sb.append(n.name).append(";");
                 request.setAttribute("iface"+i, n.name);
+                request.setAttribute("ifacedesc"+i, n.description);
+                request.setAttribute("ifacehard"+i, n.hardwareAddress);
+                request.setAttribute("ifaceip"+i, n.addresses.get(1).address);
+                request.setAttribute("ifacesubnet"+i, n.addresses.get(1).netmask);
                 i++;
             }
 
