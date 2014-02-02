@@ -34,40 +34,22 @@ public class Configuration extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Configuration</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Configuration at " + request.getContextPath() + "</h1>");
 
-            if (request.getParameter("tcptimeout") == null || request.getParameter("tcptimeout") == "") {
-                out.println("You did not specify TCP state timeout.");
-            } else {
+            if (request.getParameter("tcptimeout") != null) {
                 out.println("TCP state timeout is <b>"+request. getParameter("tcptimeout")+"</b>!");
             }
             
-            if (request.getParameter("criteriatimeout") == null || request.getParameter("criteriatimeout") == "") {
-                out.println("You did not specify criteria instance timeout.");
-            } else {
+            if (request.getParameter("criteriatimeout") != null) {
                 out.println("Criteria instance timeout is <b>"+request. getParameter("criteriatimeout")+"</b>!");
             }
             
-            if (request.getParameter("controlport") == null || request.getParameter("criteriatimeout") == "") {
-                out.println("You did not specify control message port number.");
-            } else {
+            if (request.getParameter("controlport") != null) {
                 out.println("Control message port number is <b>"+request. getParameter("controlport")+"</b>!");
             }
 
-            if (request.getParameter("interface") == null) {
-                out.println("You did not specify interface.");
-            } else {
+            if (request.getParameter("interface") != null) {
                 out.println("Interface selected is <b>"+request. getParameter("interface")+"</b>!");
             }
-
-            out.println("</body>");
-            out.println("</html>");
         } finally {            
             out.close();
         }

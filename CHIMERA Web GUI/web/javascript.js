@@ -90,6 +90,28 @@ function onProductionFormSubmitted(response) {
     $("#pcolumn").append("<div class='ui form' id='productionformstop' action='Production' method='post'><div style='margin-top:20px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
 }
 
+function submitConfigurationForm() {
+    var formData = {
+        tcptimeout: $('#ctcptimeout').val(),
+        criteriatimeout: $('#ccriteriatimeout').val(),
+        controlport: $('#ccontrolport').val(),
+        interface: $('#cinterface').val(),
+        action: 'start'
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: 'Configuration',
+        data: formData,
+        success: onConfigurationFormSubmitted
+    });
+}
+
+// Handle post response
+function onConfigurationFormSubmitted(response) {
+    $('#cstartdimmer').dimmer('toggle');
+}
+
 $(document).ready(
         function() {
             $('.message .close').on('click', function() {

@@ -119,7 +119,7 @@
 
                 var settings = {
                     onSuccess: function() {
-                        $('#cstartdimmer').dimmer('toggle');
+                        submitConfigurationForm();
                     }
                 };
 
@@ -664,20 +664,20 @@
 
                                 <h4 class="ui header">Parameters</h4>
 
-                                <form class="ui form" id="configurationform" action="Configuration" method="post">
+                                <div class="ui form" id="configurationform" action="Configuration" method="post">
                                     <div class="two fields">
                                         <div class="field" style="margin-top:20px;" >
                                             <div class="ui pointing below label">
                                                 The amount of time before a TCP state is allowed to be idle
                                             </div>
-                                            <input type="text" placeholder="TCP state timeout..." name="tcptimeout">
+                                            <input type="text" placeholder="TCP state timeout..." name="tcptimeout" id="ctcptimeout">
                                         </div>
 
                                         <div class="field" style="margin-top:20px;" >
                                             <div class="ui pointing below label">
                                                 The amount of time before a criteria instance is allowed to be idle
                                             </div>
-                                            <input type="text" placeholder="Criteria instance timeout..." name="criteriatimeout">
+                                            <input type="text" placeholder="Criteria instance timeout..." name="criteriatimeout" id="ccriteriatimeout">
                                         </div>
                                     </div>
 
@@ -685,17 +685,24 @@
                                         <div class="ui pointing below label">
                                             The port to listen for control messages during deployment
                                         </div>
-                                        <input type="text" placeholder="Control message port number..." name="controlport">
+                                        <input type="text" placeholder="Control message port number..." name="controlport" id="ccontrolport">
                                     </div>
 
                                     <div class="ui selection dropdown">
-                                        <input name="confinterface" type="hidden">
+                                        <input name="confinterface" type="hidden" id="cconfinterface">
                                         <label>Protected Interface:</label>
                                         <div class="text">Select</div>
                                         <i class="dropdown icon"></i>
-                                        <div class="menu">
-                                            <div class="item" data-value="option1">Interface 1</div>
-                                            <div class="item" data-value="option2">Interface 2</div>
+                                        <div class="menu" id="dgdropdown">
+                                            <%
+                                                int i2 = 0;
+                                                while ((String) request.getAttribute("iface" + i2) != null) {
+                                            %>
+                                            <div class="item" value="<%=(String) request.getAttribute("iface" + i2)%>"><%=(String) request.getAttribute("iface" + i2)%></div>
+                                            <%
+                                                    i2++;
+                                                }
+                                            %>
                                         </div>
                                     </div>
 
@@ -729,7 +736,7 @@
                                         </div>
                                     </div>
 
-                                </form>
+                                </div>
 
                             </div>
                         </div>
