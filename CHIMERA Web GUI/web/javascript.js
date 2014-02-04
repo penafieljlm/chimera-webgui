@@ -1,3 +1,26 @@
+function initialize() {
+    $.get('DataGathering', function(responseText) { 
+        if(responseText != "No task is running"){
+            $("#datagatherform").remove();
+            $("#dgheaderchange").text("Data Gathering is currently ongoing...");
+            $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
+
+            $.get('DataGathering', function(responseText) { 
+                $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: " + responseText + "</p>");         
+            });
+            setInterval(function() { 
+                if (true) {
+                    $.get('DataGathering', function(responseText) { 
+                        $('#dginstance').text("Number of instances gathered: " + responseText);        
+                    });
+                    i++;
+                }
+            }, 500);
+            $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+        }
+    });
+}
+
 function submitDataGatheringForm() {
     var formData = {
         outputfile: $('#dgoutputfile').val(),
@@ -17,25 +40,23 @@ function submitDataGatheringForm() {
     });
 }
 
-// Handle post response
 function onDataGatheringFormSubmitted(response) {
     $('#dgstartdimmer').dimmer('toggle');
     $("#datagatherform").remove();
     $("#dgheaderchange").text("Data Gathering is currently ongoing...");
     $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
 
-    $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-        $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: " + responseText + "</p>");         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+    $.get('DataGathering', function(responseText) { 
+        $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: " + responseText + "</p>");         
     });
-    var i = 0;
-    setInterval(function() { // this code is executed every 500 milliseconds:
-        if (i < 100) {
-            $.get('DataGathering', function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-                $('#dginstance').text("Number of instances gathered: " + responseText);         // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+    setInterval(function() { 
+        if (true) {
+            $.get('DataGathering', function(responseText) { 
+                $('#dginstance').text("Number of instances gathered: " + responseText);        
             });
             i++;
         }
-    }, 1000);
+    }, 500);
     $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
 }
 
@@ -56,7 +77,6 @@ function submitTrainingForm() {
     });
 }
 
-// Handle post response
 function onTrainingFormSubmitted(response) {
     $('#tstartdimmer').dimmer('toggle');
     $("#trainingform").remove();

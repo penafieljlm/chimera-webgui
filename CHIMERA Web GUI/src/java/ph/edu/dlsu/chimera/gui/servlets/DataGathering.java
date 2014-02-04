@@ -74,11 +74,11 @@ public class DataGathering extends HttpServlet {
 
                 //run task
                 task.start();
-            }
-            else if (request.getParameter("action").equals("stop")) {
+            } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskGather) {
                         Chimera.cquit();
+                        Task.setTask(null);
                     }
                 }
             }

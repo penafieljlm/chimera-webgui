@@ -4,8 +4,6 @@
  */
 package ph.edu.dlsu.chimera.gui.tasks;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
 

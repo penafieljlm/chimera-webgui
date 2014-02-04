@@ -18,6 +18,12 @@
         <script src="packaged/javascript/semantic.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="javascript.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+                initialize();
+            });
+        </script>
 
         <script>
             $(document).ready(function() {
@@ -334,7 +340,7 @@
                                                 int i = 0;
                                                 while ((String) request.getAttribute("iface" + i) != null) {
                                             %>
-                                            <div class="item" value="<%=(String) request.getAttribute("iface" + i)%>"><%=(String) request.getAttribute("iface" + i)%></div>
+                                            <div class="item" data-value="<%=(String) request.getAttribute("iface" + i)%>"><%=(String) request.getAttribute("iface" + i)%></div>
                                             <%
                                                     i++;
                                                 }
@@ -698,7 +704,7 @@
                                                 int i2 = 0;
                                                 while ((String) request.getAttribute("iface" + i2) != null) {
                                             %>
-                                            <div class="item" value="<%=(String) request.getAttribute("iface" + i2)%>"><%=(String) request.getAttribute("iface" + i2)%></div>
+                                            <div class="item" data-value="<%=(String) request.getAttribute("iface" + i2)%>"><%=(String) request.getAttribute("iface" + i2)%></div>
                                             <%
                                                     i2++;
                                                 }
