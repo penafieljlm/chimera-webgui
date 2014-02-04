@@ -70,7 +70,7 @@
                                 prompt: 'Please select a training file'
                             },
                             {
-                                type: 'contains[.csv]',
+                                type: 'length[1]',
                                 prompt: 'Training file should be in .csv format'
                             }
                         ]
@@ -441,7 +441,7 @@
 
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
                                         <input type="checkbox" name="packetfilterswitch" id="dgpacketfilterswitch">
-                                        <label>Allow</label>
+                                        <label>Allow packet filter switch</label>
                                     </div>
 
                                     <div style="margin-top:20px;">

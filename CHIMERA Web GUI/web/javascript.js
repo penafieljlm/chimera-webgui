@@ -16,7 +16,22 @@ function initialize() {
                     i++;
                 }
             }, 500);
-            $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+            $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
+        }
+    });
+}
+
+function submitDataGatheringFormStop() {
+    var formData = {
+        action: 'stop'
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: 'DataGathering',
+        data: formData,
+        success: function() {
+            window.location.reload(true);
         }
     });
 }
@@ -57,7 +72,7 @@ function onDataGatheringFormSubmitted(response) {
             i++;
         }
     }, 500);
-    $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+    $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
 }
 
 function submitTrainingForm() {
