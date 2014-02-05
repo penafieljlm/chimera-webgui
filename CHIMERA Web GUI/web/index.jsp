@@ -22,6 +22,27 @@
         <script>
             $(document).ready(function() {
                 initialize();
+
+                $('#dgbrowseseen').click(function() {
+                    $('#dgbrowse').click();
+                });
+                $('#dgbrowse').on('change', function() {
+                    $('#dgoutputfile').val($('#dgbrowse').val());
+                });
+                
+                $('#tbrowseseen').click(function() {
+                    $('#tbrowse').click();
+                });
+                $('#tbrowse').on('change', function() {
+                    $('#ttrainingfile').val($('#tbrowse').val());
+                });
+                
+                $('#pbrowseseen').click(function() {
+                    $('#pbrowse').click();
+                });
+                $('#pbrowse').on('change', function() {
+                    $('#pmodelfile').val($('#pbrowse').val());
+                });
             });
         </script>
 
@@ -317,16 +338,19 @@
 
                                 <h4 class="ui header" id="dgheaderchange">Data Gathering Settings</h4>
                                 <div id="dghidden"></div>
+                                
+                                <!--<input type="file" id="dgbrowse" style="visibility:hidden;">-->
 
                                 <div class="ui form" id="datagatherform" action="DataGathering" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="field">
-                                        <div class="ui fluid labeled input">
+                                        <div class="ui fluid labeled action input">
                                             <div class="ui corner label">
                                                 <i class="icon asterisk"></i>
                                             </div>
-                                            <input type="text" placeholder="Output file name..." name="outputfile" id="dgoutputfile">
+                                            <input type="text" placeholder="Save location and output file name..." name="outputfile" id="dgoutputfile">
+                                            <!--<div class="ui button" id="dgbrowseseen">Browse</div>-->
                                         </div>
                                     </div>
 
@@ -491,6 +515,8 @@
 
                                 <h4 class="ui header" id="theaderchange">Training Settings</h4>
                                 <div id="thidden"></div>
+                                
+                                <input type="file" id="tbrowse" style="visibility:hidden;">
 
                                 <div class="ui form" id="trainingform" action="Training" method="post">
                                     <div class="ui error message"></div>
@@ -504,7 +530,7 @@
                                                 <i class="icon asterisk"></i>
                                             </div>
                                             <input type="text" placeholder="Choose training file..." name="trainingfile" id="ttrainingfile">
-                                            <div class="ui button">Browse</div>
+                                            <div class="ui button" id="tbrowseseen">Browse</div>
                                         </div>
                                     </div>
 
@@ -601,6 +627,8 @@
                                 <h4 class="ui header" id="pheaderchange">Production Settings</h4>
                                 <div id="phidden"></div>
 
+                                <input type="file" id="pbrowse" style="visibility:hidden;">
+
                                 <div class="ui form" id="productionform" action="Production" method="post">
                                     <div class="ui error message"></div>
 
@@ -614,7 +642,7 @@
                                                 <i class="icon asterisk"></i>
                                             </div>
                                             <input type="text" placeholder="Choose model file..." name="modelfile" id="pmodelfile">
-                                            <div class="ui button">Browse</div>
+                                            <div class="ui button" id="pbrowseseen">Browse</div>
                                         </div>
                                     </div>
 
