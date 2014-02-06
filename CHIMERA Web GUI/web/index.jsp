@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<jsp:include page="/Init" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -804,13 +804,6 @@
                                                 <div class="content">
                                                     <a class="header">Hardware Address</a>
                                                     <div class="description"><%=(String) request.getAttribute("ifacehard" + n)%></div>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <i class="fork code icon"></i>
-                                                <div class="content">
-                                                    <a class="header">Interface Address</a>
-                                                    <div class="description">Is this your address?</div>
                                                 </div>
                                             </div>
                                             <div class="item">
