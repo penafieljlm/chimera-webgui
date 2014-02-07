@@ -52,13 +52,13 @@ public class DataGathering extends HttpServlet {
                     _access = request.getParameter("packetfilter");
                 }
                 if (request.getParameter("packetfilterswitch") != null) {
-                    _allow = !request.getParameter("packetfilterswitch").isEmpty();
+                    _allow = request.getParameter("packetfilterswitch").equals("on");
                 }
                 if (request.getParameter("trainingfilter") != null) {
                     _training = request.getParameter("trainingfilter");
                 }
                 if (request.getParameter("attackswitch") != null) {
-                    _attack = !request.getParameter("attackswitch").isEmpty();
+                    _attack = request.getParameter("attackswitch").equals("on");
                 }
 
                 //create monitor

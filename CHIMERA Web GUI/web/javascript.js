@@ -46,7 +46,7 @@ function submitDataGatheringForm() {
         attackswitch: $('#dgattackswitch').val(),
         action: 'start'
     };
-
+alert($('#dgpacketfilterswitch').val() + ' ' + $('#dgattackswitch').val());
     $.ajax({
         type: 'POST',
         url: 'DataGathering',

@@ -43,6 +43,18 @@
                 $('#pbrowse').on('change', function() {
                     $('#pmodelfile').val($('#pbrowse').val());
                 });
+                
+                $('#dgpacketfilterswitch').val('off');
+                $('#dgpacketfilterswitchcb').checkbox({
+                        'onEnable': function() {$('#dgpacketfilterswitch').val('on')},
+                        'onDisable': function() {$('#dgpacketfilterswitch').val('off')},
+                });
+                
+                $('#dgattackswitch').val('off');
+                $('#dgattackswitchcb').checkbox({
+                        'onEnable': function() {$('#dgattackswitch').val('on')},
+                        'onDisable': function() {$('#dgattackswitch').val('off')},
+                });
             });
         </script>
 
@@ -415,7 +427,7 @@
                                         <textarea name="trainingfilter" id="dgtrainingfilter"></textarea>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgattackswitchcb">
                                         <input type="checkbox" name="attackswitch" id="dgattackswitch">
                                         <label>Mark traffic as attack</label>
                                     </div>
@@ -463,7 +475,7 @@
                                         <textarea name="packetfilter" id="dgpacketfilter"></textarea>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgpacketfilterswitchcb">
                                         <input type="checkbox" name="packetfilterswitch" id="dgpacketfilterswitch">
                                         <label>Allow packet filter switch</label>
                                     </div>
