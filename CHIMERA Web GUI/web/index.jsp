@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="/Init" />
+<jsp:include page="/ServletInitialize" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -381,7 +381,7 @@
 
                                 <!--<input type="file" id="dgbrowse" style="visibility:hidden;">-->
 
-                                <div class="ui form" id="datagatherform" action="DataGathering" method="post">
+                                <div class="ui form" id="datagatherform" action="ServletGathering" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="field">
@@ -558,7 +558,7 @@
 
                                 <input type="file" id="tbrowse" style="visibility:hidden;">
 
-                                <div class="ui form" id="trainingform" action="Training" method="post">
+                                <div class="ui form" id="trainingform" action="ServletTraining" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="field">
@@ -669,7 +669,7 @@
 
                                 <input type="file" id="pbrowse" style="visibility:hidden;">
 
-                                <div class="ui form" id="productionform" action="Production" method="post">
+                                <div class="ui form" id="productionform" action="ServletProduction" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="ui pointing below label">
@@ -742,7 +742,7 @@
 
                                 <h4 class="ui header">Parameters</h4>
 
-                                <div class="ui form" id="configurationform" action="Configuration" method="post">
+                                <div class="ui form" id="configurationform" action="ServletConfig" method="post">
                                     <div class="two fields">
                                         <div class="field" style="margin-top:20px;" >
                                             <div class="ui pointing below label">
@@ -957,7 +957,7 @@
                                 </div>
 
                                 <div class="ui right overlay very wide floating sidebar" id="uside">
-                                    <form class="ui form" id="adduserform" action="AddUser" method="post" style="margin:20px;">
+                                    <form class="ui form" id="adduserform" action="ServletUsers" method="post" style="margin:20px;">
 
                                         <div class="ui error message"></div>
                                         <div class="two fields">

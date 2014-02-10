@@ -8,6 +8,7 @@ package ph.edu.dlsu.chimera.gui.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,8 @@ import ph.edu.dlsu.chimera.core.nic.NicData;
  *
  * @author User
  */
-public class Init extends HttpServlet {
+@WebServlet(name = "ServletInitialize", urlPatterns = {"/ServletInitialize"})
+public class ServletInitialize extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,11 +67,9 @@ public class Init extends HttpServlet {
                     request.setAttribute("ifaceip" + i, (n.addresses.size() > 0) ? n.addresses.get(0).address : "none");
                     request.setAttribute("ifacesubnet" + i, (n.addresses.size() > 0) ? n.addresses.get(0).netmask : "none");
 
-                    System.out.println("iface" + i + "=" + n.name);
                     i++;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
             }
 
             System.out.println("wiw");

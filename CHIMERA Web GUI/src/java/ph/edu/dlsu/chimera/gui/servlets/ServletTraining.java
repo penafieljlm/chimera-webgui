@@ -20,8 +20,8 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
  *
  * @author Emerson Chua
  */
-@WebServlet(name = "Training", urlPatterns = {"/Training"})
-public class Training extends HttpServlet {
+@WebServlet(name = "ServletTraining", urlPatterns = {"/ServletTraining"})
+public class ServletTraining extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -62,6 +62,7 @@ public class Training extends HttpServlet {
                 _monitor = new PhaseMonitorTraining(200) {
                     @Override
                     protected void update() {
+                        System.out.println((int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus());
                     }
                 };
 
@@ -74,8 +75,7 @@ public class Training extends HttpServlet {
             } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskTraining) {
-                        Chimera.cquit();
-                        Task.setTask(null);
+                        Task.terminateTask();
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class Training extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskTraining) ? "Training..." : "Running task is not Training" : "No task is running";
+        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskTraining) ? "[" + String.format("%03d", (int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100)) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus() : "Running task is not Training" : "No task is running";
 
         response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
         response.setCharacterEncoding("UTF-8"); // You want world domination, huh?

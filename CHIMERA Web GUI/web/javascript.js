@@ -1,22 +1,22 @@
 function initialize() {
-    $.get('DataGathering', function(responseText) { 
+    $.get('ServletGathering', function(responseText) { 
         if(responseText != "No task is running"){
             $("#datagatherform").remove();
             $("#dgheaderchange").text("Data Gathering is currently ongoing...");
             $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
 
-            $.get('DataGathering', function(responseText) { 
-                $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: " + responseText + "</p>");         
+            $.get('ServletGathering', function(responseText) { 
+                $('#dgprogress').append("<p id='dginstance'>" + responseText + "</p>");         
             });
             setInterval(function() { 
                 if (true) {
-                    $.get('DataGathering', function(responseText) { 
-                        $('#dginstance').text("Number of instances gathered: " + responseText);        
+                    $.get('ServletGathering', function(responseText) { 
+                        $('#dginstance').text(responseText);        
                     });
                     i++;
                 }
             }, 500);
-            $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
+            $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='ServletGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
         }
     });
 }
@@ -28,7 +28,7 @@ function submitDataGatheringFormStop() {
 
     $.ajax({
         type: 'POST',
-        url: 'DataGathering',
+        url: 'ServletGathering',
         data: formData,
         success: function() {
             window.location.reload(true);
@@ -49,7 +49,7 @@ function submitDataGatheringForm() {
     
     $.ajax({
         type: 'POST',
-        url: 'DataGathering',
+        url: 'ServletGathering',
         data: formData,
         success: onDataGatheringFormSubmitted
     });
@@ -61,18 +61,18 @@ function onDataGatheringFormSubmitted(response) {
     $("#dgheaderchange").text("Data Gathering is currently ongoing...");
     $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
 
-    $.get('DataGathering', function(responseText) { 
-        $('#dgprogress').append("<p id='dginstance'>Number of instances gathered: " + responseText + "</p>");         
+    $.get('ServletGathering', function(responseText) { 
+        $('#dgprogress').append("<p id='dginstance'>" + responseText + "</p>");         
     });
     setInterval(function() { 
         if (true) {
-            $.get('DataGathering', function(responseText) { 
-                $('#dginstance').text("Number of instances gathered: " + responseText);        
+            $.get('ServletGathering', function(responseText) { 
+                $('#dginstance').text(responseText);        
             });
             i++;
         }
     }, 500);
-    $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='DataGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
+    $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='ServletGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
 }
 
 function submitTrainingForm() {
@@ -86,7 +86,7 @@ function submitTrainingForm() {
 
     $.ajax({
         type: 'POST',
-        url: 'Training',
+        url: 'ServletTraining',
         data: formData,
         success: onTrainingFormSubmitted
     });
@@ -97,10 +97,18 @@ function onTrainingFormSubmitted(response) {
     $("#trainingform").remove();
     $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
     $("#theaderchange").text("Training is currently ongoing...");
-    $.get('Training', function(responseText) { 
+    $.get('ServletTraining', function(responseText) { 
         $('#tprogress').append("<p id='tresponse'>"+responseText+"</p>");         
     });
-    $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='Training' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+    setInterval(function() { 
+        if (true) {
+            $.get('ServletTraining', function(responseText) { 
+                $('#tresponse').text(responseText);
+            });
+            i++;
+        }
+    }, 500);
+    $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='ServletTraining' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
 }
 
 function submitProductionForm() {
@@ -114,7 +122,7 @@ function submitProductionForm() {
 
     $.ajax({
         type: 'POST',
-        url: 'Production',
+        url: 'ServletProduction',
         data: formData,
         success: onProductionFormSubmitted
     });
@@ -126,7 +134,7 @@ function onProductionFormSubmitted(response) {
     $("#productionform").remove();
     $("#pheaderchange").text("Production is currently ongoing...");
     $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
-    $("#pcolumn").append("<div class='ui form' id='productionformstop' action='Production' method='post'><div style='margin-top:20px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+    $("#pcolumn").append("<div class='ui form' id='productionformstop' action='ServletProduction' method='post'><div style='margin-top:20px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
 }
 
 function submitConfigurationForm() {
@@ -140,7 +148,7 @@ function submitConfigurationForm() {
 
     $.ajax({
         type: 'POST',
-        url: 'Configuration',
+        url: 'ServletConfig',
         data: formData,
         success: onConfigurationFormSubmitted
     });

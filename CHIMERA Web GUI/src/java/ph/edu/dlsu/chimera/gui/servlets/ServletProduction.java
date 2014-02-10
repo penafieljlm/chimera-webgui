@@ -21,8 +21,8 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
  *
  * @author Emerson Chua
  */
-@WebServlet(name = "Production", urlPatterns = {"/Production"})
-public class Production extends HttpServlet {
+@WebServlet(name = "ServletProduction", urlPatterns = {"/ServletProduction"})
+public class ServletProduction extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -78,8 +78,7 @@ public class Production extends HttpServlet {
             } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskProduction) {
-                        Chimera.cquit();
-                        Task.setTask(null);
+                        Task.terminateTask();
                     }
                 }
             }
