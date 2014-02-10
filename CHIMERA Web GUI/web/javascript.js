@@ -28,7 +28,7 @@ function submitDataGatheringFormStop() {
 
     $.ajax({
         type: 'POST',
-        url: 'ServletGathering',
+        url: ServletGathering,
         data: formData,
         success: function() {
             window.location.reload(true);
@@ -38,7 +38,6 @@ function submitDataGatheringFormStop() {
 
 function submitDataGatheringForm() {
     var formData = {
-        outputfile: $('#dgoutputfile').val(),
         interface: $('#dginterface').val(),
         packetfilter: $('#dgpacketfilter').val(),
         packetfilterswitch: $('#dgpacketfilterswitch').val(),
@@ -75,6 +74,21 @@ function onDataGatheringFormSubmitted(response) {
     $("#dgcolumn").append("<div class='ui form' id='datagatherformstop' action='ServletGathering' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()' name='action' value='stop'>Stop</a></div>");
 }
 
+function submitTrainingFormStop() {
+    var formData = {
+        action: 'stop'
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: ServletTraining,
+        data: formData,
+        success: function() {
+            window.location.reload(true);
+        }
+    });
+}
+
 function submitTrainingForm() {
     var formData = {
         trainingfile: $('#ttrainingfile').val(),
@@ -108,7 +122,7 @@ function onTrainingFormSubmitted(response) {
             i++;
         }
     }, 500);
-    $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='ServletTraining' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+    $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='ServletTraining' method='post'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitTrainingFormStop()' name='action' value='stop'>Stop</a></div>");
 }
 
 function submitProductionForm() {

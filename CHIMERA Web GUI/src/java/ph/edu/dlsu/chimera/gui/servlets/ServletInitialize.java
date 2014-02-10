@@ -57,8 +57,6 @@ public class ServletInitialize extends HttpServlet {
         try {
             NicData[] ifaces = Chimera.cifaces();
             int i = 0;
-
-            System.out.println(ifaces.length);
             try {
                 for (NicData n : ifaces) {
                     request.setAttribute("iface" + i, n.name);
@@ -71,8 +69,6 @@ public class ServletInitialize extends HttpServlet {
                 }
             } catch (Exception e) {
             }
-
-            System.out.println("wiw");
 
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?

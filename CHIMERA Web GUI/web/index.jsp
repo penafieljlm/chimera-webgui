@@ -89,15 +89,6 @@
         <script>
             $(document).ready(function() {
                 var rules = {
-                    outputfile: {
-                        identifier: 'outputfile',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Please select an output file'
-                            }
-                        ]
-                    },
                     interface: {
                         identifier: 'interface',
                         rules: [
@@ -383,16 +374,6 @@
 
                                 <div class="ui form" id="datagatherform" action="ServletGathering" method="post">
                                     <div class="ui error message"></div>
-
-                                    <div class="field">
-                                        <div class="ui fluid labeled action input">
-                                            <div class="ui corner label">
-                                                <i class="icon asterisk"></i>
-                                            </div>
-                                            <input type="text" placeholder="Save location and output file name..." name="outputfile" id="dgoutputfile">
-                                            <!--<div class="ui button" id="dgbrowseseen">Browse</div>-->
-                                        </div>
-                                    </div>
 
                                     <div style="margin-top:20px;" class="ui selection dropdown">
                                         <input name="interface" id="dginterface" type="hidden">
