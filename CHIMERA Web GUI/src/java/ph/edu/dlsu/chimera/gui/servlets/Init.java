@@ -54,18 +54,25 @@ public class Init extends HttpServlet {
             throws ServletException, IOException {
         try {
             NicData[] ifaces = Chimera.cifaces();
-            StringBuilder sb = new StringBuilder();
             int i = 0;
 
-            for (NicData n : ifaces) {
-                sb = sb.append(n.name).append(";");
-                request.setAttribute("iface"+i, n.name);
-                request.setAttribute("ifacedesc"+i, n.description);
-                request.setAttribute("ifacehard"+i, n.hardwareAddress);
-                request.setAttribute("ifaceip"+i, n.addresses.get(1).address);
-                request.setAttribute("ifacesubnet"+i, n.addresses.get(1).netmask);
-                i++;
+            System.out.println(ifaces.length);
+            try {
+                for (NicData n : ifaces) {
+                    request.setAttribute("iface" + i, n.name);
+                    request.setAttribute("ifacedesc" + i, n.description);
+                    request.setAttribute("ifacehard" + i, n.hardwareAddress);
+                    request.setAttribute("ifaceip" + i, (n.addresses.size() > 0) ? n.addresses.get(0).address : "none");
+                    request.setAttribute("ifacesubnet" + i, (n.addresses.size() > 0) ? n.addresses.get(0).netmask : "none");
+
+                    System.out.println("iface" + i + "=" + n.name);
+                    i++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            System.out.println("wiw");
 
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?

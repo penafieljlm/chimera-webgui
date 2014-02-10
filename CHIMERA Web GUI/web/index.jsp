@@ -18,7 +18,7 @@
         <script src="packaged/javascript/semantic.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="javascript.js"></script>
-        
+
         <script>
             $(document).ready(function() {
                 initialize();
@@ -29,31 +29,59 @@
                 $('#dgbrowse').on('change', function() {
                     $('#dgoutputfile').val($('#dgbrowse').val());
                 });
-                
+
                 $('#tbrowseseen').click(function() {
                     $('#tbrowse').click();
                 });
                 $('#tbrowse').on('change', function() {
                     $('#ttrainingfile').val($('#tbrowse').val());
                 });
-                
+
                 $('#pbrowseseen').click(function() {
                     $('#pbrowse').click();
                 });
                 $('#pbrowse').on('change', function() {
                     $('#pmodelfile').val($('#pbrowse').val());
                 });
-                
+
                 $('#dgpacketfilterswitch').val('off');
                 $('#dgpacketfilterswitchcb').checkbox({
-                        'onEnable': function() {$('#dgpacketfilterswitch').val('on')},
-                        'onDisable': function() {$('#dgpacketfilterswitch').val('off')},
+                    'onEnable': function() {
+                        $('#dgpacketfilterswitch').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#dgpacketfilterswitch').val('off')
+                    },
                 });
-                
+
                 $('#dgattackswitch').val('off');
                 $('#dgattackswitchcb').checkbox({
-                        'onEnable': function() {$('#dgattackswitch').val('on')},
-                        'onDisable': function() {$('#dgattackswitch').val('off')},
+                    'onEnable': function() {
+                        $('#dgattackswitch').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#dgattackswitch').val('off')
+                    },
+                });
+                
+                $('#texclude').val('off');
+                $('#texcludecb').checkbox({
+                    'onEnable': function() {
+                        $('#texclude').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#texclude').val('off')
+                    },
+                });
+                
+                $('#pfirewall').val('off');
+                $('#pfirewallcb').checkbox({
+                    'onEnable': function() {
+                        $('#pfirewall').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#pfirewall').val('off')
+                    },
                 });
             });
         </script>
@@ -350,7 +378,7 @@
 
                                 <h4 class="ui header" id="dgheaderchange">Data Gathering Settings</h4>
                                 <div id="dghidden"></div>
-                                
+
                                 <!--<input type="file" id="dgbrowse" style="visibility:hidden;">-->
 
                                 <div class="ui form" id="datagatherform" action="DataGathering" method="post">
@@ -527,7 +555,7 @@
 
                                 <h4 class="ui header" id="theaderchange">Training Settings</h4>
                                 <div id="thidden"></div>
-                                
+
                                 <input type="file" id="tbrowse" style="visibility:hidden;">
 
                                 <div class="ui form" id="trainingform" action="Training" method="post">
@@ -591,7 +619,7 @@
                                         <textarea name="filter" id="tfilter"></textarea>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="texcludecb">
                                         <input type="checkbox" name="exclude" id="texclude">
                                         <label>Exlude</label>
                                     </div>
@@ -662,7 +690,11 @@
                                         <input type="text" placeholder="Specify syslog server address..." name="syslog" id="psyslog">
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox">
+                                    <div class="field" style="margin-top:20px;" >
+                                        <input type="text" placeholder="Specify syslog server port..." name="syslogport" id="psyslogport">
+                                    </div>
+
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="pfirewallcb">
                                         <input type="checkbox" name="firewall" id="pfirewall">
                                         <label>Create firewall rules</label>
                                     </div>

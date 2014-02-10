@@ -32,10 +32,8 @@ public class TaskGather extends Task {
     }
 
     @Override
-    public void run() {
-        try {
-            Chimera.cgather(this.monitor, this.output, this.protectedIface, this.access, this.allow, this.training, this.attack);
-        } catch (Exception ex) {
-        }
+    protected void doTask() throws Exception {
+        Chimera.cgather(this.monitor, this.output, this.protectedIface, this.access, this.allow, this.training, this.attack);
     }
+
 }

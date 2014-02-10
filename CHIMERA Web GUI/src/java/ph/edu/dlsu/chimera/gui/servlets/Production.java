@@ -11,6 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.Chimera;
+import ph.edu.dlsu.chimera.gui.tasks.Task;
+import ph.edu.dlsu.chimera.gui.tasks.TaskGather;
+import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
+import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
+import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
 
 /**
@@ -21,9 +27,8 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
 public class Production extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -35,31 +40,59 @@ public class Production extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String _input = null;
-            String _syslog = null;
-            boolean _active = false;
-            PhaseMonitorProduction _monitor = null;
+            if (request.getParameter("action").equals("start")) {
+                String _input = null;
+                String _syslog = null;
+                String _syslogport = null;
+                boolean _active = false;
+                PhaseMonitorProduction _monitor = null;
 
-            if (request.getParameter("modelfile") != null) {
-                _input = request.getParameter("modelfile");
+                if (request.getParameter("modelfile") != null) {
+                    _input = request.getParameter("modelfile");
+                }
+
+                if (request.getParameter("syslog") != null) {
+                    _syslog = request.getParameter("syslog");
+                }
+                
+                if (request.getParameter("syslog") != null) {
+                    _syslogport = request.getParameter("syslogport");
+                }
+
+                if (request.getParameter("firewall") != null) {
+                    _active = request.getParameter("firewall").equals("on");
+                }
+
+                //create monitor
+                _monitor = new PhaseMonitorProduction(200) {
+                    @Override
+                    protected void update() {
+                    }
+                };
+
+                //create task
+                Task task = new TaskProduction(_input, _syslog, Integer.parseInt(_syslogport), _active, _monitor);
+                Task.setTask(task);
+
+                //run task
+                task.start();
+            } else if (request.getParameter("action").equals("stop")) {
+                if (Task.getTask() != null) {
+                    if (Task.getTask() instanceof TaskProduction) {
+                        Chimera.cquit();
+                        Task.setTask(null);
+                    }
+                }
             }
-            
-            if (request.getParameter("syslog") != null) {
-                _syslog = request.getParameter("syslog");
-            }
-            
-            if (request.getParameter("firewall") != null) {
-                _active = !request.getParameter("firewall").isEmpty();
-            }
-        } finally {            
+        } catch (Exception ex) {
+        } finally {
             out.close();
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -69,16 +102,15 @@ public class Production extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text = "servletresponse";
+        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskTraining) ? "In Production..." : "Running task is not Production" : "No task is running";
 
         response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
         response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-        response.getWriter().write(text); 
+        response.getWriter().write(text);
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

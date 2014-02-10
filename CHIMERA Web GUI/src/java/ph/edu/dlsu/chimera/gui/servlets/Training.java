@@ -11,6 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.Chimera;
+import ph.edu.dlsu.chimera.gui.tasks.Task;
+import ph.edu.dlsu.chimera.gui.tasks.TaskGather;
+import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 
 /**
  *
@@ -20,9 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Training extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -34,33 +37,49 @@ public class Training extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String _input = null;
-            String _output = null;
-            String _filter = null;
-            boolean _exclude = false;
+            if (request.getParameter("action").equals("start")) {
+                String _input = null;
+                String _output = null;
+                String _filter = null;
+                boolean _exclude = false;
 
-            if (request.getParameter("trainingfile") != null) {
-                _input = request.getParameter("trainingfile");
+                if (request.getParameter("trainingfile") != null) {
+                    _input = request.getParameter("trainingfile");
+                }
+                if (request.getParameter("outputfile") != null) {
+                    _output = request.getParameter("outputfile");
+                }
+                if (request.getParameter("filter") != null) {
+                    _filter = request.getParameter("filter");
+                }
+                if (request.getParameter("exlude") != null) {
+                    _exclude = request.getParameter("exclude").equals("on");
+                }
+
+                //create task
+                Task task = new TaskTraining(_input, _output, _filter, _exclude);
+                Task.setTask(task);
+
+                //run task
+                task.start();
+            } else if (request.getParameter("action").equals("stop")) {
+                if (Task.getTask() != null) {
+                    if (Task.getTask() instanceof TaskTraining) {
+                        Chimera.cquit();
+                        Task.setTask(null);
+                    }
+                }
             }
-            if (request.getParameter("outputfile") != null) {
-                _output = request.getParameter("outputfile");
-            }
-            if (request.getParameter("filter") != null) {
-                _filter = request.getParameter("filter");
-            }
-            if (request.getParameter("exlude") != null) {
-                _exclude = !request.getParameter("exclude").isEmpty();
-            }
-            
-        } finally {            
+
+        } catch (Exception ex) {
+        } finally {
             out.close();
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -70,16 +89,15 @@ public class Training extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text = "servletresponse";
+        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskTraining) ? "Training..." : "Running task is not Training" : "No task is running";
 
         response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
         response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-        response.getWriter().write(text); 
+        response.getWriter().write(text);
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

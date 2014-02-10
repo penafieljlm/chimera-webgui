@@ -46,7 +46,7 @@ function submitDataGatheringForm() {
         attackswitch: $('#dgattackswitch').val(),
         action: 'start'
     };
-alert($('#dgpacketfilterswitch').val() + ' ' + $('#dgattackswitch').val());
+    
     $.ajax({
         type: 'POST',
         url: 'DataGathering',
@@ -95,15 +95,19 @@ function submitTrainingForm() {
 function onTrainingFormSubmitted(response) {
     $('#tstartdimmer').dimmer('toggle');
     $("#trainingform").remove();
-    $("#tcolumn").append("<div class='ui active striped progress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
     $("#theaderchange").text("Training is currently ongoing...");
-    $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='Training' method='post'><div style='margin-top:20px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
+    $.get('Training', function(responseText) { 
+        $('#tprogress').append("<p id='tresponse'>"+responseText+"</p>");         
+    });
+    $("#tcolumn").append("<div class='ui form' id='trainingformstop' action='Training' method='post'><div style='margin-top:50px;'><a class='ui red submit button' name='action' value='stop'>Stop</a></div>");
 }
 
 function submitProductionForm() {
     var formData = {
         modelfile: $('#pmodelfile').val(),
         syslog: $('#psyslog').val(),
+        syslogport: $('#psyslogport').val(),
         firewall: $('#pfirewall').val(),
         action: 'start'
     };

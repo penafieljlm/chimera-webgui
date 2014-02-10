@@ -83,7 +83,6 @@ public class DataGathering extends HttpServlet {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(DataGathering.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
