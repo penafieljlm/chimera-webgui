@@ -49,7 +49,27 @@
                 $('#pbrowse').on('change', function() {
                     $('#pmodelfile').val($('#pbrowse').val());
                 });
-
+                
+                $('#dgenabletrainingfilter').val('off');
+                $('#dgenabletrainingfiltercb').checkbox({
+                    'onEnable': function() {
+                        $('#dgenabletrainingfilter').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#dgenabletrainingfilter').val('off')
+                    }
+                });
+                
+                $('#dgenablepacketfilter').val('off');
+                $('#dgenablepacketfiltercb').checkbox({
+                    'onEnable': function() {
+                        $('#dgenablepacketfilter').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#dgenablepacketfilter').val('off')
+                    }
+                });
+                
                 $('#dgpacketfilterswitch').val('off');
                 $('#dgpacketfilterswitchcb').checkbox({
                     'onEnable': function() {
@@ -438,7 +458,12 @@
                                     <div style="margin-top:20px;display:block;" class="field">
                                         <textarea name="trainingfilter" id="dgtrainingfilter"></textarea>
                                     </div>
-
+                                    
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgenabletrainingfiltercb">
+                                        <input type="checkbox" name="enabletrainingfilter" id="dgenabletrainingfilter">
+                                        <label>Enable training filter</label>
+                                    </div>
+                                    
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgattackswitchcb">
                                         <input type="checkbox" name="attackswitch" id="dgattackswitch">
                                         <label>Mark traffic as attack</label>
@@ -486,7 +511,12 @@
                                     <div style="margin-top:20px;display:block;" class="field">
                                         <textarea name="packetfilter" id="dgpacketfilter"></textarea>
                                     </div>
-
+                                    
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgenablepacketfiltercb">
+                                        <input type="checkbox" name="enablepacketfilter" id="dgenablepacketfilter">
+                                        <label>Enable packet filter</label>
+                                    </div>
+                                    
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgpacketfilterswitchcb">
                                         <input type="checkbox" name="packetfilterswitch" id="dgpacketfilterswitch">
                                         <label>Allow packet filter switch</label>
@@ -554,10 +584,6 @@
                                             <input type="text" placeholder="Choose training file..." name="trainingfile" id="ttrainingfile">
                                             <div class="ui button" id="tbrowseseen">Browse</div>
                                         </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <input type="text" placeholder="Output file name..." name="outputfile" id="toutputfile">
                                     </div>
 
                                     <div class="ui message">

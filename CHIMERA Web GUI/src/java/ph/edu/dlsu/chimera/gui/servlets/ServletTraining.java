@@ -6,6 +6,9 @@ package ph.edu.dlsu.chimera.gui.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,11 +48,11 @@ public class ServletTraining extends HttpServlet {
                 String _filter = null;
                 boolean _exclude = false;
 
+                DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+                Date date = new Date();
+                _output = dateFormat.format(date);
                 if (request.getParameter("trainingfile") != null) {
                     _input = request.getParameter("trainingfile");
-                }
-                if (request.getParameter("outputfile") != null) {
-                    _output = request.getParameter("outputfile");
                 }
                 if (request.getParameter("filter") != null) {
                     _filter = request.getParameter("filter");

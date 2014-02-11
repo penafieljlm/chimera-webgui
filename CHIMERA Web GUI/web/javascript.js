@@ -79,9 +79,9 @@ function submitDataGatheringFormStop() {
 function submitDataGatheringForm() {
     var formData = {
         interface: $('#dginterface').val(),
-        packetfilter: $('#dgpacketfilter').val(),
+        packetfilter: ($('#dgenablepacketfilter').val()=='on') ? $('#dgpacketfilter').val() : null,
         packetfilterswitch: $('#dgpacketfilterswitch').val(),
-        trainingfilter: $('#dgtrainingfilter').val(),
+        trainingfilter: ($('#dgenabletrainingfilter').val()=='on') ? $('#dgtrainingfilter').val() : null,
         attackswitch: $('#dgattackswitch').val(),
         action: 'start'
     };
@@ -137,7 +137,6 @@ function submitTrainingFormStop() {
 function submitTrainingForm() {
     var formData = {
         trainingfile: $('#ttrainingfile').val(),
-        outputfile: $('#toutputfile').val(),
         filter: $('#tfilter').val(),
         exclude: $('#texclude').val(),
         action: 'start'
