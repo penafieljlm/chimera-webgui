@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.core.nic.NicData;
+import ph.edu.dlsu.chimera.gui.tasks.Task;
+import ph.edu.dlsu.chimera.gui.tasks.TaskGather;
+import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
+import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 
 /**
  *
@@ -56,6 +60,17 @@ public class ServletInitialize extends HttpServlet {
             throws ServletException, IOException {
         try {
             NicData[] ifaces = Chimera.cifaces();
+            
+            if(Task.getTask() instanceof TaskGather){
+                request.setAttribute("runningtask", "gathering");
+            } else if(Task.getTask() instanceof TaskTraining){
+                request.setAttribute("runningtask", "training");
+            } else if(Task.getTask() instanceof TaskProduction){
+                request.setAttribute("runningtask", "production");
+            } else {
+                request.setAttribute("runningtask", "none");
+            }
+            
             int i = 0;
             try {
                 for (NicData n : ifaces) {

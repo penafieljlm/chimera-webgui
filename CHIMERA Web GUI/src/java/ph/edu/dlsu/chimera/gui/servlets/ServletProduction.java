@@ -54,7 +54,7 @@ public class ServletProduction extends HttpServlet {
                     _syslog = request.getParameter("syslog");
                 }
 
-                if (request.getParameter("syslog") != null) {
+                if (request.getParameter("syslogport") != null) {
                     _syslogport = request.getParameter("syslogport");
                 }
 

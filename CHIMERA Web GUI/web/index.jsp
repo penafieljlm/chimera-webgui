@@ -21,8 +21,14 @@
 
         <script>
             $(document).ready(function() {
-                initialize();
-
+                <% if(request.getAttribute("runningtask")=="gathering"){ %>
+                    initialize("gathering");
+                <% } else if(request.getAttribute("runningtask")=="training"){ %>
+                    initialize("training");
+                <% } else if(request.getAttribute("runningtask")=="production"){ %>
+                    initialize("production");
+                <% } %>
+                    
                 $('#dgbrowseseen').click(function() {
                     $('#dgbrowse').click();
                 });
@@ -51,7 +57,7 @@
                     },
                     'onDisable': function() {
                         $('#dgpacketfilterswitch').val('off')
-                    },
+                    }
                 });
 
                 $('#dgattackswitch').val('off');
@@ -61,7 +67,7 @@
                     },
                     'onDisable': function() {
                         $('#dgattackswitch').val('off')
-                    },
+                    }
                 });
                 
                 $('#texclude').val('off');
@@ -71,7 +77,7 @@
                     },
                     'onDisable': function() {
                         $('#texclude').val('off')
-                    },
+                    }
                 });
                 
                 $('#pfirewall').val('off');
@@ -81,7 +87,7 @@
                     },
                     'onDisable': function() {
                         $('#pfirewall').val('off')
-                    },
+                    }
                 });
             });
         </script>
@@ -112,7 +118,6 @@
 
         <script>
             $(document).ready(function() {
-
                 var rules = {
                     outputfile: {
                         identifier: 'trainingfile',
@@ -341,7 +346,7 @@
                                 <i class="sitemap icon"></i> Interfaces
                             </a>
                             <a class="blue item" onclick="tab('dtab')" id="navdtab">
-                                <i class="wrench icon"></i> Diagnosis
+                                <i class="wrench icon"></i> Dashboard
                             </a>
                             <a class="blue item" onclick="tab('utab')" id="navutab">
                                 <i class="users icon"></i> Users
@@ -370,12 +375,10 @@
                                 <h4 class="ui header" id="dgheaderchange">Data Gathering Settings</h4>
                                 <div id="dghidden"></div>
 
-                                <!--<input type="file" id="dgbrowse" style="visibility:hidden;">-->
-
                                 <div class="ui form" id="datagatherform" action="ServletGathering" method="post">
                                     <div class="ui error message"></div>
 
-                                    <div style="margin-top:20px;" class="ui selection dropdown">
+                                    <div class="ui selection dropdown">
                                         <input name="interface" id="dginterface" type="hidden">
                                         <label>Protected Interface:</label>
                                         <div class="text">Select</div>
@@ -537,8 +540,6 @@
                                 <h4 class="ui header" id="theaderchange">Training Settings</h4>
                                 <div id="thidden"></div>
 
-                                <input type="file" id="tbrowse" style="visibility:hidden;">
-
                                 <div class="ui form" id="trainingform" action="ServletTraining" method="post">
                                     <div class="ui error message"></div>
 
@@ -608,7 +609,10 @@
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
                                     </div>
+                                    
+                                    <input type="file" id="tbrowse" style="visibility:hidden;">
                                 </div>
+                                
                                 <div class="ui page dimmer" id="tstartdimmer">
                                     <div class="content">
                                         <div class="center">
@@ -648,8 +652,6 @@
                                 <h4 class="ui header" id="pheaderchange">Production Settings</h4>
                                 <div id="phidden"></div>
 
-                                <input type="file" id="pbrowse" style="visibility:hidden;">
-
                                 <div class="ui form" id="productionform" action="ServletProduction" method="post">
                                     <div class="ui error message"></div>
 
@@ -683,6 +685,8 @@
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
                                     </div>
+                                    
+                                    <input type="file" id="pbrowse" style="visibility:hidden;">
                                 </div>
 
                                 <div class="ui page dimmer" id="pstartdimmer">
@@ -725,14 +729,14 @@
 
                                 <div class="ui form" id="configurationform" action="ServletConfig" method="post">
                                     <div class="two fields">
-                                        <div class="field" style="margin-top:20px;" >
+                                        <div class="field">
                                             <div class="ui pointing below label">
                                                 The amount of time before a TCP state is allowed to be idle
                                             </div>
                                             <input type="text" placeholder="TCP state timeout..." name="tcptimeout" id="ctcptimeout">
                                         </div>
 
-                                        <div class="field" style="margin-top:20px;" >
+                                        <div class="field">
                                             <div class="ui pointing below label">
                                                 The amount of time before a criteria instance is allowed to be idle
                                             </div>
@@ -740,11 +744,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="field" style="margin-top:20px;" >
+                                    <div class="field">
                                         <div class="ui pointing below label">
                                             The port to listen for control messages during deployment
                                         </div>
                                         <input type="text" placeholder="Control message port number..." name="controlport" id="ccontrolport">
+                                    </div>
+                                    
+                                    <div class="field" style="margin-top:20px;" >
+                                        <input type="text" placeholder="Syslog server port number..." name="csyslogport" id="csyslogport">
                                     </div>
 
                                     <div class="ui selection dropdown">
@@ -778,21 +786,7 @@
                                     </div>
 
                                     <div style="margin-top:20px;">
-                                        <a class="ui teal submit button" name="action" value="start">Start</a>
-                                        <a class="ui red submit button" name="action" value="stop">Stop</a>
-                                        <div class="ui active button" id="cshowoutputmessages">
-                                            <i class="browser icon"></i>
-                                            Show Output Messages
-                                        </div>
-                                    </div>
-
-                                    <div class="ui right overlay very wide floating sidebar" id="cside">
-                                        <div class="ui form" style="padding:15px;">
-                                            <div class="field">
-                                                <p>Configuration content</p>
-                                                <textarea></textarea>
-                                            </div>
-                                        </div>
+                                        <a class="ui teal submit button" name="action" value="apply">Apply</a>
                                     </div>
 
                                 </div>
@@ -858,10 +852,10 @@
                     </div>
 
                     <div id="dtab">
-                        <h2 class="ui dividing header">Diagnosis</h2>
+                        <h2 class="ui dividing header">Dashboard</h2>
                         <div class="ui grid">
                             <div class="column">
-                                <h4 class="ui header">About the Diagnosis</h4>
+                                <h4 class="ui header">About the Dashboard</h4>
                                 <p>
                                     The cdiag command prints the state of a specified component.
                                     <br>The command will only work if there is an ongoing phase.

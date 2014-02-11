@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.Chimera;
 
 /**
  *
@@ -34,23 +35,35 @@ public class ServletConfig extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            String _port = null;
+            String _protected = null;
+            String _statetimeout = null;
+            String _statstimeout = null;
+            String _syslogport = null;
 
             if (request.getParameter("tcptimeout") != null) {
-                out.println("TCP state timeout is <b>"+request. getParameter("tcptimeout")+"</b>!");
+                _statetimeout = request.getParameter("tcptimeout");
             }
-            
+
             if (request.getParameter("criteriatimeout") != null) {
-                out.println("Criteria instance timeout is <b>"+request. getParameter("criteriatimeout")+"</b>!");
+                _statstimeout = request.getParameter("criteriatimeout");
             }
-            
+
             if (request.getParameter("controlport") != null) {
-                out.println("Control message port number is <b>"+request. getParameter("controlport")+"</b>!");
+                _port = request.getParameter("controlport");
             }
 
             if (request.getParameter("interface") != null) {
-                out.println("Interface selected is <b>"+request. getParameter("interface")+"</b>!");
+                _protected = request.getParameter("interface");
             }
-        } finally {            
+            
+            if (request.getParameter("syslogport") != null) {
+                _syslogport = request.getParameter("syslogport");
+            }
+            
+            Chimera.cconfig(Integer.parseInt(_port), _protected, Long.parseLong(_statetimeout), Long.parseLong(_statstimeout), Integer.parseInt(_syslogport));
+        } catch (Exception ex) {
+        } finally {
             out.close();
         }
     }
