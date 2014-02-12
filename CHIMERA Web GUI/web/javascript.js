@@ -1,15 +1,14 @@
 function initialize(runningtask) {
     if(runningtask == "gathering"){
-        $('#dgstartdimmer').dimmer('toggle');
         $("#datagatherform").remove();
         $("#dgheaderchange").text("Data Gathering is currently ongoing...");
         $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
         $("#trainingform").remove();
         $("#theaderchange").text("Data Gathering is currently ongoing...");
-        $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
+        $("#tcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Data Gathering Phase.</p></div>");
         $("#productionform").remove();
         $("#pheaderchange").text("Data Gathering is currently ongoing...");
-        $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+        $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Data Gathering Phase.</p></div>");
         $.get('ServletGathering', function(responseText) { 
             $('#dgprogress').append("<p id='dginstance'>" + responseText + "</p>");
         });
@@ -23,16 +22,15 @@ function initialize(runningtask) {
         }, 500);
         $("#dgcolumn").append("<div class='ui form'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitDataGatheringFormStop()'>Stop</a></div>");
     } else if(runningtask != "training"){
-        $('#tstartdimmer').dimmer('toggle');
         $("#datagatherform").remove();
         $("#dgheaderchange").text("Training is currently ongoing...");
-        $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
+        $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
         $("#trainingform").remove();
         $("#theaderchange").text("Training is currently ongoing...");
         $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
         $("#productionform").remove();
         $("#pheaderchange").text("Training is currently ongoing...");
-        $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+        $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
         $.get('ServletTraining', function(responseText) { 
             $('#tprogress').append("<p id='tresponse'>"+responseText+"</p>");         
         });
@@ -46,16 +44,15 @@ function initialize(runningtask) {
         }, 500);
         $("#tcolumn").append("<div class='ui form'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitTrainingFormStop()'>Stop</a></div>");
     } else if(runningtask != "production"){
-        $('#pstartdimmer').dimmer('toggle');
         $("#datagatherform").remove();
         $("#dgheaderchange").text("Production is currently ongoing...");
-        $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
+        $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
         $("#trainingform").remove();
         $("#theaderchange").text("Production is currently ongoing...");
         $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
         $("#productionform").remove();
         $("#pheaderchange").text("Production is currently ongoing...");
-        $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+        $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
         $("#pcolumn").append("<div class='ui form'><div style='margin-top:20px;'><a class='ui red submit button' onclick='submitProductionFormStop()'>Stop</a></div>");
     } else if(runningtask != "none"){
     }
@@ -101,10 +98,10 @@ function onDataGatheringFormSubmitted(response) {
     $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
     $("#trainingform").remove();
     $("#theaderchange").text("Data Gathering is currently ongoing...");
-    $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#tcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Data Gathering Phase.</p></div>");
     $("#productionform").remove();
     $("#pheaderchange").text("Data Gathering is currently ongoing...");
-    $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Data Gathering Phase.</p></div>");
     $.get('ServletGathering', function(responseText) { 
         $('#dgprogress').append("<p id='dginstance'>" + responseText + "</p>");
     });
@@ -137,7 +134,7 @@ function submitTrainingFormStop() {
 function submitTrainingForm() {
     var formData = {
         trainingfile: $('#ttrainingfile').val(),
-        filter: $('#tfilter').val(),
+        filter: ($('#tenablefilter').val()=='on') ? $('#tfilter').val() : null,
         exclude: $('#texclude').val(),
         action: 'start'
     };
@@ -154,13 +151,13 @@ function onTrainingFormSubmitted(response) {
     $('#tstartdimmer').dimmer('toggle');
     $("#datagatherform").remove();
     $("#dgheaderchange").text("Training is currently ongoing...");
-    $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
     $("#trainingform").remove();
     $("#theaderchange").text("Training is currently ongoing...");
     $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
     $("#productionform").remove();
     $("#pheaderchange").text("Training is currently ongoing...");
-    $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
     $.get('ServletTraining', function(responseText) { 
         $('#tprogress').append("<p id='tresponse'>"+responseText+"</p>");         
     });
@@ -212,13 +209,13 @@ function onProductionFormSubmitted(response) {
     $('#pstartdimmer').dimmer('toggle');
     $("#datagatherform").remove();
     $("#dgheaderchange").text("Production is currently ongoing...");
-    $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
     $("#trainingform").remove();
     $("#theaderchange").text("Production is currently ongoing...");
     $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
     $("#productionform").remove();
     $("#pheaderchange").text("Production is currently ongoing...");
-    $("#pcolumn").append("<div class='ui active striped progress' id='pprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
     $("#pcolumn").append("<div class='ui form'><div style='margin-top:20px;'><a class='ui red submit button' onclick='submitProductionFormStop()'>Stop</a></div>");
 }
 

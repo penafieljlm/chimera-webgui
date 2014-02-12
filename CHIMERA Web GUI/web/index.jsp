@@ -21,95 +21,106 @@
 
         <script>
             $(document).ready(function() {
-                <% if(request.getAttribute("runningtask")=="gathering"){ %>
+            <% if (request.getAttribute("runningtask") == "gathering") {%>
                     initialize("gathering");
-                <% } else if(request.getAttribute("runningtask")=="training"){ %>
+            <% } else if (request.getAttribute("runningtask") == "training") {%>
                     initialize("training");
-                <% } else if(request.getAttribute("runningtask")=="production"){ %>
+            <% } else if (request.getAttribute("runningtask") == "production") {%>
                     initialize("production");
-                <% } %>
+            <% }%>
                     
-                $('#dgbrowseseen').click(function() {
-                    $('#dgbrowse').click();
-                });
-                $('#dgbrowse').on('change', function() {
-                    $('#dgoutputfile').val($('#dgbrowse').val());
-                });
+                    $('#dgbrowseseen').click(function() {$('#dgbrowse').click();});
+                    $('#dgbrowse').on('change', function() {$('#dgoutputfile').val($('#dgbrowse').val());});
+                    $('#tbrowseseen').click(function() {$('#tbrowse').click();});
+                    $('#tbrowse').on('change', function() {$('#ttrainingfile').val($('#tbrowse').val());});
+                    $('#pbrowseseen').click(function() {$('#pbrowse').click();});
+                    $('#pbrowse').on('change', function() {$('#pmodelfile').val($('#pbrowse').val());});
+                    
+                    $('#dgtrainingfilter').attr("disabled",true);
+                    $('#dgenabletrainingfilter').val('off');
+                    $('#dgenabletrainingfiltercb').checkbox({
+                        'onEnable': function() {
+                            $('#dgenabletrainingfilter').val('on');
+                            $('#dgtrainingfilterfield').removeClass('disabled');
+                            $('#dgtrainingfilter').attr("disabled",false);
+                        },
+                        'onDisable': function() {
+                            $('#dgenabletrainingfilter').val('off');
+                            $('#dgtrainingfilterfield').addClass('disabled');
+                            $('#dgtrainingfilter').attr("disabled",true);
+                        }
+                    });
+                
+                    $('#dgpacketfilter').attr("disabled",true);
+                    $('#dgenablepacketfilter').val('off');
+                    $('#dgenablepacketfiltercb').checkbox({
+                        'onEnable': function() {
+                            $('#dgenablepacketfilter').val('on');
+                            $('#dgpacketfilterfield').removeClass('disabled');
+                            $('#dgpacketfilter').attr("disabled",false);
+                        },
+                        'onDisable': function() {
+                            $('#dgenablepacketfilter').val('off');
+                            $('#dgpacketfilterfield').addClass('disabled');
+                            $('#dgpacketfilter').attr("disabled",true);
+                        }
+                    });
+                    
+                    $('#tfilter').attr("disabled",true);
+                    $('#tenablefilter').val('off');
+                    $('#tenablefiltercb').checkbox({
+                        'onEnable': function() {
+                            $('#tenablefilter').val('on');
+                            $('#tfilterfield').removeClass('disabled');
+                            $('#tfilter').attr("disabled",false);
+                        },
+                        'onDisable': function() {
+                            $('#tenablefilter').val('off');
+                            $('#tfilterfield').addClass('disabled');
+                            $('#tfilter').attr("disabled",true);
+                        }
+                    });
+                
+                    $('#dgpacketfilterswitch').val('off');
+                    $('#dgpacketfilterswitchcb').checkbox({
+                        'onEnable': function() {
+                            $('#dgpacketfilterswitch').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#dgpacketfilterswitch').val('off')
+                        }
+                    });
 
-                $('#tbrowseseen').click(function() {
-                    $('#tbrowse').click();
-                });
-                $('#tbrowse').on('change', function() {
-                    $('#ttrainingfile').val($('#tbrowse').val());
-                });
-
-                $('#pbrowseseen').click(function() {
-                    $('#pbrowse').click();
-                });
-                $('#pbrowse').on('change', function() {
-                    $('#pmodelfile').val($('#pbrowse').val());
-                });
+                    $('#dgattackswitch').val('off');
+                    $('#dgattackswitchcb').checkbox({
+                        'onEnable': function() {
+                            $('#dgattackswitch').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#dgattackswitch').val('off')
+                        }
+                    });
                 
-                $('#dgenabletrainingfilter').val('off');
-                $('#dgenabletrainingfiltercb').checkbox({
-                    'onEnable': function() {
-                        $('#dgenabletrainingfilter').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#dgenabletrainingfilter').val('off')
-                    }
-                });
+                    $('#texclude').val('off');
+                    $('#texcludecb').checkbox({
+                        'onEnable': function() {
+                            $('#texclude').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#texclude').val('off')
+                        }
+                    });
                 
-                $('#dgenablepacketfilter').val('off');
-                $('#dgenablepacketfiltercb').checkbox({
-                    'onEnable': function() {
-                        $('#dgenablepacketfilter').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#dgenablepacketfilter').val('off')
-                    }
+                    $('#pfirewall').val('off');
+                    $('#pfirewallcb').checkbox({
+                        'onEnable': function() {
+                            $('#pfirewall').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#pfirewall').val('off')
+                        }
+                    });
                 });
-                
-                $('#dgpacketfilterswitch').val('off');
-                $('#dgpacketfilterswitchcb').checkbox({
-                    'onEnable': function() {
-                        $('#dgpacketfilterswitch').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#dgpacketfilterswitch').val('off')
-                    }
-                });
-
-                $('#dgattackswitch').val('off');
-                $('#dgattackswitchcb').checkbox({
-                    'onEnable': function() {
-                        $('#dgattackswitch').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#dgattackswitch').val('off')
-                    }
-                });
-                
-                $('#texclude').val('off');
-                $('#texcludecb').checkbox({
-                    'onEnable': function() {
-                        $('#texclude').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#texclude').val('off')
-                    }
-                });
-                
-                $('#pfirewall').val('off');
-                $('#pfirewallcb').checkbox({
-                    'onEnable': function() {
-                        $('#pfirewall').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#pfirewall').val('off')
-                    }
-                });
-            });
         </script>
 
         <script>
@@ -148,7 +159,7 @@
                             },
                             {
                                 type: 'length[1]',
-                                prompt: 'Training file should be in .csv format'
+                                prompt: 'Training file should be in .ctset format'
                             }
                         ]
                     }
@@ -419,8 +430,9 @@
                                     <div class="ui section divider"></div>
 
                                     <div class="ui message">
-                                        <div class="header">
-                                            JNetPcap Packet Filter Expression
+                                        <div class="ui toggle checkbox" id="dgenabletrainingfiltercb">
+                                            <input type="checkbox" name="enabletrainingfilter" id="dgenabletrainingfilter">
+                                            <label><b>Training Filter Expression</b></label>
                                         </div>
 
                                         <ul class="list">
@@ -455,15 +467,10 @@
                                         </ul>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="field">
+                                    <div style="margin-top:20px;display:block;" class="disabled field" id="dgtrainingfilterfield">
                                         <textarea name="trainingfilter" id="dgtrainingfilter"></textarea>
                                     </div>
-                                    
-                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgenabletrainingfiltercb">
-                                        <input type="checkbox" name="enabletrainingfilter" id="dgenabletrainingfilter">
-                                        <label>Enable training filter</label>
-                                    </div>
-                                    
+
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgattackswitchcb">
                                         <input type="checkbox" name="attackswitch" id="dgattackswitch">
                                         <label>Mark traffic as attack</label>
@@ -472,8 +479,9 @@
                                     <div class="ui section divider"></div>
 
                                     <div class="ui message">
-                                        <div class="header">
-                                            JNetPcap Packet Filter Expression
+                                        <div class="ui toggle checkbox" id="dgenablepacketfiltercb">
+                                            <input type="checkbox" name="enablepacketfilter" id="dgenablepacketfilter">
+                                            <label><b>JNetPcap Packet Filter Expression</b></label>
                                         </div>
 
                                         <ul class="list">
@@ -508,15 +516,10 @@
                                         </ul>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="field">
+                                    <div style="margin-top:20px;display:block;" class="disabled field" id="dgpacketfilterfield">
                                         <textarea name="packetfilter" id="dgpacketfilter"></textarea>
                                     </div>
-                                    
-                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgenablepacketfiltercb">
-                                        <input type="checkbox" name="enablepacketfilter" id="dgenablepacketfilter">
-                                        <label>Enable packet filter</label>
-                                    </div>
-                                    
+
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="dgpacketfilterswitchcb">
                                         <input type="checkbox" name="packetfilterswitch" id="dgpacketfilterswitch">
                                         <label>Allow packet filter switch</label>
@@ -587,10 +590,11 @@
                                     </div>
 
                                     <div class="ui message">
-                                        <div class="header">
-                                            Attribute filter regular expression
+                                        <div class="ui toggle checkbox" id="tenablefiltercb">
+                                            <input type="checkbox" name="enablefilter" id="tenablefilter">
+                                            <label><b>Attribute filter regular expression</b></label>
                                         </div>
-                                        May be used to exclude certain attributes from the training set.
+                                        <!--<br>May be used to exclude certain attributes from the training set.-->
                                         <ul class="list">
                                             <li>If provided, the following apply:</li>
                                             <ul>
@@ -629,16 +633,16 @@
 
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="texcludecb">
                                         <input type="checkbox" name="exclude" id="texclude">
-                                        <label>Exlude</label>
+                                        <label>Exclude attributes</label>
                                     </div>
 
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
                                     </div>
-                                    
+
                                     <input type="file" id="tbrowse" style="visibility:hidden;">
                                 </div>
-                                
+
                                 <div class="ui page dimmer" id="tstartdimmer">
                                     <div class="content">
                                         <div class="center">
@@ -711,7 +715,7 @@
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
                                     </div>
-                                    
+
                                     <input type="file" id="pbrowse" style="visibility:hidden;">
                                 </div>
 
@@ -776,7 +780,7 @@
                                         </div>
                                         <input type="text" placeholder="Control message port number..." name="controlport" id="ccontrolport">
                                     </div>
-                                    
+
                                     <div class="field" style="margin-top:20px;" >
                                         <input type="text" placeholder="Syslog server port number..." name="csyslogport" id="csyslogport">
                                     </div>
