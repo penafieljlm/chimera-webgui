@@ -36,48 +36,42 @@
                     $('#pbrowseseen').click(function() {$('#pbrowse').click();});
                     $('#pbrowse').on('change', function() {$('#pmodelfile').val($('#pbrowse').val());});
                     
-                    $('#dgtrainingfilter').attr("disabled",true);
+                    $('#dgtrainingfilter').hide();
                     $('#dgenabletrainingfilter').val('off');
                     $('#dgenabletrainingfiltercb').checkbox({
                         'onEnable': function() {
                             $('#dgenabletrainingfilter').val('on');
-                            $('#dgtrainingfilterfield').removeClass('disabled');
-                            $('#dgtrainingfilter').attr("disabled",false);
+                            $('#dgtrainingfilter').slideDown("slow");
                         },
                         'onDisable': function() {
                             $('#dgenabletrainingfilter').val('off');
-                            $('#dgtrainingfilterfield').addClass('disabled');
-                            $('#dgtrainingfilter').attr("disabled",true);
+                            $('#dgtrainingfilter').hide();
                         }
                     });
-                
-                    $('#dgpacketfilter').attr("disabled",true);
+                    
+                    $('#dgpacketfilter').hide();
                     $('#dgenablepacketfilter').val('off');
                     $('#dgenablepacketfiltercb').checkbox({
                         'onEnable': function() {
                             $('#dgenablepacketfilter').val('on');
-                            $('#dgpacketfilterfield').removeClass('disabled');
-                            $('#dgpacketfilter').attr("disabled",false);
+                            $('#dgpacketfilter').slideDown("slow");
                         },
                         'onDisable': function() {
                             $('#dgenablepacketfilter').val('off');
-                            $('#dgpacketfilterfield').addClass('disabled');
-                            $('#dgpacketfilter').attr("disabled",true);
+                            $('#dgpacketfilter').hide();
                         }
                     });
                     
-                    $('#tfilter').attr("disabled",true);
+                    $('#tfilter').hide();
                     $('#tenablefilter').val('off');
                     $('#tenablefiltercb').checkbox({
                         'onEnable': function() {
                             $('#tenablefilter').val('on');
-                            $('#tfilterfield').removeClass('disabled');
-                            $('#tfilter').attr("disabled",false);
+                            $('#tfilter').slideDown("slow");
                         },
                         'onDisable': function() {
                             $('#tenablefilter').val('off');
-                            $('#tfilterfield').addClass('disabled');
-                            $('#tfilter').attr("disabled",true);
+                            $('#tfilter').hide();
                         }
                     });
                 
@@ -467,7 +461,7 @@
                                         </ul>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="disabled field" id="dgtrainingfilterfield">
+                                    <div style="margin-top:20px;display:block;" class="field" id="dgtrainingfilterfield">
                                         <textarea name="trainingfilter" id="dgtrainingfilter"></textarea>
                                     </div>
 
@@ -516,7 +510,7 @@
                                         </ul>
                                     </div>
 
-                                    <div style="margin-top:20px;display:block;" class="disabled field" id="dgpacketfilterfield">
+                                    <div style="margin-top:20px;display:block;" class="field" id="dgpacketfilterfield">
                                         <textarea name="packetfilter" id="dgpacketfilter"></textarea>
                                     </div>
 
