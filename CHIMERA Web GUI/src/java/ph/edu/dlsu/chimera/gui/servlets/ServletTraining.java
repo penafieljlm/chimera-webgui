@@ -36,9 +36,8 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
 public class ServletTraining extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -51,28 +50,11 @@ public class ServletTraining extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if (request.getParameter("action").equals("start")) {
+                System.err.println("START");
                 Part filePart = request.getPart("trainingfile"); // Retrieves <input type="file" name="file">
-                String filename = getFilename(filePart);
-                InputStream filecontents = filePart.getInputStream();
-                File tFile = File.createTempFile("", "ctset");
-                FileOutputStream fs = new FileOutputStream(tFile);
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while ((len = filecontents.read(buffer)) != -1) {
-                    fs.write(buffer, 0, len);
-                }
-                
-                out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + filename + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-                
+
                 PhaseMonitorTraining _monitor = null;
-                String _input = tFile.getAbsolutePath();
+                InputStream _input = filePart.getInputStream();
                 String _output = null;
                 String _filter = null;
                 boolean _exclude = false;
@@ -102,6 +84,7 @@ public class ServletTraining extends HttpServlet {
                 //run task
                 task.start();
             } else if (request.getParameter("action").equals("stop")) {
+                System.err.println("STOP");
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskTraining) {
                         Task.terminateTask();
@@ -110,6 +93,7 @@ public class ServletTraining extends HttpServlet {
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             out.close();
         }
@@ -117,8 +101,7 @@ public class ServletTraining extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -128,7 +111,13 @@ public class ServletTraining extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text = (Task.getTask() != null) ? (Task.getTask() instanceof TaskTraining) ? "[" + String.format("%03d", (int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100)) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus() : "Running task is not Training" : "No task is running";
+        String text = (Task.getTask() != null)
+                ? (Task.getTask() instanceof TaskTraining)
+                ? (((TaskTraining) (Task.getTask())).getUploadProgress() >= 1.0)
+                ? "[" + String.format("%03d", (int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100)) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus()
+                : String.format("%03d", (int) (((TaskTraining) (Task.getTask())).getUploadProgress() * 100)) + "%] - " + "Uploading Training Set"
+                : "Running task is not Training"
+                : "No task is running";
 
         response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
         response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
@@ -136,8 +125,7 @@ public class ServletTraining extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

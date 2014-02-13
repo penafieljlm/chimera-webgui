@@ -87,7 +87,7 @@ public class ServletInitialize extends HttpServlet {
 
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+//            request.getRequestDispatcher("index.jsp").forward(request, response);
 
         } catch (Exception ex) {
         }
