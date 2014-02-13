@@ -4,18 +4,23 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
 import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
+import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
 
 /**
  *
@@ -40,24 +45,29 @@ public class ServletProduction extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if (request.getParameter("action").equals("start")) {
+                Part filePart = request.getPart("modelfile"); // Retrieves <input type="file" name="file">
+                String filename = getFilename(filePart);
+                InputStream filecontents = filePart.getInputStream();
+                File tFile = File.createTempFile("", "ctset");
+                FileOutputStream fs = new FileOutputStream(tFile);
+                byte[] buffer = new byte[1024];
+                int len = 0;
+                while ((len = filecontents.read(buffer)) != -1) {
+                    fs.write(buffer, 0, len);
+                }
+                
                 PhaseMonitorProduction _monitor = null;
-                String _input = null;
+                String _input = tFile.getAbsolutePath();
                 String _syslog = null;
                 String _syslogport = null;
                 boolean _active = false;
 
-                if (request.getParameter("modelfile") != null) {
-                    _input = request.getParameter("modelfile");
-                }
-
                 if (request.getParameter("syslog") != null) {
                     _syslog = request.getParameter("syslog");
                 }
-
                 if (request.getParameter("syslogport") != null) {
                     _syslogport = request.getParameter("syslogport");
                 }
-
                 if (request.getParameter("firewall") != null) {
                     _active = request.getParameter("firewall").equals("on");
                 }
@@ -132,4 +142,14 @@ public class ServletProduction extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    private static String getFilename(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
 }

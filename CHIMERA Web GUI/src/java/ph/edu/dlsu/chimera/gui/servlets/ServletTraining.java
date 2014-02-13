@@ -4,21 +4,30 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ph.edu.dlsu.chimera.Chimera;
+import javax.servlet.http.Part;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
 
+/**
+ *
+ * @author Emerson Chua
+ */
+@MultipartConfig
 /**
  *
  * @author Emerson Chua
@@ -42,8 +51,28 @@ public class ServletTraining extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if (request.getParameter("action").equals("start")) {
+                Part filePart = request.getPart("trainingfile"); // Retrieves <input type="file" name="file">
+                String filename = getFilename(filePart);
+                InputStream filecontents = filePart.getInputStream();
+                File tFile = File.createTempFile("", "ctset");
+                FileOutputStream fs = new FileOutputStream(tFile);
+                byte[] buffer = new byte[1024];
+                int len = 0;
+                while ((len = filecontents.read(buffer)) != -1) {
+                    fs.write(buffer, 0, len);
+                }
+                
+                out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>" + filename + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+                
                 PhaseMonitorTraining _monitor = null;
-                String _input = null;
+                String _input = tFile.getAbsolutePath();
                 String _output = null;
                 String _filter = null;
                 boolean _exclude = false;
@@ -51,9 +80,6 @@ public class ServletTraining extends HttpServlet {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
                 Date date = new Date();
                 _output = dateFormat.format(date);
-                if (request.getParameter("trainingfile") != null) {
-                    _input = request.getParameter("trainingfile");
-                }
                 if (request.getParameter("filter") != null) {
                     _filter = request.getParameter("filter");
                 }
@@ -133,4 +159,14 @@ public class ServletTraining extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static String getFilename(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
 }

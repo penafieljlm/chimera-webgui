@@ -161,8 +161,8 @@
 
                 var settings = {
                     onSuccess: function() {
-                        /*$('#tstartdimmer').dimmer('toggle');-->*/
-                        submitTrainingForm();
+                        //submitTrainingForm();
+                        $('#trainingform').submit();
                     }
                 };
 
@@ -191,7 +191,8 @@
 
                 var settings = {
                     onSuccess: function() {
-                        submitProductionForm();
+                        //submitProductionForm();
+                        $('#productionform').submit();
                     }
                 };
 
@@ -567,7 +568,7 @@
                                 <h4 class="ui header" id="theaderchange">Training Settings</h4>
                                 <div id="thidden"></div>
 
-                                <div class="ui form" id="trainingform" action="ServletTraining" method="post">
+                                <form class="ui form" id="trainingform" action="ServletTraining" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="field">
@@ -631,11 +632,11 @@
                                     </div>
 
                                     <div style="margin-top:20px;">
-                                        <a class="ui teal submit button" name="action" value="start">Start</a>
+                                        <input type="submit" class="ui teal submit button" name="action" value="start"/>
                                     </div>
 
                                     <input type="file" id="tbrowse" style="visibility:hidden;">
-                                </div>
+                                </form>
 
                                 <div class="ui page dimmer" id="tstartdimmer">
                                     <div class="content">
@@ -676,7 +677,7 @@
                                 <h4 class="ui header" id="pheaderchange">Production Settings</h4>
                                 <div id="phidden"></div>
 
-                                <div class="ui form" id="productionform" action="ServletProduction" method="post">
+                                <form class="ui form" id="productionform" action="ServletProduction" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="ui pointing below label">
@@ -711,7 +712,7 @@
                                     </div>
 
                                     <input type="file" id="pbrowse" style="visibility:hidden;">
-                                </div>
+                                </form>
 
                                 <div class="ui page dimmer" id="pstartdimmer">
                                     <div class="content">
