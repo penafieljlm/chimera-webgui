@@ -61,8 +61,8 @@
                     }
                 });
 
-                
-                $('#dgenablepacketfilter').val('on');
+                $('#dgpacketfilter').hide();
+                $('#dgenablepacketfilter').val('off');
                 $('#dgenablepacketfiltercb').checkbox({
                     'onEnable': function() {
                         $('#dgenablepacketfilter').val('on');
@@ -184,7 +184,6 @@
 
         <script>
             $(document).ready(function() {
-
                 var rules = {
                     modelfile: {
                         identifier: 'modelfile',
@@ -573,7 +572,7 @@
 
                                     <div class="field">
                                         <div class="ui pointing below label">
-                                            Contains datasets or the tabled attributes of the traffic gathered during the Data Gathering Phase and should be in the .csv format
+                                            Contains datasets or the tabled attributes of the traffic gathered during the Data Gathering Phase and should be in the .ctset format
                                         </div>
                                         <div class="ui fluid labeled action input">
                                             <div class="ui corner label">
@@ -589,9 +588,9 @@
                                             <input type="checkbox" name="enablefiltersample">
                                             <label><b>Attribute filter</b></label>
                                         </div>
-                                        
+
                                         <input type="checkbox" name="enablefilter" id="tenablefilter" style="display:none;" checked>
-                                        
+
                                         <!--<br>May be used to exclude certain attributes from the training set.-->
                                         <ul class="list">
                                             <li>If provided, the following apply:</li>
@@ -659,7 +658,7 @@
                                                 <i class="icon circular inverted emphasized green download disk"></i>
                                                 Training successfully finished!
                                                 <div class="sub header">Model file can now be downloaded</div>
-                                                <div class="ui button" style="margin-top:20px;"><a style="text-decoration:none;color:black;" href="files/Model.cmodel">Download</a></div>
+                                                <div class="ui button" style="margin-top:20px;"><a style="text-decoration:none;color:black;" onclick="submitTrainingFormStop()" href="files/Model.cmodel">Download</a></div>
                                             </h2>
                                         </div>
                                     </div>

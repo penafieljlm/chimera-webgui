@@ -61,7 +61,8 @@ public class ServletGathering extends HttpServlet {
                 if (request.getParameter("attackswitch") != null) {
                     _attack = request.getParameter("attackswitch").equals("on");
                 }
-
+                System.out.println("access"+_access);
+                System.out.println("training"+_training);
                 //create monitor
                 _monitor = new PhaseMonitorGathering(200) {
                     @Override
