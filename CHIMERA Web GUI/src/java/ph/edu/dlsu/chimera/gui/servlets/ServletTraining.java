@@ -50,8 +50,7 @@ public class ServletTraining extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if (request.getParameter("action").equals("start")) {
-                System.err.println("START");
-                Part filePart = request.getPart("trainingfile"); // Retrieves <input type="file" name="file">
+                Part filePart = request.getPart("trainingfile");
 
                 PhaseMonitorTraining _monitor = null;
                 InputStream _input = filePart.getInputStream();
@@ -62,7 +61,7 @@ public class ServletTraining extends HttpServlet {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
                 Date date = new Date();
                 _output = dateFormat.format(date);
-                if (request.getParameter("filter") != null) {
+                if (request.getParameter("enablefilter") != null && request.getParameter("filter") != null) {
                     _filter = request.getParameter("filter");
                 }
                 if (request.getParameter("exlude") != null) {
@@ -73,7 +72,6 @@ public class ServletTraining extends HttpServlet {
                 _monitor = new PhaseMonitorTraining(200) {
                     @Override
                     protected void update() {
-                        System.out.println((int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus());
                     }
                 };
 
@@ -84,7 +82,6 @@ public class ServletTraining extends HttpServlet {
                 //run task
                 task.start();
             } else if (request.getParameter("action").equals("stop")) {
-                System.err.println("STOP");
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskTraining) {
                         Task.terminateTask();

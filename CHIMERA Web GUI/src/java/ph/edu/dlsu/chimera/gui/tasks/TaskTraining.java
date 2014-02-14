@@ -8,9 +8,9 @@ package ph.edu.dlsu.chimera.gui.tasks;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Date;
 import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
+import ph.edu.dlsu.chimera.util.UtilsFile;
 
 /**
  *
@@ -37,7 +37,7 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
     protected void doTask() throws Exception {
         this.uploadProgress = 0.0;
         String suffix = ".ctset";
-        File tFile = File.createTempFile(new Date().toLocaleString(), suffix);
+        File tFile = File.createTempFile("training_", suffix);
         FileOutputStream fs = new FileOutputStream(tFile);
         byte[] buffer = new byte[1024];
         int len = 0;
@@ -47,11 +47,12 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
             written += len;
             this.uploadProgress = (double) (written / (tFile.length() * 1.0));
         }
+        UtilsFile.copyFile(tFile, new File("C:/sample"));
         StringBuilder sb = new StringBuilder(tFile.getAbsolutePath());
         int i = sb.lastIndexOf(suffix);
-        sb = sb.delete(i, suffix.length());
         this.uploadProgress = 1.0;
-        Chimera.ctrain(this.monitor, sb.toString(), this.output, this.filter, this.exclude);
+        String inputfilename = sb.substring(0, 61);
+        Chimera.ctrain(this.monitor, inputfilename, this.output, this.filter, this.exclude);
     }
 
     public double getUploadProgress() {

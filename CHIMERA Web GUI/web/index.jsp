@@ -22,99 +22,113 @@
         <script>
             $(document).ready(function() {
             <% if (request.getAttribute("runningtask") == "gathering") {%>
-                    initialize("gathering");
+                initialize("gathering");
             <% } else if (request.getAttribute("runningtask") == "training") {%>
-                    initialize("training");
+                initialize("training");
             <% } else if (request.getAttribute("runningtask") == "production") {%>
-                    initialize("production");
+                initialize("production");
             <% }%>
-                    
-                    $('#dgbrowseseen').click(function() {$('#dgbrowse').click();});
-                    $('#dgbrowse').on('change', function() {$('#dgoutputfile').val($('#dgbrowse').val());});
-                    $('#tbrowseseen').click(function() {$('#tbrowse').click();});
-                    $('#tbrowse').on('change', function() {$('#ttrainingfile').val($('#tbrowse').val());});
-                    $('#pbrowseseen').click(function() {$('#pbrowse').click();});
-                    $('#pbrowse').on('change', function() {$('#pmodelfile').val($('#pbrowse').val());});
-                    
-                    $('#dgtrainingfilter').hide();
-                    $('#dgenabletrainingfilter').val('off');
-                    $('#dgenabletrainingfiltercb').checkbox({
-                        'onEnable': function() {
-                            $('#dgenabletrainingfilter').val('on');
-                            $('#dgtrainingfilter').slideDown("slow");
-                        },
-                        'onDisable': function() {
-                            $('#dgenabletrainingfilter').val('off');
-                            $('#dgtrainingfilter').hide();
-                        }
-                    });
-                    
-                    $('#dgpacketfilter').hide();
-                    $('#dgenablepacketfilter').val('off');
-                    $('#dgenablepacketfiltercb').checkbox({
-                        'onEnable': function() {
-                            $('#dgenablepacketfilter').val('on');
-                            $('#dgpacketfilter').slideDown("slow");
-                        },
-                        'onDisable': function() {
-                            $('#dgenablepacketfilter').val('off');
-                            $('#dgpacketfilter').hide();
-                        }
-                    });
-                    
-                    $('#tfilter').hide();
-                    $('#tenablefilter').val('off');
-                    $('#tenablefiltercb').checkbox({
-                        'onEnable': function() {
-                            $('#tenablefilter').val('on');
-                            $('#tfilter').slideDown("slow");
-                        },
-                        'onDisable': function() {
-                            $('#tenablefilter').val('off');
-                            $('#tfilter').hide();
-                        }
-                    });
-                
-                    $('#dgpacketfilterswitch').val('off');
-                    $('#dgpacketfilterswitchcb').checkbox({
-                        'onEnable': function() {
-                            $('#dgpacketfilterswitch').val('on')
-                        },
-                        'onDisable': function() {
-                            $('#dgpacketfilterswitch').val('off')
-                        }
-                    });
 
-                    $('#dgattackswitch').val('off');
-                    $('#dgattackswitchcb').checkbox({
-                        'onEnable': function() {
-                            $('#dgattackswitch').val('on')
-                        },
-                        'onDisable': function() {
-                            $('#dgattackswitch').val('off')
-                        }
-                    });
-                
-                    $('#texclude').val('off');
-                    $('#texcludecb').checkbox({
-                        'onEnable': function() {
-                            $('#texclude').val('on')
-                        },
-                        'onDisable': function() {
-                            $('#texclude').val('off')
-                        }
-                    });
-                
-                    $('#pfirewall').val('off');
-                    $('#pfirewallcb').checkbox({
-                        'onEnable': function() {
-                            $('#pfirewall').val('on')
-                        },
-                        'onDisable': function() {
-                            $('#pfirewall').val('off')
-                        }
-                    });
+                $('#dgbrowseseen').click(function() {
+                    $('#dgbrowse').click();
                 });
+                $('#dgbrowse').on('change', function() {
+                    $('#dgoutputfile').val($('#dgbrowse').val());
+                });
+                $('#tbrowseseen').click(function() {
+                    $('#tbrowse').click();
+                });
+                $('#tbrowse').on('change', function() {
+                    $('#ttrainingfile').val($('#tbrowse').val());
+                });
+                $('#pbrowseseen').click(function() {
+                    $('#pbrowse').click();
+                });
+                $('#pbrowse').on('change', function() {
+                    $('#pmodelfile').val($('#pbrowse').val());
+                });
+
+                $('#dgtrainingfilter').hide();
+                $('#dgenabletrainingfilter').val('off');
+                $('#dgenabletrainingfiltercb').checkbox({
+                    'onEnable': function() {
+                        $('#dgenabletrainingfilter').val('on');
+                        $('#dgtrainingfilter').slideDown("slow");
+                    },
+                    'onDisable': function() {
+                        $('#dgenabletrainingfilter').val('off');
+                        $('#dgtrainingfilter').hide();
+                    }
+                });
+
+                $('#dgpacketfilter').hide();
+                $('#dgenablepacketfilter').val('off');
+                $('#dgenablepacketfiltercb').checkbox({
+                    'onEnable': function() {
+                        $('#dgenablepacketfilter').val('on');
+                        $('#dgpacketfilter').slideDown("slow");
+                    },
+                    'onDisable': function() {
+                        $('#dgenablepacketfilter').val('off');
+                        $('#dgpacketfilter').hide();
+                    }
+                });
+
+                $('#tfilter').hide();
+                $('#tenablefilter').val('off');
+                $('#tenablefiltercb').checkbox({
+                    'onEnable': function() {
+                        $('#tenablefilter').val('on');
+                        $('#tfilter').slideDown("slow");
+                        alert($('#tenablefilter').val());
+                    },
+                    'onDisable': function() {
+                        $('#tenablefilter').val('off');
+                        $('#tfilter').hide();
+                        alert($('#tenablefilter').val());
+                    }
+                });
+
+                $('#dgpacketfilterswitch').val('off');
+                $('#dgpacketfilterswitchcb').checkbox({
+                    'onEnable': function() {
+                        $('#dgpacketfilterswitch').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#dgpacketfilterswitch').val('off')
+                    }
+                });
+
+                $('#dgattackswitch').val('off');
+                $('#dgattackswitchcb').checkbox({
+                    'onEnable': function() {
+                        $('#dgattackswitch').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#dgattackswitch').val('off')
+                    }
+                });
+
+                $('#texclude').val('off');
+                $('#texcludecb').checkbox({
+                    'onEnable': function() {
+                        $('#texclude').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#texclude').val('off')
+                    }
+                });
+
+                $('#pfirewall').val('off');
+                $('#pfirewallcb').checkbox({
+                    'onEnable': function() {
+                        $('#pfirewall').val('on')
+                    },
+                    'onDisable': function() {
+                        $('#pfirewall').val('off')
+                    }
+                });
+            });
         </script>
 
         <script>
@@ -568,7 +582,7 @@
                                 <h4 class="ui header" id="theaderchange">Training Settings</h4>
                                 <div id="thidden"></div>
 
-                                <form class="ui form" id="trainingform" action="ServletTraining" method="post">
+                                <form class="ui form" id="trainingform" action="ServletTraining" method="post" enctype="multipart/form-data">
                                     <div class="ui error message"></div>
 
                                     <div class="field">
@@ -579,16 +593,14 @@
                                             <div class="ui corner label">
                                                 <i class="icon asterisk"></i>
                                             </div>
-                                            <input type="text" placeholder="Choose training file..." name="trainingfile" id="ttrainingfile">
+                                            <input type="text" placeholder="Choose training file..." id="ttrainingfile">
                                             <div class="ui button" id="tbrowseseen">Browse</div>
                                         </div>
                                     </div>
 
                                     <div class="ui message">
-                                        <div class="ui toggle checkbox" id="tenablefiltercb">
-                                            <input type="checkbox" name="enablefilter" id="tenablefilter">
-                                            <label><b>Attribute filter regular expression</b></label>
-                                        </div>
+
+                                        <input type="checkbox" name="enablefilter" id="tenablefilter" value="on">
                                         <!--<br>May be used to exclude certain attributes from the training set.-->
                                         <ul class="list">
                                             <li>If provided, the following apply:</li>
@@ -635,7 +647,7 @@
                                         <input type="submit" class="ui teal submit button" name="action" value="start"/>
                                     </div>
 
-                                    <input type="file" id="tbrowse" style="visibility:hidden;">
+                                    <input type="file" name="trainingfile" id="tbrowse" style="visibility:hidden;">
                                 </form>
 
                                 <div class="ui page dimmer" id="tstartdimmer">
@@ -677,7 +689,7 @@
                                 <h4 class="ui header" id="pheaderchange">Production Settings</h4>
                                 <div id="phidden"></div>
 
-                                <form class="ui form" id="productionform" action="ServletProduction" method="post">
+                                <form class="ui form" id="productionform" action="ServletProduction" method="post" enctype="multipart/form-data">
                                     <div class="ui error message"></div>
 
                                     <div class="ui pointing below label">
@@ -689,7 +701,7 @@
                                             <div class="ui corner label">
                                                 <i class="icon asterisk"></i>
                                             </div>
-                                            <input type="text" placeholder="Choose model file..." name="modelfile" id="pmodelfile">
+                                            <input type="text" placeholder="Choose model file..." id="pmodelfile">
                                             <div class="ui button" id="pbrowseseen">Browse</div>
                                         </div>
                                     </div>
@@ -711,7 +723,7 @@
                                         <a class="ui teal submit button" name="action" value="start">Start</a>
                                     </div>
 
-                                    <input type="file" id="pbrowse" style="visibility:hidden;">
+                                    <input type="file" name="modelfile" id="pbrowse" style="visibility:hidden;">
                                 </form>
 
                                 <div class="ui page dimmer" id="pstartdimmer">
