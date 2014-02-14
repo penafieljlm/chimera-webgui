@@ -23,6 +23,7 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
     public final String filter;
     public final boolean exclude;
     private double uploadProgress;
+    private File outputFile;
 
     public TaskTraining(PhaseMonitorTraining _monitor, InputStream _input, String _output, String _filter, boolean _exclude) {
         super(_monitor);
@@ -51,12 +52,16 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
         StringBuilder sb = new StringBuilder(tFile.getAbsolutePath());
         int i = sb.lastIndexOf(suffix);
         this.uploadProgress = 1.0;
-        String inputfilename = sb.substring(0, 61);
-        Chimera.ctrain(this.monitor, inputfilename, this.output, this.filter, this.exclude);
+        String inputfilename = sb.substring(0, i);
+        this.outputFile = Chimera.ctrain(this.monitor, inputfilename, this.output, this.filter, this.exclude).output;
+        tFile.delete();
     }
 
     public double getUploadProgress() {
         return this.uploadProgress;
     }
 
+    public File getOutputFile() {
+        return this.outputFile;
+    }
 }

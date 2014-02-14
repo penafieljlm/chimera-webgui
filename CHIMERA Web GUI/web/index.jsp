@@ -61,8 +61,8 @@
                     }
                 });
 
-                $('#dgpacketfilter').hide();
-                $('#dgenablepacketfilter').val('off');
+                
+                $('#dgenablepacketfilter').val('on');
                 $('#dgenablepacketfiltercb').checkbox({
                     'onEnable': function() {
                         $('#dgenablepacketfilter').val('on');
@@ -599,8 +599,13 @@
                                     </div>
 
                                     <div class="ui message">
-
-                                        <input type="checkbox" name="enablefilter" id="tenablefilter" value="on">
+                                        <div class="ui toggle checkbox" id="tenablefiltercb">
+                                            <input type="checkbox" name="enablefiltersample">
+                                            <label><b>Attribute filter</b></label>
+                                        </div>
+                                        
+                                        <input type="checkbox" name="enablefilter" id="tenablefilter" style="display:none;" checked>
+                                        
                                         <!--<br>May be used to exclude certain attributes from the training set.-->
                                         <ul class="list">
                                             <li>If provided, the following apply:</li>
