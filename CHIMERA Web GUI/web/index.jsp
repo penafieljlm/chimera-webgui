@@ -80,12 +80,10 @@
                     'onEnable': function() {
                         $('#tenablefilter').val('on');
                         $('#tfilter').slideDown("slow");
-                        alert($('#tenablefilter').val());
                     },
                     'onDisable': function() {
                         $('#tenablefilter').val('off');
                         $('#tfilter').hide();
-                        alert($('#tenablefilter').val());
                     }
                 });
 
@@ -567,18 +565,6 @@
                                 </p>
                                 <div class="ui section divider"></div>
 
-                                <div class="ui success message">
-                                    <i class="close icon"></i>
-                                    <div class="header">
-                                        Training complete!
-                                    </div>
-                                    <p>Model file can now be downloaded and used in the Production Phase.</p>
-                                    <div class="ui active button">
-                                        <i class="download icon"></i>
-                                        Download
-                                    </div>  
-                                </div>
-
                                 <h4 class="ui header" id="theaderchange">Training Settings</h4>
                                 <div id="thidden"></div>
 
@@ -662,6 +648,18 @@
                                                 <i class="icon circular inverted emphasized green download disk"></i>
                                                 Training successfully started!
                                                 <div class="sub header">View the progress bar to view its progress</div>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui page dimmer" id="tfinishdimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <h2 class="ui inverted icon header">
+                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                Training successfully finished!
+                                                <div class="sub header">Model file can now be downloaded</div>
+                                                <div class="ui button" style="margin-top:20px;"><a style="text-decoration:none;color:black;" href="files/Model.cmodel">Download</a></div>
                                             </h2>
                                         </div>
                                     </div>

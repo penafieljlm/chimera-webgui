@@ -34,15 +34,20 @@ function initialize(runningtask) {
         $.get('ServletTraining', function(responseText) {
             $('#tprogress').append("<p id='tresponse'>" + responseText + "</p>");
         });
-        setInterval(function() {
+        var timer = setInterval(function() {
             if (true) {
                 $.get('ServletTraining', function(responseText) {
                     $('#tresponse').text(responseText);
+                    if(responseText.search("100%") != -1){
+                        clearInterval(timer);
+                        $('#tfinishdimmer').dimmer('toggle');
+                        
+                    }
                 });
                 i++;
             }
         }, 500);
-        $("#tcolumn").append("<div class='ui form'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitTrainingFormStop()'>Stop</a></div>");
+        $("#tcolumn").append("<div class='ui form'><div style='margin-top:50px;'><a class='ui red submit button' onclick='submitTrainingFormStop()' id='tstop'>Stop</a></div>");
     } else if (runningtask == "production") {
         $("#datagatherform").remove();
         $("#dgheaderchange").text("Production is currently ongoing...");

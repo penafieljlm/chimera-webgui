@@ -4,9 +4,17 @@
         <servlet-name>ServletInitialize</servlet-name>
         <servlet-class>ph.edu.dlsu.chimera.gui.servlets.ServletInitialize</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletFileHandler</servlet-name>
+        <servlet-class>ph.edu.dlsu.chimera.gui.servlets.ServletFileHandler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletInitialize</servlet-name>
         <url-pattern>/ServletInitialize</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletFileHandler</servlet-name>
+        <url-pattern>/ServletFileHandler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

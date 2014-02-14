@@ -45,19 +45,10 @@ public class ServletProduction extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if (request.getParameter("action").equals("start")) {
-                Part filePart = request.getPart("modelfile"); // Retrieves <input type="file" name="file">
-                String filename = getFilename(filePart);
-                InputStream filecontents = filePart.getInputStream();
-                File tFile = File.createTempFile("", "ctset");
-                FileOutputStream fs = new FileOutputStream(tFile);
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while ((len = filecontents.read(buffer)) != -1) {
-                    fs.write(buffer, 0, len);
-                }
-                
+                Part filePart = request.getPart("modelfile");
+
                 PhaseMonitorProduction _monitor = null;
-                String _input = tFile.getAbsolutePath();
+                InputStream _input = filePart.getInputStream();
                 String _syslog = null;
                 String _syslogport = null;
                 boolean _active = false;
@@ -142,14 +133,4 @@ public class ServletProduction extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private static String getFilename(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-            }
-        }
-        return null;
-    }
 }
