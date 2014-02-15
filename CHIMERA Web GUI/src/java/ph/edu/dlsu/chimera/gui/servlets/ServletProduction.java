@@ -4,8 +4,6 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -15,12 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
 import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
-import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
 
 /**
  *
@@ -75,6 +71,10 @@ public class ServletProduction extends HttpServlet {
 
                 //run task
                 task.start();
+
+                String site = "index.jsp";
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", site);
             } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskProduction) {

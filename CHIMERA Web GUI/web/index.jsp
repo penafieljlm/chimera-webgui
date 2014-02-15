@@ -137,18 +137,16 @@
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Please select a protected interface'
+                                prompt: 'Please select the protected interface'
                             }
                         ]
                     }
                 };
-
                 var settings = {
                     onSuccess: function() {
                         submitDataGatheringForm();
                     }
                 };
-
                 $('#datagatherform').form(rules, settings);
             });
         </script>
@@ -170,14 +168,12 @@
                         ]
                     }
                 };
-
                 var settings = {
                     onSuccess: function() {
                         //submitTrainingForm();
-                        $('#trainingform').submit();
+                        document.getElementById('trainingform').submit();
                     }
                 };
-
                 $('#trainingform').form(rules, settings);
             });
         </script>
@@ -199,37 +195,30 @@
                         ]
                     }
                 };
-
                 var settings = {
                     onSuccess: function() {
                         //submitProductionForm();
-                        $('#productionform').submit();
+                        document.getElementById('productionform').submit();
                     }
                 };
-
                 $('#productionform').form(rules, settings);
             });
         </script>
 
         <script>
             $(document).ready(function() {
-
-                var rules = {
-                };
-
+                var rules = {};
                 var settings = {
                     onSuccess: function() {
                         submitConfigurationForm();
                     }
                 };
-
                 $('#configurationform').form(rules, settings);
             });
         </script>
 
         <script>
             $(document).ready(function() {
-
                 var rules = {
                     firstName: {
                         identifier: 'first-name',
@@ -290,13 +279,11 @@
                         ]
                     }
                 };
-
                 var settings = {
                     onSuccess: function() {
                         $('#ustartdimmer').dimmer('toggle');
                     }
                 };
-
                 $('#adduserform').form(rules, settings);
             });
         </script>
@@ -371,7 +358,7 @@
                                 <i class="download disk icon"></i> Data Gathering
                             </a>
                             <a class="blue item" onclick="tab('ttab')" id="navttab">
-                                <i class="dashboard icon"></i> Training
+                                <i class="wrench icon"></i> Training
                             </a>
                             <a class="blue item" onclick="tab('ptab')" id="navptab">
                                 <i class="legal icon"></i> Production
@@ -383,7 +370,7 @@
                                 <i class="sitemap icon"></i> Interfaces
                             </a>
                             <a class="blue item" onclick="tab('dtab')" id="navdtab">
-                                <i class="wrench icon"></i> Dashboard
+                                <i class="dashboard icon"></i> Dashboard
                             </a>
                             <a class="blue item" onclick="tab('utab')" id="navutab">
                                 <i class="users icon"></i> Users
@@ -532,7 +519,7 @@
                                     </div>
 
                                     <div style="margin-top:20px;">
-                                        <a class="ui teal submit button" name="action" id="dgaction" value="start">Start</a>
+                                        <a class="ui teal submit button" name="action" value="start" id="dgaction">Start</a>
                                     </div>
                                 </div>
                                 <div class="ui page dimmer" id="dgstartdimmer">
@@ -546,6 +533,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="ui page dimmer" id="dgstopdimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <h2 class="ui inverted icon header">
+                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                Data Gathering successfully stopped!
+                                                <div class="sub header">The training file is now available for download</div>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -633,18 +632,16 @@
                                         <label>Exclude attributes</label>
                                     </div>
 
-                                    <div style="margin-top:20px;">
-                                        <input type="submit" class="ui teal submit button" name="action" value="start"/>
-                                    </div>
-
-                                    <input type="file" name="trainingfile" id="tbrowse" style="visibility:hidden;">
+                                    <a class="ui teal submit button" style="margin-top:20px;">Start</a>
+                                    <input type="text" name="action" value="start" style="display:none;"/>
+                                    <input type="file" name="trainingfile" id="tbrowse" style="display:none;">
                                 </form>
 
                                 <div class="ui page dimmer" id="tstartdimmer">
                                     <div class="content">
                                         <div class="center">
                                             <h2 class="ui inverted icon header">
-                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                <i class="icon circular inverted emphasized green wrench"></i>
                                                 Training successfully started!
                                                 <div class="sub header">View the progress bar to view its progress</div>
                                             </h2>
@@ -655,14 +652,14 @@
                                     <div class="content">
                                         <div class="center">
                                             <h2 class="ui inverted icon header">
-                                                <i class="icon circular inverted emphasized green download disk"></i>
-                                                Training successfully finished!
-                                                <div class="sub header">Model file can now be downloaded</div>
-                                                <div class="ui button" style="margin-top:20px;"><a style="text-decoration:none;color:black;" onclick="submitTrainingFormStop()" href="files/Model.cmodel">Download</a></div>
+                                                <i class="icon circular inverted emphasized green wrench"></i>
+                                                Training completed successfully!
+                                                <div class="sub header">Model file is now available for download</div>
                                             </h2>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -721,18 +718,16 @@
                                         <label>Create firewall rules</label>
                                     </div>
 
-                                    <div style="margin-top:20px;">
-                                        <a class="ui teal submit button" name="action" value="start">Start</a>
-                                    </div>
-
-                                    <input type="file" name="modelfile" id="pbrowse" style="visibility:hidden;">
+                                    <a class="ui teal submit button" style="margin-top:20px;">Start</a>
+                                    <input type="text" name="action" value="start" style="display:none;"/>
+                                    <input type="file" name="modelfile" id="pbrowse" style="display:none;">
                                 </form>
 
                                 <div class="ui page dimmer" id="pstartdimmer">
                                     <div class="content">
                                         <div class="center">
                                             <h2 class="ui inverted icon header">
-                                                <i class="icon circular inverted emphasized green download disk"></i>
+                                                <i class="icon circular inverted emphasized green legal"></i>
                                                 Production successfully started!
                                                 <div class="sub header">View the progress bar to view its progress</div>
                                             </h2>
@@ -818,7 +813,7 @@
                                                 <h2 class="ui inverted icon header">
                                                     <i class="icon circular inverted emphasized green download disk"></i>
                                                     Configuration successfully saved and applied!
-                                                    <div class="sub header">Configuration has been save and applied</div>
+                                                    <div class="sub header">Configuration is now being used by the currently running task</div>
                                                 </h2>
                                             </div>
                                         </div>
@@ -827,7 +822,6 @@
                                     <div style="margin-top:20px;">
                                         <a class="ui teal submit button" name="action" value="apply">Apply</a>
                                     </div>
-
                                 </div>
 
                             </div>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ph.edu.dlsu.chimera.gui.servlets;
 
 import java.io.BufferedInputStream;
@@ -24,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author User
  */
 public class ServletFileHandler extends HttpServlet {
+
     private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
     private String filePath;
 
@@ -32,8 +32,7 @@ public class ServletFileHandler extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         String requestedFile = request.getPathInfo();
         if (requestedFile == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

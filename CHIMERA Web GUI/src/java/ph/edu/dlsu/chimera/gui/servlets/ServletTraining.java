@@ -4,7 +4,6 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,10 +80,10 @@ public class ServletTraining extends HttpServlet {
 
                 //run task
                 task.start();
-                
-                String site = "index.jsp" ;
+
+                String site = "index.jsp";
                 response.setStatus(response.SC_MOVED_TEMPORARILY);
-                response.setHeader("Location", site); 
+                response.setHeader("Location", site);
             } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskTraining) {
