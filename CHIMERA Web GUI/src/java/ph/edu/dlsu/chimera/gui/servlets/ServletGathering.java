@@ -14,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskGather;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;

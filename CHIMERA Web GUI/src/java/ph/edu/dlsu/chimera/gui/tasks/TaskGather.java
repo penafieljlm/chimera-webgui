@@ -4,6 +4,7 @@
  */
 package ph.edu.dlsu.chimera.gui.tasks;
 
+import java.io.File;
 import ph.edu.dlsu.chimera.Chimera;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
 
@@ -11,7 +12,7 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
  *
  * @author Administrator
  */
-public class TaskGather extends Task<PhaseMonitorGathering> {
+public class TaskGather extends Task<PhaseMonitorGathering> implements TaskFileDownload {
 
     public final String output;
     public final String protectedIface;
@@ -19,6 +20,7 @@ public class TaskGather extends Task<PhaseMonitorGathering> {
     public final boolean allow;
     public final String training;
     public final boolean attack;
+    private File outputFile;
 
     public TaskGather(PhaseMonitorGathering _monitor, String _output, String _protected, String _access, boolean _allow, String _training, boolean _attack) {
         super(_monitor);
@@ -28,11 +30,16 @@ public class TaskGather extends Task<PhaseMonitorGathering> {
         this.allow = _allow;
         this.training = _training;
         this.attack = _attack;
+        this.outputFile = null;
     }
 
     @Override
     protected void doTask() throws Exception {
-        Chimera.cgather(this.monitor, this.output, this.protectedIface, this.access, this.allow, this.training, this.attack);
+        this.outputFile = Chimera.cgather(this.monitor, this.output, this.protectedIface, this.access, this.allow, this.training, this.attack);
     }
 
+    @Override
+    public File getOutputFile() {
+        return this.outputFile;
+    }
 }

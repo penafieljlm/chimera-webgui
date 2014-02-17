@@ -16,7 +16,7 @@ import ph.edu.dlsu.chimera.util.UtilsFile;
  *
  * @author root
  */
-public class TaskTraining extends Task<PhaseMonitorTraining> {
+public class TaskTraining extends Task<PhaseMonitorTraining> implements TaskFileUpload, TaskFileDownload {
 
     public final InputStream input;
     public final String output;
@@ -32,6 +32,7 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
         this.filter = _filter;
         this.exclude = _exclude;
         this.uploadProgress = 0.0;
+        this.outputFile = null;
     }
 
     @Override
@@ -48,7 +49,6 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
             written += len;
             this.uploadProgress = (double) (written / (tFile.length() * 1.0));
         }
-        UtilsFile.copyFile(tFile, new File("C:/sample"));
         StringBuilder sb = new StringBuilder(tFile.getAbsolutePath());
         int i = sb.lastIndexOf(suffix);
         this.uploadProgress = 1.0;
@@ -57,10 +57,12 @@ public class TaskTraining extends Task<PhaseMonitorTraining> {
         tFile.delete();
     }
 
+    @Override
     public double getUploadProgress() {
         return this.uploadProgress;
     }
 
+    @Override
     public File getOutputFile() {
         return this.outputFile;
     }
