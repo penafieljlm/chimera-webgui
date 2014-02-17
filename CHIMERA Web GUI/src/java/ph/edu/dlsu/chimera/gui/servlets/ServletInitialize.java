@@ -5,17 +5,22 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ph.edu.dlsu.chimera.Chimera;
+import ph.edu.dlsu.chimera.components.Component;
+import ph.edu.dlsu.chimera.core.Diagnostic;
 import ph.edu.dlsu.chimera.core.nic.NicData;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
-import ph.edu.dlsu.chimera.gui.tasks.TaskGather;
+import ph.edu.dlsu.chimera.gui.tasks.TaskGathering;
 import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
 import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 
@@ -27,8 +32,9 @@ import ph.edu.dlsu.chimera.gui.tasks.TaskTraining;
 public class ServletInitialize extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP
+     * <code>GET</code> and
+     * <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -48,7 +54,8 @@ public class ServletInitialize extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP
+     * <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -60,17 +67,26 @@ public class ServletInitialize extends HttpServlet {
             throws ServletException, IOException {
         try {
             NicData[] ifaces = Chimera.cifaces();
-            
-            if(Task.getTask() instanceof TaskGather){
+
+            if (Task.getTask() instanceof TaskGathering) {
                 request.setAttribute("runningtask", "gathering");
-            } else if(Task.getTask() instanceof TaskTraining){
+                
+                TaskGathering task = (TaskGathering) Task.getTask();
+                HashMap<String, Component> components = task.monitor.getComponents();
+                ArrayList<ArrayList> diags = new ArrayList<ArrayList>();
+                for (String s : components.keySet()) {
+                    diags.add(components.get(s).getDiagnostics());
+                }
+                response.getWriter().append(JsonWriter.toJson(diags));
+                return;
+            } else if (Task.getTask() instanceof TaskTraining) {
                 request.setAttribute("runningtask", "training");
-            } else if(Task.getTask() instanceof TaskProduction){
+            } else if (Task.getTask() instanceof TaskProduction) {
                 request.setAttribute("runningtask", "production");
             } else {
                 request.setAttribute("runningtask", "none");
             }
-            
+
             int i = 0;
             try {
                 for (NicData n : ifaces) {
@@ -94,7 +110,8 @@ public class ServletInitialize extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP
+     * <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -116,5 +133,4 @@ public class ServletInitialize extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

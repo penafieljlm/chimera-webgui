@@ -12,7 +12,7 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
  *
  * @author Administrator
  */
-public class TaskGather extends Task<PhaseMonitorGathering> implements TaskFileDownload {
+public class TaskGathering extends Task<PhaseMonitorGathering> implements TaskFileDownload {
 
     public final String output;
     public final String protectedIface;
@@ -22,7 +22,7 @@ public class TaskGather extends Task<PhaseMonitorGathering> implements TaskFileD
     public final boolean attack;
     private File outputFile;
 
-    public TaskGather(PhaseMonitorGathering _monitor, String _output, String _protected, String _access, boolean _allow, String _training, boolean _attack) {
+    public TaskGathering(PhaseMonitorGathering _monitor, String _output, String _protected, String _access, boolean _allow, String _training, boolean _attack) {
         super(_monitor);
         this.output = _output;
         this.protectedIface = _protected;

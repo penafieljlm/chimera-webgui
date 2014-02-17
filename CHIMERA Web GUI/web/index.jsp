@@ -23,6 +23,16 @@
             $(document).ready(function() {
             <% if (request.getAttribute("runningtask") == "gathering") {%>
                 initialize("gathering");
+                $.ajax({
+                    url: "ServletInitialize",
+                    context: document.body,
+                    type: "GET",
+                    dataType: "jsonp",
+                    success: function(data) {
+                        var comps = JSON.parse(data);
+                        //continue here
+                    }
+                });
             <% } else if (request.getAttribute("runningtask") == "training") {%>
                 initialize("training");
             <% } else if (request.getAttribute("runningtask") == "production") {%>
@@ -291,12 +301,12 @@
 
 
         <style type="text/css">
-            #dgtab{}
+            #dgtab{display:none;}
             #ttab{display:none;}
             #ptab{display:none;}
             #ctab{display:none;}
             #itab{display:none;}
-            #dtab{display:none;}
+            #dtab{}
             #utab{display:none;}
         </style>
 
@@ -354,7 +364,10 @@
                 <div class="wrapper">
                     <div class="sticky">
                         <div class="ui secondary vertical pointing menu" id="tabs">
-                            <a class="active blue item" onclick="tab('dgtab')" id="navdgtab">
+                            <a class="active blue item" onclick="tab('dtab')" id="navdtab">
+                                <i class="dashboard icon"></i> Dashboard
+                            </a>
+                            <a class="blue item" onclick="tab('dgtab')" id="navdgtab">
                                 <i class="download disk icon"></i> Data Gathering
                             </a>
                             <a class="blue item" onclick="tab('ttab')" id="navttab">
@@ -368,9 +381,6 @@
                             </a>
                             <a class="blue item" onclick="tab('itab')" id="navitab">
                                 <i class="sitemap icon"></i> Interfaces
-                            </a>
-                            <a class="blue item" onclick="tab('dtab')" id="navdtab">
-                                <i class="dashboard icon"></i> Dashboard
                             </a>
                             <a class="blue item" onclick="tab('utab')" id="navutab">
                                 <i class="users icon"></i> Users
