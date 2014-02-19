@@ -35,8 +35,7 @@ public class ServletTraining extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -51,11 +50,7 @@ public class ServletTraining extends HttpServlet {
 
             if (Task.getTask() != null) {
                 if (Task.getTask() instanceof TaskTraining) {
-                    if (((TaskTraining) (Task.getTask())).getUploadProgress() < 1.0) {
-                        text = "[" + String.format("%03d", (int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100)) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus();
-                    } else {
-                        text = String.format("%03d", (int) (((TaskTraining) (Task.getTask())).getUploadProgress() * 100)) + "%] - " + "Uploading Training Set";
-                    }
+                    text = "[" + String.format("%03d", (int) (((TaskTraining) (Task.getTask())).monitor.getProgress() * 100)) + "%] - " + ((TaskTraining) (Task.getTask())).monitor.getStatus();
                 } else {
                     text = "Running task is not Training";
                 }
@@ -67,7 +62,7 @@ public class ServletTraining extends HttpServlet {
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
             response.getWriter().write(text);
             System.out.println(text);
-        } else if (request.getParameter("action") != null && request.getParameter("action").equals("file")) {
+        } else if (request.getParameter("action") != null && request.getParameter("action").equals("output")) {
             String text = null;
 
             if (Task.getTask() != null) {
@@ -83,8 +78,7 @@ public class ServletTraining extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

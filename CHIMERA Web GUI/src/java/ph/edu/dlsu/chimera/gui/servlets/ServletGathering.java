@@ -4,16 +4,19 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ph.edu.dlsu.chimera.core.Statistics;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskGathering;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
@@ -27,8 +30,7 @@ public class ServletGathering extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -54,7 +56,7 @@ public class ServletGathering extends HttpServlet {
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
             response.getWriter().write(text);
-        } else if (request.getParameter("action") != null && request.getParameter("action").equals("file")) {
+        } else if (request.getParameter("action") != null && request.getParameter("action").equals("output")) {
             String text = null;
 
             if (Task.getTask() != null) {
@@ -66,12 +68,24 @@ public class ServletGathering extends HttpServlet {
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
             response.getWriter().write(text);
+        } else if (request.getParameter("action") != null && request.getParameter("action").equals("stats")) {
+            HashMap<String, Statistics[]> graphingStats = null;
+
+            if (Task.getTask() != null) {
+                if (Task.getTask() instanceof TaskGathering) {
+                    Task.getTask().monitor.createGraphDataPoint();
+                    graphingStats = Task.getTask().monitor.statisticsGraph;
+                }
+            }
+
+            response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+            response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+            response.getWriter().write((graphingStats != null) ? JsonWriter.toJson(graphingStats) : null);
         }
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

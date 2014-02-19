@@ -5,18 +5,13 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
-import com.cedarsoftware.util.io.JsonWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ph.edu.dlsu.chimera.Chimera;
-import ph.edu.dlsu.chimera.components.Component;
 import ph.edu.dlsu.chimera.core.nic.NicData;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskGathering;
