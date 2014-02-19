@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import ph.edu.dlsu.chimera.core.Statistics;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
-import ph.edu.dlsu.chimera.gui.tasks.TaskGathering;
 import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
 

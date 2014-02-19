@@ -5,10 +5,6 @@
 package ph.edu.dlsu.chimera.gui.tasks;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import ph.edu.dlsu.chimera.components.Component;
-import ph.edu.dlsu.chimera.components.ComponentActiveProcessor;
-import ph.edu.dlsu.chimera.core.Statistics;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitor;
 
 /**
@@ -31,6 +27,7 @@ public abstract class Task<TMonitor extends PhaseMonitor> extends Thread {
         try {
             this.doTask();
         } catch (Exception ex) {
+            ex.printStackTrace();
             this.exceptions.add(ex);
         }
     }
