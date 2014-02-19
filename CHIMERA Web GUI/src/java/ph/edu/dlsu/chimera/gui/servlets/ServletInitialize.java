@@ -48,15 +48,6 @@ public class ServletInitialize extends HttpServlet {
 
             if (Task.getTask() instanceof TaskGathering) {
                 request.setAttribute("runningtask", "gathering");
-
-                TaskGathering task = (TaskGathering) Task.getTask();
-                HashMap<String, Component> components = task.monitor.getComponents();
-                ArrayList<ArrayList> diags = new ArrayList<ArrayList>();
-                for (String s : components.keySet()) {
-                    diags.add(components.get(s).getDiagnostics());
-                }
-                response.getWriter().append(JsonWriter.toJson(diags));
-                return;
             } else if (Task.getTask() instanceof TaskTraining) {
                 request.setAttribute("runningtask", "training");
             } else if (Task.getTask() instanceof TaskProduction) {

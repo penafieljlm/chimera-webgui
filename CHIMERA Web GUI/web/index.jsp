@@ -17,126 +17,141 @@
         <script src="jquery.sticky.js"></script>
         <script src="packaged/javascript/semantic.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
+        <script src="https://www.google.com/jsapi"></script>
         <script src="javascript.js"></script>
+
+        <script type="text/javascript">
+            google.load("visualization", "1", {packages:["corechart"]});
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+                //var dataTable = new google.visualization.DataTable(json);
+                var data = google.visualization.arrayToDataTable([
+                    ['Year', 'Sales', 'Expenses'],
+                    ['2004',  1000,      400],
+                    ['2005',  1170,      460],
+                    ['2006',  660,       1120],
+                    ['2007',  1030,      540]
+                ]);
+
+                var options = {
+                    title: 'Company Performance'
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            }
+        </script>
 
         <script>
             $(document).ready(function() {
             <% if (request.getAttribute("runningtask") == "gathering") {%>
-                initialize("gathering");
-                $.ajax({
-                    url: "ServletInitialize",
-                    context: document.body,
-                    type: "GET",
-                    dataType: "jsonp",
-                    success: function(data) {
-                        var comps = JSON.parse(data);
-                        //continue here
-                    }
-                });
+                    initialize("gathering");
+                    $.getJSON('ServletStatistics', function(json) {
+                    });
             <% } else if (request.getAttribute("runningtask") == "training") {%>
-                initialize("training");
+                    initialize("training");
             <% } else if (request.getAttribute("runningtask") == "production") {%>
-                initialize("production");
+                    initialize("production");
             <% }%>
 
-                $('#dgbrowseseen').click(function() {
-                    $('#dgbrowse').click();
-                });
-                $('#dgbrowse').on('change', function() {
-                    $('#dgoutputfile').val($('#dgbrowse').val());
-                });
-                $('#tbrowseseen').click(function() {
-                    $('#tbrowse').click();
-                });
-                $('#tbrowse').on('change', function() {
-                    $('#ttrainingfile').val($('#tbrowse').val());
-                });
-                $('#pbrowseseen').click(function() {
-                    $('#pbrowse').click();
-                });
-                $('#pbrowse').on('change', function() {
-                    $('#pmodelfile').val($('#pbrowse').val());
-                });
+                    $('#dgbrowseseen').click(function() {
+                        $('#dgbrowse').click();
+                    });
+                    $('#dgbrowse').on('change', function() {
+                        $('#dgoutputfile').val($('#dgbrowse').val());
+                    });
+                    $('#tbrowseseen').click(function() {
+                        $('#tbrowse').click();
+                    });
+                    $('#tbrowse').on('change', function() {
+                        $('#ttrainingfile').val($('#tbrowse').val());
+                    });
+                    $('#pbrowseseen').click(function() {
+                        $('#pbrowse').click();
+                    });
+                    $('#pbrowse').on('change', function() {
+                        $('#pmodelfile').val($('#pbrowse').val());
+                    });
 
-                $('#dgtrainingfilter').hide();
-                $('#dgenabletrainingfilter').val('off');
-                $('#dgenabletrainingfiltercb').checkbox({
-                    'onEnable': function() {
-                        $('#dgenabletrainingfilter').val('on');
-                        $('#dgtrainingfilter').slideDown("slow");
-                    },
-                    'onDisable': function() {
-                        $('#dgenabletrainingfilter').val('off');
-                        $('#dgtrainingfilter').hide();
-                    }
-                });
+                    $('#dgtrainingfilter').hide();
+                    $('#dgenabletrainingfilter').val('off');
+                    $('#dgenabletrainingfiltercb').checkbox({
+                        'onEnable': function() {
+                            $('#dgenabletrainingfilter').val('on');
+                            $('#dgtrainingfilter').slideDown("slow");
+                        },
+                        'onDisable': function() {
+                            $('#dgenabletrainingfilter').val('off');
+                            $('#dgtrainingfilter').hide();
+                        }
+                    });
 
-                $('#dgpacketfilter').hide();
-                $('#dgenablepacketfilter').val('off');
-                $('#dgenablepacketfiltercb').checkbox({
-                    'onEnable': function() {
-                        $('#dgenablepacketfilter').val('on');
-                        $('#dgpacketfilter').slideDown("slow");
-                    },
-                    'onDisable': function() {
-                        $('#dgenablepacketfilter').val('off');
-                        $('#dgpacketfilter').hide();
-                    }
-                });
+                    $('#dgpacketfilter').hide();
+                    $('#dgenablepacketfilter').val('off');
+                    $('#dgenablepacketfiltercb').checkbox({
+                        'onEnable': function() {
+                            $('#dgenablepacketfilter').val('on');
+                            $('#dgpacketfilter').slideDown("slow");
+                        },
+                        'onDisable': function() {
+                            $('#dgenablepacketfilter').val('off');
+                            $('#dgpacketfilter').hide();
+                        }
+                    });
 
-                $('#tfilter').hide();
-                $('#tenablefilter').val('off');
-                $('#tenablefiltercb').checkbox({
-                    'onEnable': function() {
-                        $('#tenablefilter').val('on');
-                        $('#tfilter').slideDown("slow");
-                    },
-                    'onDisable': function() {
-                        $('#tenablefilter').val('off');
-                        $('#tfilter').hide();
-                    }
-                });
+                    $('#tfilter').hide();
+                    $('#tenablefilter').val('off');
+                    $('#tenablefiltercb').checkbox({
+                        'onEnable': function() {
+                            $('#tenablefilter').val('on');
+                            $('#tfilter').slideDown("slow");
+                        },
+                        'onDisable': function() {
+                            $('#tenablefilter').val('off');
+                            $('#tfilter').hide();
+                        }
+                    });
 
-                $('#dgpacketfilterswitch').val('off');
-                $('#dgpacketfilterswitchcb').checkbox({
-                    'onEnable': function() {
-                        $('#dgpacketfilterswitch').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#dgpacketfilterswitch').val('off')
-                    }
-                });
+                    $('#dgpacketfilterswitch').val('off');
+                    $('#dgpacketfilterswitchcb').checkbox({
+                        'onEnable': function() {
+                            $('#dgpacketfilterswitch').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#dgpacketfilterswitch').val('off')
+                        }
+                    });
 
-                $('#dgattackswitch').val('off');
-                $('#dgattackswitchcb').checkbox({
-                    'onEnable': function() {
-                        $('#dgattackswitch').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#dgattackswitch').val('off')
-                    }
-                });
+                    $('#dgattackswitch').val('off');
+                    $('#dgattackswitchcb').checkbox({
+                        'onEnable': function() {
+                            $('#dgattackswitch').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#dgattackswitch').val('off')
+                        }
+                    });
 
-                $('#texclude').val('off');
-                $('#texcludecb').checkbox({
-                    'onEnable': function() {
-                        $('#texclude').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#texclude').val('off')
-                    }
-                });
+                    $('#texclude').val('off');
+                    $('#texcludecb').checkbox({
+                        'onEnable': function() {
+                            $('#texclude').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#texclude').val('off')
+                        }
+                    });
 
-                $('#pfirewall').val('off');
-                $('#pfirewallcb').checkbox({
-                    'onEnable': function() {
-                        $('#pfirewall').val('on')
-                    },
-                    'onDisable': function() {
-                        $('#pfirewall').val('off')
-                    }
+                    $('#pfirewall').val('off');
+                    $('#pfirewallcb').checkbox({
+                        'onEnable': function() {
+                            $('#pfirewall').val('on')
+                        },
+                        'onDisable': function() {
+                            $('#pfirewall').val('off')
+                        }
+                    });
                 });
-            });
         </script>
 
         <script>
@@ -390,6 +405,32 @@
                 </div>
 
                 <div id="Content_Area">
+
+                    <div id="dtab">
+                        <h2 class="ui dividing header">Dashboard</h2>
+                        <div class="ui grid">
+                            <div class="column">
+                                <h4 class="ui header">About the Dashboard</h4>
+                                <p>
+                                    The cdiag command prints the state of a specified component.
+                                    <br>The command will only work if there is an ongoing phase.
+                                </p>
+                                <div class="ui section divider"></div>
+
+                                <div id="chart_div" style="width:900px;height:500px;"></div>
+
+                                <div class="ui right overlay very wide floating sidebar" id="dside">
+                                    <div class="ui form" style="padding:15px;">
+                                        <div class="field">
+                                            <p>Component state</p>
+                                            <textarea></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div id="dgtab">
                         <h2 class="ui dividing header">Data Gathering</h2>
@@ -888,47 +929,6 @@
                                             n++;
                                         }
                                     %>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="dtab">
-                        <h2 class="ui dividing header">Dashboard</h2>
-                        <div class="ui grid">
-                            <div class="column">
-                                <h4 class="ui header">About the Dashboard</h4>
-                                <p>
-                                    The cdiag command prints the state of a specified component.
-                                    <br>The command will only work if there is an ongoing phase.
-                                </p>
-                                <div class="ui section divider"></div>
-
-                                <div class="ui selection dropdown">
-                                    <label>Component:</label>
-                                    <div class="text">Select</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu">
-                                        <div class="item" data-value="option1">Component 1</div>
-                                        <div class="item" data-value="option2">Component 2</div>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top:20px;">
-                                    <div class="ui active button" id="dshowoutputmessages">
-                                        <i class="browser icon"></i>
-                                        Diagnose
-                                    </div>
-                                </div>
-
-                                <div class="ui right overlay very wide floating sidebar" id="dside">
-                                    <div class="ui form" style="padding:15px;">
-                                        <div class="field">
-                                            <p>Component state</p>
-                                            <textarea></textarea>
-                                        </div>
-                                    </div>
                                 </div>
 
                             </div>
