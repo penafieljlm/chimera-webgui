@@ -37,21 +37,23 @@ public class ServletProduction extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text;
+        if (request.getParameter("action").equals("state")) {
+            String text;
 
-        if (Task.getTask() != null) {
-            if (Task.getTask() instanceof TaskProduction) {
-                text = "In Production";
+            if (Task.getTask() != null) {
+                if (Task.getTask() instanceof TaskProduction) {
+                    text = "In Production";
+                } else {
+                    text = "Running task is not Production";
+                }
             } else {
-                text = "Running task is not Production";
+                text = "No task is running";
             }
-        } else {
-            text = "No task is running";
-        }
 
-        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
-        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-        response.getWriter().write(text);
+            response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+            response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+            response.getWriter().write(text);
+        }
     }
 
     /**

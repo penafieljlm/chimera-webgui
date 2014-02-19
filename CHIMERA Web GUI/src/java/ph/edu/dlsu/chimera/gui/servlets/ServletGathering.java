@@ -38,21 +38,35 @@ public class ServletGathering extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String text;
+        if (request.getParameter("action").equals("state")) {
+            String text;
 
-        if (Task.getTask() != null) {
-            if (Task.getTask() instanceof TaskGathering) {
-                text = "Number of instances gathered: " + ((TaskGathering) (Task.getTask())).monitor.getInstancesGathered();
+            if (Task.getTask() != null) {
+                if (Task.getTask() instanceof TaskGathering) {
+                    text = "Number of instances gathered: " + ((TaskGathering) (Task.getTask())).monitor.getInstancesGathered();
+                } else {
+                    text = "Running task is not Data Gathering";
+                }
             } else {
-                text = "Running task is not Data Gathering";
+                text = "No task is running";
             }
-        } else {
-            text = "No task is running";
-        }
 
-        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
-        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-        response.getWriter().write(text);
+            response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+            response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+            response.getWriter().write(text);
+        } else if (request.getParameter("action").equals("file")) {
+            String text = null;
+
+            if (Task.getTask() != null) {
+                if (Task.getTask() instanceof TaskGathering) {
+                    text = ((TaskGathering) (Task.getTask())).getOutputFile().getAbsolutePath();
+                }
+            }
+
+            response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+            response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+            response.getWriter().write(text);
+        }
     }
 
     /**
