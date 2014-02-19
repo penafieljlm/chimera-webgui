@@ -7,7 +7,6 @@ package ph.edu.dlsu.chimera.gui.servlets;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,10 +25,12 @@ public class ServletFileHandler extends HttpServlet {
     private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
     private String filePath;
 
+    @Override
     public void init() throws ServletException {
         this.filePath = "/files";
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String requestedFile = request.getPathInfo();
@@ -75,17 +76,17 @@ public class ServletFileHandler extends HttpServlet {
             }
         } finally {
             // Gently close streams.
-            close(output);
-            close(input);
-        }
-    }
-
-    private static void close(Closeable resource) {
-        if (resource != null) {
-            try {
-                resource.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                }
+            }
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                }
             }
         }
     }

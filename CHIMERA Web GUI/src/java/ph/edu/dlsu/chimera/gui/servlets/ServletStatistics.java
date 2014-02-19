@@ -6,37 +6,21 @@ package ph.edu.dlsu.chimera.gui.servlets;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ph.edu.dlsu.chimera.components.Component;
-import ph.edu.dlsu.chimera.core.Diagnostic;
+import ph.edu.dlsu.chimera.core.Statistics;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
-import ph.edu.dlsu.chimera.gui.tasks.TaskGathering;
-import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
 
 /**
  *
  * @author Administrator
  */
-public class ServletDiagnose extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    }
+@WebServlet(name = "ServletStatistics", urlPatterns = {"/ServletStatistics"})
+public class ServletStatistics extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -51,7 +35,15 @@ public class ServletDiagnose extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HashMap<String, Statistics[]> graphingStats = null;
+
+        if (Task.getTask() != null) {
+            graphingStats = Task.getTask().getStatistics();
+        }
+
+        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+        response.getWriter().write((graphingStats != null) ? JsonWriter.toJson(graphingStats) : null);
     }
 
     /**
@@ -66,7 +58,6 @@ public class ServletDiagnose extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
