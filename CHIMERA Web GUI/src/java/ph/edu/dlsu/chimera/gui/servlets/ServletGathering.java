@@ -38,7 +38,7 @@ public class ServletGathering extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("action").equals("state")) {
+        if (request.getParameter("action") != null && request.getParameter("action").equals("state")) {
             String text;
 
             if (Task.getTask() != null) {
@@ -54,7 +54,7 @@ public class ServletGathering extends HttpServlet {
             response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
             response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
             response.getWriter().write(text);
-        } else if (request.getParameter("action").equals("file")) {
+        } else if (request.getParameter("action") != null && request.getParameter("action").equals("file")) {
             String text = null;
 
             if (Task.getTask() != null) {

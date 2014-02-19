@@ -22,29 +22,31 @@ function initialize(runningtask) {
         $("#productionform").remove();
         $("#pheaderchange").text("Training is currently ongoing...");
         $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
-        $.get('ServletTraining', function(responseText) {
+        $.get('ServletTraining', {
+            action: 'state'
+        }, function(responseText) {
             $('#tprogress').append("<p id='tresponse'>" + responseText + "</p>");
-        });
+        }, 'html');
         var timer = setInterval(function() {
-            if (true) {
-                $.get('ServletTraining', function(responseText) {
-                    var text = responseText;
-                    var regExp = /\[([^)]+)\]/;
-                    var matches = regExp.exec(text);
+            $.get('ServletTraining', {
+                action: 'state'
+            }, function(responseText) {
+                var text = responseText;
+                var regExp = /\[([^)]+)\]/;
+                var matches = regExp.exec(text);
 
-                    $("#tprogress .bar").css("width", matches[1]);
-                    $('#tresponse').text(text);
+                $("#tprogress .bar").css("width", matches[1]);
+                $('#tresponse').text(text);
 
-                    if (matches[1] === '100%') {
-                        clearInterval(timer);
-                        $('#tresponse').text('[100%] - Model file is now available for download');
-                        $("#theaderchange").text("Training completed successfully!");
-                        $("#tstop").remove();
-                        $("#tcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='files/Model.cmodel' onClick='submitTrainingFormStop();'><i class='icon download'></i>Download</a>");
-                        $('#tfinishdimmer').dimmer('toggle');
-                    }
-                });
-            }
+                if (matches[1] === '100%') {
+                    clearInterval(timer);
+                    $('#tresponse').text('[100%] - Model file is now available for download');
+                    $("#theaderchange").text("Training completed successfully!");
+                    $("#tstop").remove();
+                    $("#tcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='files/Model.cmodeleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' onClick='submitTrainingFormStop();'><i class='icon download'></i>Download</a>");
+                    $('#tfinishdimmer').dimmer('toggle');
+                }
+            }, 'html');
         }, 500);
         $("#tcolumn").append("<a class='ui red submit button' onclick='submitTrainingFormStop()' id='tstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
     } else if (runningtask === "production") {
@@ -58,7 +60,8 @@ function initialize(runningtask) {
         $("#pheaderchange").text("Production is currently ongoing...");
         $("#pcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
         $("#pcolumn").append("<a class='ui red submit button' onclick='submitProductionFormStop()' id='pstop' style='margin-top:20px;'><i class='icon stop'></i>Stop</a>");
-    } else if (runningtask === "none") {
+    }
+    else if (runningtask === "none") {
     }
 }
 
@@ -143,15 +146,17 @@ function onDataGatheringFormSubmitted(response) {
     $("#productionform").remove();
     $("#pheaderchange").text("Data Gathering is currently ongoing...");
     $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Data Gathering Phase.</p></div>");
-    $.get('ServletGathering', function(responseText) {
+    $.get('ServletGathering', {
+        action:'state'
+    }, function(responseText) {
         $('#dgprogress').append("<p id='dginstance'>" + responseText + "</p>");
-    });
+    }, 'html');
     setInterval(function() {
-        if (true) {
-            $.get('ServletGathering', function(responseText) {
-                $('#dginstance').text(responseText);
-            });
-        }
+        $.get('ServletGathering', {
+            action: 'state'
+        }, function(responseText) {
+            $('#dginstance').text(responseText);
+        });
     }, 500);
     $("#dgcolumn").append("<a class='ui red submit button' onClick='dgdimmertoggle();' id='dgstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
 }
@@ -179,27 +184,33 @@ function onConfigurationFormSubmitted(response) {
 }
 
 $(document).ready(
-        function() {
-            $('.ui.checkbox').checkbox();
-            $('.ui.dropdown').dropdown();
+    function() {
+        $('.ui.checkbox').checkbox();
+        $('.ui.dropdown').dropdown();
 
-            $('.message .close').on('click', function() {
-                $(this).closest('.message').fadeOut();
-            });
-
-            $('#adduser').on('click', function() {
-                $('.ui.sidebar').sidebar({overlay: true}).sidebar('toggle');
-            });
-
-            $('#dshowoutputmessages').on('click', function() {
-                $('#dside').sidebar({overlay: true}).sidebar('toggle');
-            });
-
-            $('#newuser').on('click', function() {
-                $('#uside').sidebar({overlay: true}).sidebar('toggle');
-            });
-
-            $(".sticky").sticky({
-                topSpacing: 30
-            });
+        $('.message .close').on('click', function() {
+            $(this).closest('.message').fadeOut();
         });
+
+        $('#adduser').on('click', function() {
+            $('.ui.sidebar').sidebar({
+                overlay: true
+            }).sidebar('toggle');
+        });
+
+        $('#dshowoutputmessages').on('click', function() {
+            $('#dside').sidebar({
+                overlay: true
+            }).sidebar('toggle');
+        });
+
+        $('#newuser').on('click', function() {
+            $('#uside').sidebar({
+                overlay: true
+            }).sidebar('toggle');
+        });
+
+        $(".sticky").sticky({
+            topSpacing: 30
+        });
+    });

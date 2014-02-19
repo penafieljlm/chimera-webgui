@@ -37,7 +37,7 @@ public class ServletProduction extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("action").equals("state")) {
+        if (request.getParameter("action") != null && request.getParameter("action").equals("state")) {
             String text;
 
             if (Task.getTask() != null) {
