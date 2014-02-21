@@ -124,6 +124,7 @@ public class ServletProduction extends HttpServlet {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskProduction) {
                         Task.getTask().monitor.terminate();
+                        Task.getTask().join();
                         Task.setTask(null);
                     }
                 }

@@ -117,6 +117,7 @@ public class ServletTraining extends HttpServlet {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskTraining) {
                         Task.getTask().monitor.terminate();
+                        Task.getTask().join();
                         text = ((TaskTraining) (Task.getTask())).getOutputFile().getAbsolutePath();
                         Task.setTask(null);
                     }

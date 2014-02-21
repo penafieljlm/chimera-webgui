@@ -133,6 +133,7 @@ public class ServletGathering extends HttpServlet {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskGathering) {
                         Task.getTask().monitor.terminate();
+                        Task.getTask().join();
                         text = ((TaskGathering) (Task.getTask())).getOutputFile().getAbsolutePath();
                         Task.setTask(null);
                     }
