@@ -123,11 +123,13 @@ public class ServletProduction extends HttpServlet {
             } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskProduction) {
-                        Task.terminateTask();
+                        Task.getTask().monitor.terminate();
+                        Task.setTask(null);
                     }
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             out.close();
         }

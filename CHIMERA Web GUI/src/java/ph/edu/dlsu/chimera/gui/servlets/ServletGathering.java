@@ -132,8 +132,9 @@ public class ServletGathering extends HttpServlet {
 
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskGathering) {
+                        Task.getTask().monitor.terminate();
                         text = ((TaskGathering) (Task.getTask())).getOutputFile().getAbsolutePath();
-                        Task.terminateTask();
+                        Task.setTask(null);
                     }
                 }
 
@@ -142,6 +143,7 @@ public class ServletGathering extends HttpServlet {
                 response.getWriter().write(text);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             out.close();
         }
