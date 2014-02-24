@@ -1,3 +1,12 @@
+function debugObject(parsed){
+    var output = '';
+    for (var property in parsed) {
+        output += property + ': ' + parsed[property]+'; ';
+    }
+    
+    return output;
+}
+
 function pageReload() {
     window.location.reload(true);
 }

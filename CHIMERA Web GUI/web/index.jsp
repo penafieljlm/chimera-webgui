@@ -22,22 +22,14 @@
 
         <script type="text/javascript">
             google.load("visualization", "1", {packages:["corechart"]});
-            google.setOnLoadCallback(drawChart);
-            function drawChart() {
+            function drawChart(graph, _title, id) {
                 //var dataTable = new google.visualization.DataTable(json);
-                var data = google.visualization.arrayToDataTable([
-                    ['Year', 'Sales', 'Expenses'],
-                    ['2004',  1000,      400],
-                    ['2005',  1170,      460],
-                    ['2006',  660,       1120],
-                    ['2007',  1030,      540]
-                ]);
+                var data = google.visualization.arrayToDataTable(graph);
 
                 var options = {
-                    title: 'Company Performance'
+                    title: _title
                 };
-
-                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div'+id));
                 chart.draw(data, options);
             }
         </script>
@@ -46,8 +38,45 @@
             $(document).ready(function() {
             <% if (request.getAttribute("runningtask") == "gathering") {%>
                     initialize("gathering");
-                    $.getJSON('ServletStatistics', function(json) {
-                    });
+                    $.get('ServletGathering', {
+                        action: 'stats'
+                    }, function(responseText) {
+                        var parsed = $.parseJSON(responseText);
+                        $.each(parsed['@keys'], function(index, value){
+                            $('#dcolumn').append("<div id='chart_div" + index + "' style='width:900px;height:500px;'></div>");
+                        });
+                    }, 'html');
+                    
+                    var timer = setInterval(function() {
+                        $.get('ServletGathering', {
+                            action: 'stats'
+                        }, function(responseText) {
+                            var parsed = $.parseJSON(responseText);
+                            var graphs = {};
+                            $.each(parsed['@keys'], function(index, value){
+                                var curgraph = parsed['@items'][index];
+                                var _curgraph = [['timed','count','tsize','asize','rateps']];
+                                $.each(curgraph['@items'], function(index2, value2){
+                                    var curitem = [];
+                                    curitem.push((value2.lastLastEncounterNanos < 0) ? -1 : value2.lastEncounterNanos - value2.lastLastEncounterNanos);
+                                    curitem.push(value2.totalEncounters);
+                                    curitem.push(value2.totalSize);
+                                    curitem.push((value2.totalEncounters > 0) ? value2.totalSize / value2.totalEncounters : value2.totalSize);
+                                    var d = new Date();
+                                    var timeexisted = d.getMilliseconds() - (value2.timeCreatedNanos/1000000);
+                                    var sec = timeexisted / 1000;
+                                    curitem.push((sec > 0) ? value2.totalEncounters / sec : value2.totalEncounters);
+                                    _curgraph.push(curitem);
+                                });
+                                graphs[value] = _curgraph;
+                            });
+                            
+                            $.each(parsed['@keys'], function(index, value){
+                                drawChart(graphs[value], value, index);
+                            });
+                            $('#dstats').text(debugObject(graphs));
+                        }, 'html');
+                    }, 500);
             <% } else if (request.getAttribute("runningtask") == "training") {%>
                     initialize("training");
             <% } else if (request.getAttribute("runningtask") == "production") {%>
@@ -409,15 +438,13 @@
                     <div id="dtab">
                         <h2 class="ui dividing header">Dashboard</h2>
                         <div class="ui grid">
-                            <div class="column">
+                            <div class="column" id="dcolumn">
                                 <h4 class="ui header">About the Dashboard</h4>
                                 <p>
                                     The cdiag command prints the state of a specified component.
                                     <br>The command will only work if there is an ongoing phase.
                                 </p>
                                 <div class="ui section divider"></div>
-
-                                <div id="chart_div" style="width:900px;height:500px;"></div>
 
                                 <div class="ui right overlay very wide floating sidebar" id="dside">
                                     <div class="ui form" style="padding:15px;">
@@ -427,6 +454,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div id="dstats"></div>
 
                             </div>
                         </div>
