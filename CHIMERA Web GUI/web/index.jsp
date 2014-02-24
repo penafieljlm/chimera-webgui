@@ -55,9 +55,10 @@
                             var graphs = {};
                             $.each(parsed['@keys'], function(index, value){
                                 var curgraph = parsed['@items'][index];
-                                var _curgraph = [['timed','count','tsize','asize','rateps']];
+                                var _curgraph = [['lupdt','timed','count','tsize','asize','rateps']];
                                 $.each(curgraph['@items'], function(index2, value2){
                                     var curitem = [];
+                                    curitem.push(value2.lastLastEncounterNanos);
                                     curitem.push((value2.lastLastEncounterNanos < 0) ? -1 : value2.lastEncounterNanos - value2.lastLastEncounterNanos);
                                     curitem.push(value2.totalEncounters);
                                     curitem.push(value2.totalSize);
