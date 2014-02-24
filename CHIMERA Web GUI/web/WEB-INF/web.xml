@@ -8,6 +8,10 @@
         <servlet-name>ServletFileHandler</servlet-name>
         <servlet-class>ph.edu.dlsu.chimera.gui.servlets.ServletFileHandler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletDashboard</servlet-name>
+        <servlet-class>ph.edu.dlsu.chimera.gui.servlets.ServletDashboard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletInitialize</servlet-name>
         <url-pattern>/ServletInitialize</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ServletFileHandler</servlet-name>
         <url-pattern>/ServletFileHandler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletDashboard</servlet-name>
+        <url-pattern>/ServletDashboard</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

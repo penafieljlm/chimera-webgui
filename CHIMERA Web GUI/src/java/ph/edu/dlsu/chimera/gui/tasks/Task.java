@@ -10,6 +10,7 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitor;
 /**
  *
  * @author Administrator
+ * @param <TMonitor>
  */
 public abstract class Task<TMonitor extends PhaseMonitor> extends Thread {
 
@@ -41,4 +42,5 @@ public abstract class Task<TMonitor extends PhaseMonitor> extends Thread {
     public static Task getTask() {
         return Task.task;
     }
+
 }

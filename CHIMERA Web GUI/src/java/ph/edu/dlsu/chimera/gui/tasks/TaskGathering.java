@@ -6,6 +6,7 @@ package ph.edu.dlsu.chimera.gui.tasks;
 
 import java.io.File;
 import ph.edu.dlsu.chimera.Chimera;
+import ph.edu.dlsu.chimera.core.Statistics;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorGathering;
 
 /**
@@ -42,4 +43,5 @@ public class TaskGathering extends Task<PhaseMonitorGathering> implements TaskFi
     public File getOutputFile() {
         return this.outputFile;
     }
+
 }
