@@ -94,6 +94,8 @@
                 initialize("training");
             <% } else if (request.getAttribute("runningtask") == "production") {%>
                 initialize("production");
+            <% } else { %>
+                $('#dstats').text('No task is running.');
             <% }%>
 
                 $('#dgbrowseseen').click(function() {
@@ -184,13 +186,39 @@
                     }
                 });
 
+                $('#psyslog').hide();
+                $('#penablesyslog').val('off');
+                $('#penablesyslogcb').checkbox({
+                    'onEnable': function() {
+                        $('#penablesyslog').val('on');
+                        $('#psyslog').slideDown('slow');
+                    },
+                    'onDisable': function() {
+                        $('#penablesyslog').val('off');
+                        $('#psyslog').hide();
+                    }
+                });
+
+                $('#psyslogport').hide();
+                $('#penablesyslogport').val('off');
+                $('#penablesyslogportcb').checkbox({
+                    'onEnable': function() {
+                        $('#penablesyslogport').val('on');
+                        $('#psyslogport').slideDown('slow');
+                    },
+                    'onDisable': function() {
+                        $('#penablesyslogport').val('off');
+                        $('#psyslogport').hide();
+                    }
+                });
+
                 $('#pfirewall').val('off');
                 $('#pfirewallcb').checkbox({
                     'onEnable': function() {
-                        $('#pfirewall').val('on')
+                        $('#pfirewall').val('on');
                     },
                     'onDisable': function() {
-                        $('#pfirewall').val('off')
+                        $('#pfirewall').val('off');
                     }
                 });
             });
@@ -211,7 +239,8 @@
                 };
                 var settings = {
                     onSuccess: function() {
-                        submitDataGatheringForm();
+                        document.getElementById('datagatherform').submit();
+                        //submitDataGatheringForm();
                     }
                 };
                 $('#datagatherform').form(rules, settings);
@@ -492,7 +521,7 @@
                                 <h4 class="ui header" id="dgheaderchange">Data Gathering Settings</h4>
                                 <div id="dghidden"></div>
 
-                                <div class="ui form" id="datagatherform" action="ServletGathering" method="post">
+                                <form class="ui form" id="datagatherform" action="ServletGathering" method="post">
                                     <div class="ui error message"></div>
 
                                     <div class="ui selection dropdown">
@@ -611,10 +640,9 @@
                                         <label>Allow packet filter switch</label>
                                     </div>
 
-                                    <div style="margin-top:20px;">
-                                        <a class="ui teal submit button" name="action" value="start" id="dgaction">Start</a>
-                                    </div>
-                                </div>
+                                    <a class="ui teal submit button" style="margin-top:20px;">Start</a>
+                                    <input type="text" id="dgaction" name="action" value="start" style="display:none;"/>
+                                </form>
                                 <div class="ui page dimmer" id="dgstartdimmer">
                                     <div class="content">
                                         <div class="center">
@@ -695,7 +723,7 @@
                                                 <li>If the /exclude flag is not set, the following apply</li>
                                                 <ul>
                                                     <li>Matching attributes are not included.</li>
-                                                    <li>Non matching attrbitues are excluded.</li>
+                                                    <li>Non matching attributes are excluded.</li>
                                                 </ul>
                                             </ul>
 
@@ -798,12 +826,23 @@
                                         </div>
                                     </div>
 
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="penablesyslogcb">
+                                        <input type="checkbox" name="enablesyslogsample">
+                                        <label>Specify syslog server address</label>
+                                    </div>
+                                    <input type="checkbox" name="enablesyslog" id="penablesyslog" style="display:none;" checked>
                                     <div class="field" style="margin-top:20px;" >
-                                        <input type="text" placeholder="Specify syslog server address..." name="syslog" id="psyslog">
+                                        <input type="text" placeholder="Syslog server address..." name="syslog" id="psyslog">
                                     </div>
 
+
+                                    <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="penablesyslogportcb">
+                                        <input type="checkbox" name="enablesyslogportsample">
+                                        <label>Specify syslog server port</label>
+                                    </div>
+                                    <input type="checkbox" name="enablesyslogport" id="penablesyslogport" style="display:none;" checked>
                                     <div class="field" style="margin-top:20px;" >
-                                        <input type="text" placeholder="Specify syslog server port..." name="syslogport" id="psyslogport">
+                                        <input type="text" placeholder="Syslog server port..." name="syslogport" id="psyslogport">
                                     </div>
 
                                     <div style="margin-top:20px;display:block;" class="ui toggle checkbox" id="pfirewallcb">

@@ -93,6 +93,10 @@ public class ServletGathering extends HttpServlet {
 
                 //run task
                 task.start();
+                
+                String site = "index.jsp";
+                response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", site);
             } else if (request.getParameter("action").equals("stop")) {
                 String text = null;
 

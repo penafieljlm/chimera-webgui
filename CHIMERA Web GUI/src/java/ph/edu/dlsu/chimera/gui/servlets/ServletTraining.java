@@ -26,10 +26,6 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorTraining;
  * @author Emerson Chua
  */
 @MultipartConfig
-/**
- *
- * @author Emerson Chua
- */
 @WebServlet(name = "ServletTraining", urlPatterns = {"/ServletTraining"})
 public class ServletTraining extends HttpServlet {
 

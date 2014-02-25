@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
  *
  * @author Emerson Chua
  */
+@MultipartConfig
 @WebServlet(name = "ServletProduction", urlPatterns = {"/ServletProduction"})
 public class ServletProduction extends HttpServlet {
 
@@ -58,18 +60,18 @@ public class ServletProduction extends HttpServlet {
             if (request.getParameter("action").equals("start")) {
                 //resources
                 Part filePart = request.getPart("modelfile");
-                PhaseMonitorProduction _monitor = new PhaseMonitorProduction(200);
 
                 //set defaults
+                PhaseMonitorProduction _monitor = new PhaseMonitorProduction(200);
                 InputStream _input = filePart.getInputStream();
                 String _syslog = null;
                 String _syslogport = null;
                 boolean _active = false;
 
-                if (request.getParameter("syslog") != null) {
+                if (request.getParameter("enablesyslog").equals("on") && request.getParameter("syslog") != null) {
                     _syslog = request.getParameter("syslog");
                 }
-                if (request.getParameter("syslogport") != null) {
+                if (request.getParameter("enablesyslogport").equals("on") && request.getParameter("syslogport") != null) {
                     _syslogport = request.getParameter("syslogport");
                 }
                 if (request.getParameter("firewall") != null) {
@@ -77,7 +79,7 @@ public class ServletProduction extends HttpServlet {
                 }
 
                 //create task
-                Task task = new TaskProduction(_monitor, _input, _syslog, Integer.parseInt(_syslogport), _active);
+                Task task = new TaskProduction(_monitor, _input, _syslog, (_syslog == null) ? null : Integer.parseInt(_syslogport), _active);
                 Task.setTask(task);
 
                 //run task

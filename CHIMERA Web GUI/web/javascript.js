@@ -3,7 +3,6 @@ function debugObject(parsed){
     for (var property in parsed) {
         output += property + ': ' + parsed[property]+'; ';
     }
-    
     return output;
 }
 
@@ -82,20 +81,6 @@ function submitDataGatheringFormStopNoReload() {
         type: 'POST',
         url: 'ServletGathering',
         data: formData
-    });
-}
-
-function submitDataGatheringFormStop() {
-    var formData = {
-        action: 'stop'
-    };
-    $.ajax({
-        type: 'POST',
-        url: 'ServletGathering',
-        data: formData,
-        success: function() {
-            pageReload();
-        }
     });
 }
 
