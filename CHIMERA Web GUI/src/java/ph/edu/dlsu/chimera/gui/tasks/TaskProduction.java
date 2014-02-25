@@ -19,10 +19,10 @@ public class TaskProduction extends Task<PhaseMonitorProduction> {
 
     public final InputStream input;
     public final String syslog;
-    public final int syslogport;
+    public final Integer syslogport;
     public final boolean active;
 
-    public TaskProduction(PhaseMonitorProduction _monitor, InputStream _input, String _syslog, int _syslogport, boolean _active) {
+    public TaskProduction(PhaseMonitorProduction _monitor, InputStream _input, String _syslog, Integer _syslogport, boolean _active) {
         super(_monitor);
         this.input = _input;
         this.syslog = _syslog;

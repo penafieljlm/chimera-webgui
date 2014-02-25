@@ -4,11 +4,9 @@
  */
 package ph.edu.dlsu.chimera.gui.servlets;
 
-import com.cedarsoftware.util.io.JsonWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import ph.edu.dlsu.chimera.core.Statistics;
 import ph.edu.dlsu.chimera.gui.tasks.Task;
 import ph.edu.dlsu.chimera.gui.tasks.TaskProduction;
 import ph.edu.dlsu.chimera.monitors.PhaseMonitorProduction;
@@ -79,7 +76,7 @@ public class ServletProduction extends HttpServlet {
                 }
 
                 //create task
-                Task task = new TaskProduction(_monitor, _input, _syslog, (_syslog == null) ? null : Integer.parseInt(_syslogport), _active);
+                Task task = new TaskProduction(_monitor, _input, _syslog, (_syslog == null || _syslogport == null) ? null : Integer.parseInt(_syslogport), _active);
                 Task.setTask(task);
 
                 //run task
