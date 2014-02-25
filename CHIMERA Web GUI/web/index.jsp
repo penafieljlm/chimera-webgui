@@ -25,7 +25,6 @@
             function drawChart(graph, _title, id) {
                 //var dataTable = new google.visualization.DataTable(json);
                 var data = google.visualization.arrayToDataTable(graph);
-
                 var options = {
                     title: _title
                 };
@@ -38,15 +37,13 @@
             $(document).ready(function() {
             <% if (request.getAttribute("runningtask") == "gathering") {%>
                 initialize("gathering");
-                $.get('ServletGathering', {
-                    action: 'stats'
-                }, function(responseText) {
-                    var parsed = $.parseJSON(responseText);
-                    $.each(parsed['@keys'], function(index, value) {
-                        $('#dcolumn').append("<div id='chart_div" + index + "' style='width:900px;height:500px;'></div>");
-                    });
-                }, 'html');
 
+                var startgraphms = +new Date();
+                $('#dcolumn').append("<div id='chart_div" + "dat_timed" + "' style='width:900px;height:500px;'></div>");
+                $('#dcolumn').append("<div id='chart_div" + "dat_count" + "' style='width:900px;height:500px;'></div>");
+                $('#dcolumn').append("<div id='chart_div" + "dat_tsize" + "' style='width:900px;height:500px;'></div>");
+                $('#dcolumn').append("<div id='chart_div" + "dat_asize" + "' style='width:900px;height:500px;'></div>");
+                $('#dcolumn').append("<div id='chart_div" + "dat_rates" + "' style='width:900px;height:500px;'></div>");
                 var dat_timed = [['Time', 'Encounter Time Delta']]; //time delta graph
                 var dat_count = [['Time', 'Encounter Count']]; //count graph
                 var dat_tsize = [['Time', 'Total Encounter Size']]; //total size graph
@@ -58,36 +55,41 @@
                     }, function(responseText) {
                         //extract data
                         var datapoint = $.parseJSON(responseText);
-                        var d = new Date();
-                        var ms = d.getMilliseconds(); //<---- WRONG
+                        var ms = +new Date();
                         var timeexisted = ms - (datapoint['timeCreatedNanos'] / 1000000);
                         var sec = timeexisted / 1000;
-                        var timed = (datapoint['lastLastEncounterNanos'] < 0) ? -1 : datapoint['lastEncounterNanos'] - datapoint['lastLastEncounterNanos'];
-                        var count = datapoint['totalEncounters'];
-                        var tsize = datapoint['totalSize'];
-                        var asize = (datapoint['totalEncounters'] > 0) ? datapoint['totalSize'] / datapoint['totalEncounters'] : datapoint['totalSize'];
+                        var timed = ((datapoint['lastLastEncounterNanos'] < 0) ? -1 : datapoint['lastEncounterNanos'] - datapoint['lastLastEncounterNanos']) / 1000000;
+                        var count = datapoint['totalEncounters'] / 1000;
+                        var tsize = datapoint['totalSize'] / 1024;
+                        var asize = ((datapoint['totalEncounters'] > 0) ? datapoint['totalSize'] / datapoint['totalEncounters'] : datapoint['totalSize']) / 1024;
                         var rates = (sec > 0) ? datapoint['totalEncounters'] / sec : datapoint['totalEncounters'];
-                        //insert into graph           
-                        dat_timed.splice(1, 0, [ms, timed]);
-                        dat_count.splice(1, 0, [ms, count]);
-                        dat_tsize.splice(1, 0, [ms, tsize]);
-                        dat_asize.splice(1, 0, [ms, asize]);
-                        dat_rates.splice(1, 0, [ms, rates]);
+                        //insert into graph
+                        var time = (ms - startgraphms) / 1000;
+                        dat_timed.splice(1, 0, [time, timed]);
+                        dat_count.splice(1, 0, [time, count]);
+                        dat_tsize.splice(1, 0, [time, tsize]);
+                        dat_asize.splice(1, 0, [time, asize]);
+                        dat_rates.splice(1, 0, [time, rates]);
                         //delete out of scope data points
-//                        dat_timed.slice(0, 21);
-//                        dat_count.slice(0, 21);
-//                        dat_tsize.slice(0, 21);
-//                        dat_asize.slice(0, 21);
-//                        dat_rates.slice(0, 21);
-                        $('#dstats').text(debugObject(dat_timed));
-                        drawChart(dat_timed, 'Encounter Time Delta', 0);
-//                        drawChart(dat_count, 'Encounter Count', 1);
-//                        drawChart(dat_tsize, 'Total Encounter Size', 2);
-//                        drawChart(dat_asize, 'Average Encounter Size', 3);
-//                        drawChart(dat_rates, 'Encounter Rate per Second', 4);
+                        if (dat_timed.length > 22)
+                            dat_timed = dat_timed.slice(0, 22);
+                        if (dat_count.length > 22)
+                            dat_count = dat_count.slice(0, 22);
+                        if (dat_tsize.length > 22)
+                            dat_tsize = dat_tsize.slice(0, 22);
+                        if (dat_asize.length > 22)
+                            dat_asize = dat_asize.slice(0, 22);
+                        if (dat_rates.length > 22)
+                            dat_rates = dat_rates.slice(0, 6);
+//                        $('#dstats').text(debugObject(dat_timed));
+                        drawChart(dat_timed, 'Encounter Time Delta', 'dat_timed');
+                        drawChart(dat_count, 'Encounter Count', 'dat_count');
+                        drawChart(dat_tsize, 'Total Encounter Size', 'dat_tsize');
+                        drawChart(dat_asize, 'Average Encounter Size', 'dat_asize');
+                        drawChart(dat_rates, 'Encounter Rate per Second', 'dat_rates');
                     }, 'html');
 
-                }, 500);
+                }, 1200);
             <% } else if (request.getAttribute("runningtask") == "training") {%>
                 initialize("training");
             <% } else if (request.getAttribute("runningtask") == "production") {%>
