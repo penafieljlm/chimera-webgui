@@ -1,20 +1,13 @@
-function debugObject(parsed){
+function debugObject(parsed) {
     var output = '';
     for (var property in parsed) {
-        output += property + ': ' + parsed[property]+'; ';
+        output += property + ': ' + parsed[property] + '; ';
     }
     return output;
 }
 
 function pageReload() {
     window.location.reload(true);
-}
-
-function dgdimmertoggle() {
-    submitDataGatheringFormStopNoReload();
-    $('#dgstopdimmer').dimmer('toggle');
-    $("#dgstop").remove();
-    $("#dgcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='files/Model.cmodel'><i class='icon download'></i>Download</a>");
 }
 
 function initialize(runningtask) {
@@ -49,11 +42,6 @@ function initialize(runningtask) {
                 if (matches[1] === '100%') {
                     clearInterval(timer);
                     submitTrainingFormStopNoReload();
-                    $('#tresponse').text('[100%] - Model file is now available for download');
-                    $("#theaderchange").text("Training completed successfully!");
-                    $("#tstop").remove();
-                    $("#tcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='files/Model.cmodeleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' onClick='submitTrainingFormStop();'><i class='icon download'></i>Download</a>");
-                    $('#tfinishdimmer').dimmer('toggle');
                 }
             }, 'html');
         }, 500);
@@ -81,7 +69,15 @@ function submitDataGatheringFormStopNoReload() {
     $.ajax({
         type: 'POST',
         url: 'ServletGathering',
-        data: formData
+        async: false,
+        data: formData,
+        success: function(outputfile) {
+            var filelocation = outputfile;
+            filelocation = filelocation.replace(/\\/g, '/');
+            $('#dgstopdimmer').dimmer('toggle');
+            $("#dgstop").remove();
+            $("#dgcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='file:///" + filelocation + "'><i class='icon download'></i>Download</a>");
+        }
     });
 }
 
@@ -92,7 +88,17 @@ function submitTrainingFormStopNoReload() {
     $.ajax({
         type: 'POST',
         url: 'ServletTraining',
-        data: formData
+        async: false,
+        data: formData,
+        success: function(outputfile) {
+            var filelocation = outputfile;
+            filelocation = filelocation.replace(/\\/g, '/');
+            $('#tresponse').text('[100%] - Model file is now available for download');
+            $("#theaderchange").text("Training completed successfully!");
+            $("#tstop").remove();
+            $("#tcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='file:///" + filelocation + "' onClick='submitTrainingFormStop();'><i class='icon download'></i>Download</a>");
+            $('#tfinishdimmer').dimmer('toggle');
+        }
     });
 }
 
@@ -142,7 +148,6 @@ function submitDataGatheringForm() {
 }
 
 function onDataGatheringFormSubmitted(response) {
-    $('#dgstartdimmer').dimmer('toggle');
     $("#datagatherform").remove();
     $("#dgheaderchange").text("Data Gathering is currently ongoing...");
     $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
@@ -153,7 +158,7 @@ function onDataGatheringFormSubmitted(response) {
     $("#pheaderchange").text("Data Gathering is currently ongoing...");
     $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Data Gathering Phase.</p></div>");
     $.get('ServletGathering', {
-        action:'state'
+        action: 'state'
     }, function(responseText) {
         $('#dgprogress').append("<p id='dginstance'>" + responseText + "</p>");
     }, 'html');
@@ -164,7 +169,7 @@ function onDataGatheringFormSubmitted(response) {
             $('#dginstance').text(responseText);
         });
     }, 500);
-    $("#dgcolumn").append("<a class='ui red submit button' onClick='dgdimmertoggle();' id='dgstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
+    $("#dgcolumn").append("<a class='ui red submit button' onClick='submitDataGatheringFormStopNoReload();' id='dgstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
 }
 
 function submitConfigurationForm() {
@@ -190,33 +195,33 @@ function onConfigurationFormSubmitted(response) {
 }
 
 $(document).ready(
-    function() {
-        $('.ui.checkbox').checkbox();
-        $('.ui.dropdown').dropdown();
+        function() {
+            $('.ui.checkbox').checkbox();
+            $('.ui.dropdown').dropdown();
 
-        $('.message .close').on('click', function() {
-            $(this).closest('.message').fadeOut();
-        });
+            $('.message .close').on('click', function() {
+                $(this).closest('.message').fadeOut();
+            });
 
-        $('#adduser').on('click', function() {
-            $('.ui.sidebar').sidebar({
-                overlay: true
-            }).sidebar('toggle');
-        });
+            $('#adduser').on('click', function() {
+                $('.ui.sidebar').sidebar({
+                    overlay: true
+                }).sidebar('toggle');
+            });
 
-        $('#dshowoutputmessages').on('click', function() {
-            $('#dside').sidebar({
-                overlay: true
-            }).sidebar('toggle');
-        });
+            $('#dshowoutputmessages').on('click', function() {
+                $('#dside').sidebar({
+                    overlay: true
+                }).sidebar('toggle');
+            });
 
-        $('#newuser').on('click', function() {
-            $('#uside').sidebar({
-                overlay: true
-            }).sidebar('toggle');
-        });
+            $('#newuser').on('click', function() {
+                $('#uside').sidebar({
+                    overlay: true
+                }).sidebar('toggle');
+            });
 
-        $(".sticky").sticky({
-            topSpacing: 30
+            $(".sticky").sticky({
+                topSpacing: 30
+            });
         });
-    });

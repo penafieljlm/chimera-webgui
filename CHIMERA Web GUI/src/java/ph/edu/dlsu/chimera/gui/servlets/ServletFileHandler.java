@@ -27,7 +27,7 @@ public class ServletFileHandler extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.filePath = "/files";
+        this.filePath = "C:\\Program Files\\glassfish-4.0\\glassfish\\domains\\chimera\\config";
     }
 
     @Override
