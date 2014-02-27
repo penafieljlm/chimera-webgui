@@ -48,6 +48,7 @@ function initialize(runningtask) {
 
                 if (matches[1] === '100%') {
                     clearInterval(timer);
+                    submitTrainingFormStopNoReload();
                     $('#tresponse').text('[100%] - Model file is now available for download');
                     $("#theaderchange").text("Training completed successfully!");
                     $("#tstop").remove();
@@ -80,6 +81,17 @@ function submitDataGatheringFormStopNoReload() {
     $.ajax({
         type: 'POST',
         url: 'ServletGathering',
+        data: formData
+    });
+}
+
+function submitTrainingFormStopNoReload() {
+    var formData = {
+        action: 'stop'
+    };
+    $.ajax({
+        type: 'POST',
+        url: 'ServletTraining',
         data: formData
     });
 }
