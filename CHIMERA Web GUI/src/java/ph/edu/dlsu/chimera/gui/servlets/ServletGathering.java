@@ -100,18 +100,14 @@ public class ServletGathering extends HttpServlet {
             } else if (request.getParameter("action").equals("stop")) {
                 String text = null;
 
-                System.out.println("before if");
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskGathering) {
-                        System.out.println("before 1");
+                        System.out.println("attempting to stop gathering");
                         Task.getTask().monitor.terminate();
-                        System.out.println("before 2");
                         Task.getTask().join();
-                        System.out.println("before 3");
                         text = ((TaskGathering) (Task.getTask())).getOutputFile().getAbsolutePath();
-                        System.out.println("before 4");
                         Task.setTask(null);
-                        System.out.println("after");
+                        System.out.println("stopped gathering");
                     }
                 }
 

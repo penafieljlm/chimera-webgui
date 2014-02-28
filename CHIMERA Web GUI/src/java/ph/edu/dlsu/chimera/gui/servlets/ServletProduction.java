@@ -88,9 +88,11 @@ public class ServletProduction extends HttpServlet {
             } else if (request.getParameter("action").equals("stop")) {
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskProduction) {
+                        System.out.println("attempting to stop production");
                         Task.getTask().monitor.terminate();
                         Task.getTask().join();
                         Task.setTask(null);
+                        System.out.println("stopped production");
                     }
                 }
             }

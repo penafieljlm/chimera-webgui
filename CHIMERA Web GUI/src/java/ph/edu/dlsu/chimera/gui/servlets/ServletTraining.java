@@ -72,10 +72,10 @@ public class ServletTraining extends HttpServlet {
                 if (request.getParameter("enablefilter").equals("on") && request.getParameter("filter") != null) {
                     _filter = request.getParameter("filter");
                 }
-                if (request.getParameter("exlude") != null) {
+                if (request.getParameter("exlude") == null) {
                     _exclude = request.getParameter("exclude").equals("on");
                 }
-
+                
                 //create task
                 Task task = new TaskTraining(_monitor, _input, _output, _filter, _exclude);
                 Task.setTask(task);
@@ -91,10 +91,12 @@ public class ServletTraining extends HttpServlet {
 
                 if (Task.getTask() != null) {
                     if (Task.getTask() instanceof TaskTraining) {
+                        System.out.println("attempting to stop training");
                         Task.getTask().monitor.terminate();
                         Task.getTask().join();
                         text = ((TaskTraining) (Task.getTask())).getOutputFile().getAbsolutePath();
                         Task.setTask(null);
+                        System.out.println("stopped training");
                     }
                 }
 

@@ -12,54 +12,13 @@ function pageReload() {
 
 function initialize(runningtask) {
     if (runningtask === "gathering") {
-        onDataGatheringFormSubmitted();
+        gatheringUI();
     } else if (runningtask === "training") {
-        $("#datagatherform").remove();
-        $("#dgheaderchange").text("Training is currently ongoing...");
-        $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
-        $("#trainingform").remove();
-        $("#theaderchange").text("Training is currently ongoing...");
-        $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
-        $("#productionform").remove();
-        $("#pheaderchange").text("Training is currently ongoing...");
-        $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
-        $.get('ServletTraining', {
-            action: 'state'
-        }, function(responseText) {
-            $('#tprogress').append("<p id='tresponse'>" + responseText + "</p>");
-        }, 'html');
-        var timer = setInterval(function() {
-            $.get('ServletTraining', {
-                action: 'state'
-            }, function(responseText) {
-                var text = responseText;
-                var regExp = /\[([^)]+)\]/;
-                var matches = regExp.exec(text);
-
-                $("#tprogress .bar").css("width", matches[1]);
-                $('#tresponse').text(text);
-
-                if (matches[1] === '100%') {
-                    clearInterval(timer);
-                    submitTrainingFormStopNoReload();
-                }
-            }, 'html');
-        }, 500);
-        $("#tcolumn").append("<a class='ui red submit button' onclick='submitTrainingFormStop()' id='tstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
+        trainingUI();
     } else if (runningtask === "production") {
-        $("#datagatherform").remove();
-        $("#dgheaderchange").text("Production is currently ongoing...");
-        $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
-        $("#trainingform").remove();
-        $("#theaderchange").text("Production is currently ongoing...");
-        $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
-        $("#productionform").remove();
-        $("#pheaderchange").text("Production is currently ongoing...");
-        $("#pcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
-        $("#pcolumn").append("<a class='ui red submit button' onclick='submitProductionFormStop()' id='pstop' style='margin-top:20px;'><i class='icon stop'></i>Stop</a>");
+        productionUI();
     }
-    else if (runningtask === "none") {
-    }
+    else if (runningtask === "none") {}
 }
 
 function submitDataGatheringFormStopNoReload() {
@@ -74,9 +33,9 @@ function submitDataGatheringFormStopNoReload() {
         success: function(outputfile) {
             var filelocation = outputfile;
             filelocation = filelocation.replace(/\\/g, '/');
-            $('#dgstopdimmer').dimmer('toggle');
             $("#dgstop").remove();
-            $("#dgcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='file:///" + filelocation + "'><i class='icon download'></i>Download</a>");
+            //$("#dgcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='file:///" + filelocation + "'><i class='icon download'></i>Download</a>");
+            $('#dgstopdimmer').dimmer('toggle');
         }
     });
 }
@@ -93,25 +52,11 @@ function submitTrainingFormStopNoReload() {
         success: function(outputfile) {
             var filelocation = outputfile;
             filelocation = filelocation.replace(/\\/g, '/');
-            $('#tresponse').text('[100%] - Model file is now available for download');
+            $('#tresponse').text('[100%] - Model file is now available');
             $("#theaderchange").text("Training completed successfully!");
             $("#tstop").remove();
-            $("#tcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='file:///" + filelocation + "' onClick='submitTrainingFormStop();'><i class='icon download'></i>Download</a>");
+            //$("#tcolumn").append("<a class='ui blue button' style='text-decoration:none;color:white;margin-top:50px;' href='file:///" + filelocation + "' onClick='submitTrainingFormStop();'><i class='icon download'></i>Download</a>");
             $('#tfinishdimmer').dimmer('toggle');
-        }
-    });
-}
-
-function submitTrainingFormStop() {
-    var formData = {
-        action: 'stop'
-    };
-    $.ajax({
-        type: 'POST',
-        url: 'ServletTraining',
-        data: formData,
-        success: function() {
-            pageReload();
         }
     });
 }
@@ -122,7 +67,8 @@ function submitProductionFormStop() {
     };
     $.ajax({
         type: 'POST',
-        url: ServletProduction,
+        url: 'ServletProduction',
+        async: false,
         data: formData,
         success: function() {
             pageReload();
@@ -147,7 +93,7 @@ function submitDataGatheringForm() {
     });
 }
 
-function onDataGatheringFormSubmitted(response) {
+function gatheringUI() {
     $("#datagatherform").remove();
     $("#dgheaderchange").text("Data Gathering is currently ongoing...");
     $("#dgcolumn").append("<div class='ui active striped progress' id='dgprogress'><div class='bar' style='width: 100%;'></div></div>");
@@ -172,6 +118,54 @@ function onDataGatheringFormSubmitted(response) {
     $("#dgcolumn").append("<a class='ui red submit button' onClick='submitDataGatheringFormStopNoReload();' id='dgstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
 }
 
+function trainingUI() {
+    $("#datagatherform").remove();
+    $("#dgheaderchange").text("Training is currently ongoing...");
+    $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
+    $("#trainingform").remove();
+    $("#theaderchange").text("Training is currently ongoing...");
+    $("#tcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
+    $("#productionform").remove();
+    $("#pheaderchange").text("Training is currently ongoing...");
+    $("#pcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Training Phase.</p></div>");
+    $.get('ServletTraining', {
+        action: 'state'
+    }, function(responseText) {
+        $('#tprogress').append("<p id='tresponse'>" + responseText + "</p>");
+    }, 'html');
+    var timer = setInterval(function() {
+        $.get('ServletTraining', {
+            action: 'state'
+        }, function(responseText) {
+            var text = responseText;
+            var regExp = /\[([^)]+)\]/;
+            var matches = regExp.exec(text);
+
+            $("#tprogress .bar").css("width", matches[1]);
+            $('#tresponse').text(text);
+
+            if (matches[1] === '100%') {
+                clearInterval(timer);
+                submitTrainingFormStopNoReload();
+            }
+        }, 'html');
+    }, 500);
+    //$("#tcolumn").append("<a class='ui red submit button' onclick='submitTrainingFormStop()' id='tstop' style='margin-top:50px;'><i class='icon stop'></i>Stop</a>");
+}
+
+function productionUI() {
+    $("#datagatherform").remove();
+    $("#dgheaderchange").text("Production is currently ongoing...");
+    $("#dgcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
+    $("#trainingform").remove();
+    $("#theaderchange").text("Production is currently ongoing...");
+    $("#tcolumn").append("<div class='ui error icon message'><i class='exclamation icon'></i><div class='header'>System is busy!</div><p>The system is running Production Phase.</p></div>");
+    $("#productionform").remove();
+    $("#pheaderchange").text("Production is currently ongoing...");
+    $("#pcolumn").append("<div class='ui active striped progress' id='tprogress'><div class='bar' style='width: 100%;'></div></div>");
+    //$("#pcolumn").append("<a class='ui red submit button' onclick='submitProductionFormStop()' id='pstop' style='margin-top:20px;'><i class='icon stop'></i>Stop</a>");
+}
+
 function submitConfigurationForm() {
     var formData = {
         tcptimeout: $('#ctcptimeout').val(),
@@ -189,7 +183,6 @@ function submitConfigurationForm() {
     });
 }
 
-// Handle post response
 function onConfigurationFormSubmitted(response) {
     $('#cstartdimmer').dimmer('toggle');
 }

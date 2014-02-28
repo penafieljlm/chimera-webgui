@@ -455,18 +455,18 @@
                 document.getElementById('dgtab').style.display = 'none';
                 document.getElementById('ttab').style.display = 'none';
                 document.getElementById('ptab').style.display = 'none';
-                document.getElementById('ctab').style.display = 'none';
+                //document.getElementById('ctab').style.display = 'none';
                 document.getElementById('itab').style.display = 'none';
                 document.getElementById('dtab').style.display = 'none';
-                document.getElementById('utab').style.display = 'none';
+                //document.getElementById('utab').style.display = 'none';
 
                 document.getElementById('navdgtab').setAttribute("class", "blue item");
                 document.getElementById('navttab').setAttribute("class", "blue item");
                 document.getElementById('navptab').setAttribute("class", "blue item");
-                document.getElementById('navctab').setAttribute("class", "blue item");
+                //document.getElementById('navctab').setAttribute("class", "blue item");
                 document.getElementById('navitab').setAttribute("class", "blue item");
                 document.getElementById('navdtab').setAttribute("class", "blue item");
-                document.getElementById('navutab').setAttribute("class", "blue item");
+                //document.getElementById('navutab').setAttribute("class", "blue item");
 
                 document.getElementById(tab).style.display = 'block';
 
@@ -490,10 +490,10 @@
                         <i class="help icon"></i>
                         Help
                     </a>
-                    <a class="teal item">
+                    <!--<a class="teal item">
                         <i class="user icon"></i>
                         fechua
-                    </a>
+                    </a>-->
                 </div>
                 <img id="logo" class="ui image" src="images/chimera2.png">
 
@@ -516,15 +516,15 @@
                             <a class="blue item" onclick="tab('ptab')" id="navptab">
                                 <i class="legal icon"></i> Production
                             </a>
-                            <a class="blue item" onclick="tab('ctab')" id="navctab">
+                            <!--<a class="blue item" onclick="tab('ctab')" id="navctab">
                                 <i class="settings icon"></i> Configuration
-                            </a>
+                            </a>-->
                             <a class="blue item" onclick="tab('itab')" id="navitab">
                                 <i class="sitemap icon"></i> Interfaces
                             </a>
-                            <a class="blue item" onclick="tab('utab')" id="navutab">
+                            <!--<a class="blue item" onclick="tab('utab')" id="navutab">
                                 <i class="users icon"></i> Users
-                            </a>
+                            </a>-->
                         </div>
                     </div>
                 </div>
@@ -703,7 +703,7 @@
                                             <h2 class="ui inverted icon header">
                                                 <i class="icon circular inverted emphasized green download disk"></i>
                                                 Data Gathering successfully stopped!
-                                                <div class="sub header">The training file is now available for download</div>
+                                                <div class="sub header">The training file is now available</div>
                                             </h2>
                                         </div>
                                     </div>
@@ -818,7 +818,7 @@
                                             <h2 class="ui inverted icon header">
                                                 <i class="icon circular inverted emphasized green wrench"></i>
                                                 Training completed successfully!
-                                                <div class="sub header">Model file is now available for download</div>
+                                                <div class="sub header">Model file is now available</div>
                                             </h2>
                                         </div>
                                     </div>
@@ -841,13 +841,6 @@
                                     <br>Upon the discovery of an attack, logs and rules can optionally be created.
                                 </p>
                                 <div class="ui section divider"></div>
-
-                                <div class="ui success message">
-                                    <i class="close icon"></i>
-                                    <div class="header">
-                                        Settings successfully saved!
-                                    </div>
-                                </div>
 
                                 <h4 class="ui header" id="pheaderchange">Production Settings</h4>
                                 <div id="phidden"></div>
@@ -934,6 +927,13 @@
                                 </p>
                                 <div class="ui section divider"></div>
 
+                                <div class="ui success message">
+                                    <i class="close icon"></i>
+                                    <div class="header">
+                                        Settings successfully saved!
+                                    </div>
+                                </div>
+                                
                                 <h4 class="ui header">Parameters</h4>
 
                                 <div class="ui form" id="configurationform" action="ServletConfig" method="post">
