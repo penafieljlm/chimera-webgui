@@ -28,7 +28,6 @@ public abstract class Task<TMonitor extends PhaseMonitor> extends Thread {
         try {
             this.doTask();
         } catch (Exception ex) {
-            ex.printStackTrace();
             this.exceptions.add(ex);
         }
     }

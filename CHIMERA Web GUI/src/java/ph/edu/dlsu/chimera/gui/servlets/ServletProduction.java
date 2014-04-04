@@ -97,7 +97,6 @@ public class ServletProduction extends HttpServlet {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
         } finally {
             out.close();
         }

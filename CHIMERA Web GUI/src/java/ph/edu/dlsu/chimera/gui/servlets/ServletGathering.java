@@ -116,7 +116,6 @@ public class ServletGathering extends HttpServlet {
                 response.getWriter().write(text);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
         } finally {
             out.close();
         }
